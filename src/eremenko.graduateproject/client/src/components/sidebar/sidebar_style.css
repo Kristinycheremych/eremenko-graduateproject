@@ -1,0 +1,57 @@
+* {
+    text-decoration: none;
+}
+
+.container_sidebar {
+    display: flex;
+}
+
+main {
+    width: 100%;
+    padding: 20px;
+}
+
+.sidebar {
+    border: 1px solid #D9D9D9;
+    height: 100vh;
+    width: 300px;
+    transition: all 0.3s;
+    box-shadow: 4px 0px 8px 0px rgba(37, 39, 51, 0.25);
+}
+
+.top_section {
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+}
+
+.logo {
+    font-size: 25px;
+    color: black;
+}
+
+.bars {
+    display: flex;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.link {
+    display: flex;
+    color: black;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+}
+
+.link:hover {
+    background: #196FAD;
+    color: white;
+    transition: all 0.5s;
+}
+
+.active {
+    background: #196FAD;
+    color: white;
+}
+
