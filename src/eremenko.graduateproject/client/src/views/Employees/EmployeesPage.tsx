@@ -99,7 +99,7 @@ function EmployeesPage() {
                         </div>
 
                         <div className={'icon_delete'}>
-                          <AiOutlineDelete onClick={() => handleDelete(user._id)}/>
+                          <AiOutlineDelete onClick={() => handleDelete(user._id)} />
                         </div>
                       </td>
                     </tr>

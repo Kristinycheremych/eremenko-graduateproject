@@ -76,7 +76,7 @@ function CreateEmployees() {
                                     type="text"
                                     placeholder="Программист"
                                     className={'form_control'}
-                                    onChange={(e:any) => setPosition(e.target.value)}
+                                    onChange={(e: any) => setPosition(e.target.value)}
                                     value={position}
                                     required
                                 />

@@ -1,3 +1,24 @@
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 5px;
+}
+
 .pade{
     height: 100vh;
     display: flex;
@@ -27,6 +48,7 @@
 .form_control {
     width: 100%;
     height: 46px;
+    padding: 0 0 0 10px;
     border-radius: 8px;
     border: 1px solid #CACACA;
     background: #FFF;
@@ -46,6 +68,6 @@
 
 }
 
-.btnAddCancel:hover {
+.btn_add_cancel:hover {
     background: #E7EAEE;
 }

@@ -17,6 +17,8 @@ main {
     width: 300px;
     transition: all 0.3s;
     box-shadow: 4px 0px 8px 0px rgba(37, 39, 51, 0.25);
+    position: sticky;
+    top: 0;
 }
 
 .top_section {
@@ -44,14 +46,42 @@ main {
     transition: all 0.5s;
 }
 
+.sublink {
+    display: flex;
+    color: black;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+    padding-left: 22px;
+    border-left: 1px solid #196FAD;
+}
+
+.sublink:hover {
+    background: #196FAD;
+    color: white;
+    transition: all 0.5s;
+}
+
+.subnav {
+    padding-left: 23px;
+}
+
 .link:hover {
     background: #196FAD;
     color: white;
     transition: all 0.5s;
 }
 
-.active {
+.link:focus {
     background: #196FAD;
     color: white;
 }
 
+.sublink:focus {
+    background: #196FAD;
+    color: white;
+}
+
+.arrow{
+    transform: rotate(90deg);
+}

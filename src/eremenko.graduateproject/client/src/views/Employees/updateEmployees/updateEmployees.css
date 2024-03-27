@@ -24,14 +24,16 @@
     margin-top: 10px;
 }
 
+
 .form_control {
     width: 100%;
     height: 46px;
-    padding: 0 0 0 10px;
     border-radius: 8px;
+    padding: 0 0 0 10px;
     border: 1px solid #CACACA;
     background: #FFF;
 }
+
 .action_buttons{
     text-align: center;
 }
