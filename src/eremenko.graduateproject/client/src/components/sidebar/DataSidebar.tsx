@@ -53,11 +53,11 @@ export const menuItems = [
                 subSections: [
                     {
                         title: "Статус сотрудника",
-                        path: '/projectStatuses'
+                        path: '/employeeStatus'
                     },
                     {
                         title: "Должность",
-                        path: '/taskStatuses'
+                        path: '/position'
                     },
                     {
                         title: "Подразделения",

@@ -1,0 +1,23 @@
+.container_settings{
+    margin: 0 auto;
+    padding: 20px 30px 0 30px;
+
+}
+
+.title {
+    border-bottom: 1.053px solid #000;
+    height: 40px;
+}
+
+.table_user_settings{
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.text_td{
+    text-align: left;
+}
+
+.icon{
+    display: flex;
+}

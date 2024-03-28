@@ -4,8 +4,6 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineDelete } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
-// import icondeleted from '../../images/Union.svg';
-// import iconedit from '../../images/edit-01.svg';
 import './employees.css';
 
 function EmployeesPage() {
@@ -69,7 +67,7 @@ function EmployeesPage() {
           </div>
         </div>
 
-        <div className={'table_user'}>
+        <div className='table_user'>
           <table>
             <thead>
               <tr>
