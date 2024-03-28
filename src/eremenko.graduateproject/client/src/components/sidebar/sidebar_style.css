@@ -47,16 +47,39 @@ main {
 }
 
 .sublink {
-    display: flex;
+    display: inline-block;
     color: black;
     padding: 10px 15px;
-    gap: 15px;
+    width: 180px;
     transition: all 0.5s;
     padding-left: 22px;
     border-left: 1px solid #196FAD;
 }
 
+.subSublink {
+    display: flex;
+    color: black;
+    padding: 10px 15px;
+    gap: 15px;
+    transition: all 0.5s;
+    padding-left: 40px;
+    border-left: 1px solid #196FAD;
+}
+
+.subSublink:hover {
+    background: #196FAD;
+    color: white;
+    transition: all 0.5s;
+}
+
 .sublink:hover {
+    background: #196FAD;
+    color: white;
+    transition: all 0.5s;
+}
+
+
+.sublink:focus {
     background: #196FAD;
     color: white;
     transition: all 0.5s;
@@ -75,6 +98,7 @@ main {
 .link:focus {
     background: #196FAD;
     color: white;
+    transition: all 0.5s;
 }
 
 .sublink:focus {
@@ -82,6 +106,20 @@ main {
     color: white;
 }
 
-.arrow{
+.subSublink:focus {
+    background: #196FAD;
+    color: white;
+}
+
+.subArrow {
+    margin-top: -20px;
+    margin-left: 160px;
+}
+
+.rotate {
     transform: rotate(90deg);
+}
+
+.Arrow {
+    margin-left: 12px;
 }

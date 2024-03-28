@@ -10,13 +10,14 @@ import UpdateEmployees from './views/Employees/updateEmployees/UpdateEmployees';
 import "./App.css";
 import TaskStatuses from './views/Settings/projects/task_statuses/TaskStatuses';
 import ProjectStatuses from './views/Settings/projects/project_statuses/ProjectStatuses';
+import {menuItems} from './components/sidebar/DataSidebar';
 function App() {
 
   return (
     <>
       <BrowserRouter>
-        <Sidebar>
-          <Routes>
+        <Sidebar items={menuItems}>
+          <Routes >
             <Route path='/' element={<MainPage />}></Route>
             <Route path='/employeesPage' element={<EmployeesPage />}></Route>
             <Route path='/projectsPage' element={<ProjectsPage />}></Route>
@@ -26,12 +27,10 @@ function App() {
             <Route path='/projectStatuses' element={<ProjectStatuses/>}></Route>
             <Route path='/taskStatuses' element={<TaskStatuses/>}></Route>
           </Routes>
-        </Sidebar>
+          </Sidebar>
       </BrowserRouter>
     </>
   );
 }
 
 export default App;
-
-

@@ -8,7 +8,7 @@ import { IoMdArrowDropright } from "react-icons/io";
 //     path: string;
 //     title: string;
 //     icon: React.ReactNode;
-//     subnav?: MenuItem[];
+//     subItems?: MenuItem[];
 // }
 
 export const menuItems = [
@@ -23,28 +23,20 @@ export const menuItems = [
         icon: <GoProjectRoadmap />,
     },
     {
-        path: '#',
+        path: 'employeesPage',
         title: 'Сотрудники',
-        icon: <SlPeople />,
-        arrow: <IoMdArrowDropright/>,
-        subnav: [
-            {
-                title: "Все",
-                path: '/employeesPage',
-                icon: <IoSettingsOutline />
-            }
-        ],
+        icon: <SlPeople />
     },
     {
         path: '#',
         title: 'Панель управления',
         icon: <IoSettingsOutline />,
-        arrow: <IoMdArrowDropright/>,
-        subnav: [
+        arrow: <IoMdArrowDropright />,
+        subItems: [
             {
-                path: '#',
                 title: 'Проекты',
-                subnav: [
+                arrow: <IoMdArrowDropright />,
+                subSections: [
                     {
                         title: "Статус проекта",
                         path: '/projectStatuses'
@@ -56,31 +48,33 @@ export const menuItems = [
                 ]
             },
             {
-                path: '#',
                 title: 'Сотрудники',
-                subnav: [
+                arrow: <IoMdArrowDropright />,
+                subSections: [
                     {
-                        title: "Статус проекта",
+                        title: "Статус сотрудника",
                         path: '/projectStatuses'
                     },
                     {
-                        title: "Статус задач",
+                        title: "Должность",
                         path: '/taskStatuses'
                     },
+                    {
+                        title: "Подразделения",
+                        path: '/divisions'
+                    }
                 ]
             },
             {
-                path: '#',
+
                 title: 'Документы',
-                subnav: [
+                arrow: <IoMdArrowDropright />,
+                subSections: [
                     {
-                        title: "Статус проекта",
-                        path: '/projectStatuses'
-                    },
-                    {
-                        title: "Статус задач",
-                        path: '/taskStatuses'
-                    },
+                        title: "Все",
+                        path: '/documents'
+                    }
+
                 ]
             }
         ],
