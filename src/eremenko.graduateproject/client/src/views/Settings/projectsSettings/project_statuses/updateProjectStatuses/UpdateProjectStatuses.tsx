@@ -22,9 +22,9 @@ function UpdateProjectStatuses() {
         fetchData();
     }, [id])
 
-    const handleUpdate = (event:any) => {
+    const handleUpdate = (event: any) => {
         event.preventDefault()
-        axios.put('http://localhost:3001/updateProjectStatuses/' + id, { title, description})
+        axios.put('http://localhost:3001/updateProjectStatuses/' + id, { title, description })
             .then(res => {
                 console.log(res);
                 navigate('/projectStatuses')
@@ -34,45 +34,45 @@ function UpdateProjectStatuses() {
 
     return (
         <>
-          <div className={'pade'}>
-                    <div className={'wrapper'}>
-                        <form onSubmit={handleUpdate}>
-                            <h3>Изменение статуса проекта</h3>
+            <div className={'pade'}>
+                <div className={'wrapper'}>
+                    <form onSubmit={handleUpdate}>
+                        <h3>Изменение статуса проекта</h3>
 
-                            <div className={'input_div'}>
-                                <label htmlFor="title">Название</label>
-                                <div>
-                                    <input
-                                        type="text"
-                                        placeholder="Еременко"
-                                        className={'form_control'}
-                                        onChange={(e:any) => setTitle(e.target.value)}
-                                        value={title}
-                                        required
-                                    />
-                                </div>
+                        <div className={'input_div'}>
+                            <label htmlFor="title">Название</label>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Название"
+                                    className={'form_control'}
+                                    onChange={(e: any) => setTitle(e.target.value)}
+                                    value={title}
+                                    required
+                                />
                             </div>
-                            <div className={'input_div'}>
-                                <label htmlFor="description">Описание</label>
-                                <div>
-                                    <input
-                                        type="text"
-                                        placeholder="Кристина"
-                                        className={'form_control'}
-                                        onChange={(e:any) => setDescription(e.target.value)}
-                                        value={description}
-                                        required
-                                    />
-                                </div>
+                        </div>
+                        <div className={'input_div'}>
+                            <label htmlFor="description">Описание</label>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Описание"
+                                    className={'form_control'}
+                                    onChange={(e: any) => setDescription(e.target.value)}
+                                    value={description}
+                                    required
+                                />
                             </div>
+                        </div>
 
-                            <div className={'action_buttons'}>
-                                <Link to={"/projectStatuses"}><button className={'btn_add_cancel'}>Отменить</button></Link>
-                                <button className={'btn_add_cancel'}>Изменить</button>
-                            </div>
-                        </form>
-                    </div>
+                        <div className={'action_buttons'}>
+                            <Link to={"/projectStatuses"}><button className={'btn_add_cancel'}>Отменить</button></Link>
+                            <button className={'btn_add_cancel'}>Изменить</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
         </>
     )
 }

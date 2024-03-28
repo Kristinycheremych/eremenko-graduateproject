@@ -7,14 +7,14 @@ function AddProjectStatuses() {
     const [description, setDescription] = useState();
     const navigate = useNavigate();
 
-    function handleSubmitStatuses(event:any) {
+    function handleSubmitStatuses(event: any) {
         event.preventDefault();
-        axios.post('http://localhost:3001/createProjectStatuses', { title, description})
-        .then(res => {
-            console.log(res);
-            navigate('/projectStatuses');
-        })
-        .catch(error => console.log(error));
+        axios.post('http://localhost:3001/createProjectStatuses', { title, description })
+            .then(res => {
+                console.log(res);
+                navigate('/projectStatuses');
+            })
+            .catch(error => console.log(error));
     }
 
     return (

@@ -15,6 +15,8 @@ import EmployeeStatus from './views/Settings/employeesSettings/employee_status/E
 import Position from './views/Settings/employeesSettings/position/Position';
 import AddProjectStatuses from './views/Settings/projectsSettings/project_statuses/AddProjectStatuses/AddProjectStatuses';
 import UpdateProjectStatuses from './views/Settings/projectsSettings/project_statuses/updateProjectStatuses/UpdateProjectStatuses';
+import AddTaskStatuses from './views/Settings/projectsSettings/task_statuses/addTaskStatuses/AddTaskStatuses';
+import UpdateTaskStatuses from './views/Settings/projectsSettings/task_statuses/updateTaskStatuses/UpdateTaskStatuses';
 function App() {
 
   return (
@@ -28,12 +30,14 @@ function App() {
             <Route path='/createEmployees' element={<CreateEmployees />}></Route>
             <Route path='/updateEmployees/:id' element={<UpdateEmployees />}></Route>
             <Route path='/projectStatuses' element={<ProjectStatuses/>}></Route>
-            <Route path='/taskStatuses' element={<TaskStatuses/>}></Route>
             <Route path='/divisions' element={<Divisions/>}></Route>
             <Route path='/employeeStatus' element={<EmployeeStatus/>}></Route>
             <Route path='/position' element={<Position/>}></Route>
             <Route path='/projectStatuses/addProjectStatuses' element={<AddProjectStatuses />}></Route>
             <Route path='/updateProjectStatuses/:id' element={<UpdateProjectStatuses />}></Route>
+            <Route path='/updateTaskStatuses/:id' element={<UpdateTaskStatuses />}></Route>
+            <Route path='/taskStatuses' element={<TaskStatuses/>}></Route>
+            <Route path='/taskStatuses/addTaskStatuses' element={<AddTaskStatuses />}></Route>
           </Routes>
           </Sidebar>
       </BrowserRouter>
