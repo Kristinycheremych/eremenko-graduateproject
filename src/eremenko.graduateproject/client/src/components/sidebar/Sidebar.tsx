@@ -97,7 +97,7 @@ function Sidebar({ children }: any) {
   return (
     <>
       <div className="container_sidebar">
-        <div style={{ width: isOpen ? '300px' : '50px' }} className="sidebar">
+        <div style={{ width: isOpen ? '340px' : '50px' }} className="sidebar">
           <div className="top_section" >
             <Link to="/">
               <h1 style={{ display: isOpen ? 'block' : 'none' }} className="logo">

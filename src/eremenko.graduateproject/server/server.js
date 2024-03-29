@@ -4,12 +4,13 @@ const cors = require('cors');
 const UserModel = require('./models/User');
 const ProjectStatusesModel = require('./models/ProjectStatuses');
 const TaskStatusesModel = require('./models/TaskStatuses');
+const EmployeeStatusModel = require('./models/EmployeeStatus');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/test")
+mongoose.connect("mongodb://localhost:27017/Project_Management")
     .then(db => console.log('База данных подключена'))
     .catch(error => console.log(error))
 
@@ -30,7 +31,13 @@ app.get('/get/taskStatuses', (req, res) => {
     TaskStatusesModel.find()
         .then(taskStatuses => res.json(taskStatuses))
         .catch(err => res.json(err))
-})
+});
+// Получение статуса сотрудника
+app.get('/get/employeeStatus', (req, res) => {
+    EmployeeStatusModel.find()
+        .then(employeeStatus => res.json(employeeStatus))
+        .catch(err => res.json(err))
+});
 
 app.get('/get/:id', (req, res) => {
     const id = req.params.id
@@ -38,15 +45,24 @@ app.get('/get/:id', (req, res) => {
         .then(post => res.json(post))
         .catch(err => console.log(err))
 });
+
 app.get('/getTaskStatuses/:id', (req, res) => {
     const id = req.params.id
     TaskStatusesModel.findById({ _id: id })
         .then(post => res.json(post))
         .catch(err => console.log(err))
 });
+
 app.get('/getProjectStatuses/:id', (req, res) => {
     const id = req.params.id
     ProjectStatusesModel.findById({ _id: id })
+        .then(post => res.json(post))
+        .catch(err => console.log(err))
+});
+
+app.get('/getEmployeeStatus/:id', (req, res) => {
+    const id = req.params.id
+    EmployeeStatusModel.findById({ _id: id })
         .then(post => res.json(post))
         .catch(err => console.log(err))
 });
@@ -69,6 +85,13 @@ app.post('/createTaskStatuses', (req, res) => {
         .then(taskStatuses => res.json(taskStatuses))
         .catch(err => res.json(err))
 });
+// Добавление статуса сотрудника
+app.post('/createEmployeeStatus', (req, res) => {
+    EmployeeStatusModel.create(req.body)
+        .then(employeeStatus => res.json(employeeStatus))
+        .catch(err => res.json(err))
+});
+
 // Изменение сотрудников
 app.put('/update/:id', (req, res) => {
     const id = req.params.id;
@@ -99,6 +122,15 @@ app.put('/updateTaskStatuses/:id', (req, res) => {
     }).then(taskStatuses => res.json(taskStatuses))
         .catch(err => res.json(err))
 });
+// Изменение статуса сотрудника
+app.put('/updateEmployeeStatus/:id', (req, res) => {
+    const id = req.params.id;
+    EmployeeStatusModel.findByIdAndUpdate({ _id: id }, {
+        title: req.body.title,
+        description: req.body.description
+    }).then(employeeStatus => res.json(employeeStatus))
+        .catch(err => res.json(err))
+});
 
 // Удаление сотрудника
 app.delete('/deleteuser/:id', (req, res) => {
@@ -118,6 +150,13 @@ app.delete('/deleteProjectStatuses/:id', (req, res) => {
 app.delete('/deleteTaskStatuses/:id', (req, res) => {
     const id = req.params.id;
     TaskStatusesModel.findByIdAndDelete({ _id: id })
+        .then(response => res.json(response))
+        .catch(err => res.json(err))
+});
+// Удаление статуса сотрудника
+app.delete('/deleteEmployeeStatus/:id', (req, res) => {
+    const id = req.params.id;
+    EmployeeStatusModel.findByIdAndDelete({ _id: id })
         .then(response => res.json(response))
         .catch(err => res.json(err))
 })

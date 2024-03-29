@@ -80,7 +80,7 @@ const TaskStatuses = () => {
                         <td>
                           <div className='icon'>
                             <div className={'icon_edit'}>
-                              <Link to={`/updateTaskStatuses/${taskStatuses._id}`}><FiEdit /></Link>
+                              <Link to={`/taskStatuses/updateTaskStatuses/${taskStatuses._id}`}><FiEdit /></Link>
                             </div>
                             <div className={'icon_delete'}>
                               <AiOutlineDelete onClick={() => handleDelete(taskStatuses._id)} />

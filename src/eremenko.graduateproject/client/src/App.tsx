@@ -17,6 +17,8 @@ import AddProjectStatuses from './views/Settings/projectsSettings/project_status
 import UpdateProjectStatuses from './views/Settings/projectsSettings/project_statuses/updateProjectStatuses/UpdateProjectStatuses';
 import AddTaskStatuses from './views/Settings/projectsSettings/task_statuses/addTaskStatuses/AddTaskStatuses';
 import UpdateTaskStatuses from './views/Settings/projectsSettings/task_statuses/updateTaskStatuses/UpdateTaskStatuses';
+import AddEmployeeStatus from './views/Settings/employeesSettings/employee_status/addEmployeeStatus/AddEmployeeStatus';
+import UpdateEmployeeStatus from './views/Settings/employeesSettings/employee_status/updateEmployeeStatus/UpdateEmployeeStatus';
 function App() {
 
   return (
@@ -31,13 +33,15 @@ function App() {
             <Route path='/updateEmployees/:id' element={<UpdateEmployees />}></Route>
             <Route path='/projectStatuses' element={<ProjectStatuses/>}></Route>
             <Route path='/divisions' element={<Divisions/>}></Route>
-            <Route path='/employeeStatus' element={<EmployeeStatus/>}></Route>
             <Route path='/position' element={<Position/>}></Route>
             <Route path='/projectStatuses/addProjectStatuses' element={<AddProjectStatuses />}></Route>
-            <Route path='/updateProjectStatuses/:id' element={<UpdateProjectStatuses />}></Route>
-            <Route path='/updateTaskStatuses/:id' element={<UpdateTaskStatuses />}></Route>
+            <Route path='/projectStatuses/updateProjectStatuses/:id' element={<UpdateProjectStatuses />}></Route>
+            <Route path='/taskStatuses/updateTaskStatuses/:id' element={<UpdateTaskStatuses />}></Route>
             <Route path='/taskStatuses' element={<TaskStatuses/>}></Route>
             <Route path='/taskStatuses/addTaskStatuses' element={<AddTaskStatuses />}></Route>
+            <Route path='/employeeStatus' element={<EmployeeStatus />}></Route>
+            <Route path='/employeeStatus/addEmployeeStatus' element={<AddEmployeeStatus />}></Route>
+            <Route path='/employeeStatus/updateEmployeeStatus/:id' element={<UpdateEmployeeStatus />}></Route>
           </Routes>
           </Sidebar>
       </BrowserRouter>

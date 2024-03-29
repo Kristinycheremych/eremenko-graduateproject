@@ -80,7 +80,7 @@ function ProjectStatuses() {
                         <td>
                           <div className='icon'>
                             <div className={'icon_edit'}>
-                              <Link to={`/updateProjectStatuses/${projectStatuses._id}`}><FiEdit /></Link>
+                              <Link to={`/projectStatuses/updateProjectStatuses/${projectStatuses._id}`}><FiEdit /></Link>
                             </div>
                             <div className={'icon_delete'}>
                               <AiOutlineDelete onClick={() => handleDelete(projectStatuses._id)} />
