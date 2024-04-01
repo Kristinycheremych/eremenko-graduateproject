@@ -19,6 +19,8 @@ import AddTaskStatuses from './views/Settings/projectsSettings/task_statuses/add
 import UpdateTaskStatuses from './views/Settings/projectsSettings/task_statuses/updateTaskStatuses/UpdateTaskStatuses';
 import AddEmployeeStatus from './views/Settings/employeesSettings/employee_status/addEmployeeStatus/AddEmployeeStatus';
 import UpdateEmployeeStatus from './views/Settings/employeesSettings/employee_status/updateEmployeeStatus/UpdateEmployeeStatus';
+import AddProjectForm from './views/Projects/addProjectForm/AddProjectForm';
+import UpdateProject from './views/Projects/updateProjectForm/UpdateProject';
 function App() {
 
   return (
@@ -42,6 +44,8 @@ function App() {
             <Route path='/employeeStatus' element={<EmployeeStatus />}></Route>
             <Route path='/employeeStatus/addEmployeeStatus' element={<AddEmployeeStatus />}></Route>
             <Route path='/employeeStatus/updateEmployeeStatus/:id' element={<UpdateEmployeeStatus />}></Route>
+            <Route path='/projectsPage/addProjectForm' element={<AddProjectForm />}></Route>
+            <Route path='/projectsPage/updateProject/:id' element={<UpdateProject />}></Route>
           </Routes>
           </Sidebar>
       </BrowserRouter>

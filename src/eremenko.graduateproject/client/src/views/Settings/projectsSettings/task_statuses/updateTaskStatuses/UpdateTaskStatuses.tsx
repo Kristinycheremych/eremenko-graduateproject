@@ -6,7 +6,7 @@ function UpdateTaskStatuses() {
     const { id } = useParams();
     const [title, setTitle] = useState();
     const [description, setDescription] = useState();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
