@@ -1,37 +1,55 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+
+interface Project {
+    _id: string;
+    title: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    status: {
+        _id: string;
+        title: string;
+    };
+    employees: {
+        _id: string;
+        lastName: string;
+        firstName: string;
+        middleName: string;
+    };
+}
 
 function UpdateProject() {
     const { id } = useParams();
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [status, setStatus] = useState("");
-    const [employees, setEmployees] = useState("");
-    const [statusList, setStatusList] = useState<any[]>([]); // Массив статусов проектов
-    const [employeesList, setEmployeesList] = useState<any[]>([]); // Массив статусов проектов
-
+    const [title, setTitle] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [startDate, setStartDate] = useState<string>("");
+    const [endDate, setEndDate] = useState<string>("");
+    const [statusId, setStatusId] = useState<string>("");
+    const [employeeId, setEmployeeId] = useState<string>("");
+    const [statusList, setStatusList] = useState<any[]>([]);
+    const [employeesList, setEmployeesList] = useState<any[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/getProjects/" + id);
-                console.log(response);
-                setTitle(response.data.title);
-                setDescription(response.data.description);
-                setStartDate(response.data.startDate);
-                setEndDate(response.data.endDate);
-                setStatus(response.data.status.title); // Получаем название статуса проекта
-                setEmployees(response.data.employees.lastName);
+                const response = await axios.get<Project>(`http://localhost:3001/getProjects/${id}`);
+                const projectData = response.data;
+                setTitle(projectData.title);
+                setDescription(projectData.description);
+                setStartDate(new Date(projectData.startDate).toISOString().split('T')[0]);
+                setEndDate(new Date(projectData.endDate).toISOString().split('T')[0]);
+                setStatusId(projectData.status._id);
+                setEmployeeId(projectData.employees._id); // Устанавливаем значение employeeId
             } catch (err) {
-                console.log(err)
+                console.log(err);
             }
-        }
+        };
+
         fetchData();
-        // Получаем список статусов проектов
+
         axios.get('http://localhost:3001/get/projectStatuses')
             .then(res => {
                 setStatusList(res.data);
@@ -45,15 +63,23 @@ function UpdateProject() {
             .catch(err => console.log(err));
     }, [id]);
 
-    const handleUpdate = (event: any) => {
+    const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        axios.put('http://localhost:3001/updateProject/' + id, { title, description, startDate, endDate, status, employees })
+        axios.put(`http://localhost:3001/updateProject/${id}`, {
+            title,
+            description,
+            startDate,
+            endDate,
+            status: statusId,
+            employees: employeeId
+        })
             .then(res => {
                 console.log(res);
                 navigate('/projectsPage');
             })
             .catch(err => console.log(err));
-    }
+    };
+
     return (
         <>
             <div className={'pade'}>
@@ -68,7 +94,7 @@ function UpdateProject() {
                                     type="text"
                                     placeholder="Название"
                                     className={'form_control'}
-                                    onChange={(e: any) => setTitle(e.target.value)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
                                     value={title}
                                 />
                             </div>
@@ -80,7 +106,7 @@ function UpdateProject() {
                                     type="text"
                                     placeholder="Описание"
                                     className={'form_control'}
-                                    onChange={(e: any) => setDescription(e.target.value)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
                                     value={description}
                                 />
                             </div>
@@ -91,7 +117,7 @@ function UpdateProject() {
                                 <input
                                     type="date"
                                     className={'form_control'}
-                                    onChange={(e: any) => setStartDate(e.target.value)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setStartDate(e.target.value)}
                                     value={startDate}
                                 />
                             </div>
@@ -103,7 +129,7 @@ function UpdateProject() {
                                 <input
                                     type="date"
                                     className={'form_control'}
-                                    onChange={(e: any) => setEndDate(e.target.value)}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEndDate(e.target.value)}
                                     value={endDate}
                                 />
                             </div>
@@ -111,13 +137,13 @@ function UpdateProject() {
 
                         <div className={'input_div'}>
                             <label htmlFor="status">Статус</label>
-                            <select className='form_control' value={status}
-                                onChange={(e) => setStatus(e.target.value)}>
+                            <select className='form_control' value={statusId}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStatusId(e.target.value)}>
                                 <option value={""}>Выберите статус:</option>
                                 {
                                     statusList.map((statusItem) => {
                                         return (
-                                            <option key={statusItem._id} value={statusItem.title}>
+                                            <option key={statusItem._id} value={statusItem._id}>
                                                 {statusItem.title}
                                             </option>
                                         )
@@ -127,15 +153,17 @@ function UpdateProject() {
                         </div>
 
                         <div className={'input_div'}>
-                            <label htmlFor="status">Статус</label>
-                            <select className='form_control' value={employees}
-                                onChange={(e) => setEmployees(e.target.value)}>
+                            <label htmlFor="status">Ответственный</label>
+                            <select
+                                className='form_control'
+                                value={employeeId}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEmployeeId(e.target.value)}>
                                 <option value={""}>Выберите ответсвенного:</option>
                                 {
-                                    employeesList.map((employeesItem) => {
+                                    employeesList.map((employeeItem) => {
                                         return (
-                                            <option key={employeesItem._id} value={employeesItem._id}>
-                                                 {employeesItem.lastName && employeesItem.firstName && employeesItem.middleName ? `${employeesItem.lastName} ${employeesItem.firstName} ${employeesItem.middleName}` : "Недостаточно данных"}
+                                            <option key={employeeItem._id} value={employeeItem._id}>
+                                                {`${employeeItem.lastName} ${employeeItem.firstName} ${employeeItem.middleName}`}
                                             </option>
                                         )
                                     })
@@ -151,7 +179,7 @@ function UpdateProject() {
                 </div>
             </div>
         </>
-    )
+    );
 }
 
-export default UpdateProject
+export default UpdateProject;

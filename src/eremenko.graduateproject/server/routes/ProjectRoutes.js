@@ -44,10 +44,45 @@ router.put('/updateProject/:id', (req, res) => {
         description: req.body.description,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
-         // Добавляем новый статус проекта
-    }, { new: true }) // Устанавливаем опцию { new: true }, чтобы получить обновленный объект
+        status: req.body.status, 
+        employees: req.body.employees
+    }, { new: true })
     .then(updatedProject => res.json(updatedProject))
     .catch(err => res.json(err))
+});
+
+router.post('/updateProject/:id', async (req, res) => {
+    try {
+        const { title, description, startDate, endDate, status, employees } = req.body;
+        const id = req.params.id;
+
+        let employeeIds = [];
+
+        // Проверяем, является ли employees массивом идентификаторов
+        if (Array.isArray(employees)) {
+            employeeIds = employees;
+        } else if (typeof employees === 'string') {
+            // Если employees представляет собой строку, парсим её в массив
+            employeeIds = JSON.parse(employees);
+        } else {
+            // Если employees не является ни массивом, ни строкой, обрабатываем соответственно
+            // Например, если employees содержит объекты с информацией о сотрудниках
+            // Здесь вы можете добавить логику для обработки этой информации
+        }
+
+        const updatedProject = await ProjectModal.findByIdAndUpdate(id, {
+            title,
+            description,
+            startDate,
+            endDate,
+            status,
+            employees: employeeIds // Сохраняем массив идентификаторов сотрудников
+        }, { new: true });
+
+        res.json(updatedProject);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 // Удаление проекта
