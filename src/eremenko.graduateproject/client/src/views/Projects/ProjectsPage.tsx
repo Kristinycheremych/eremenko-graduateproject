@@ -1,38 +1,70 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
+import './style.css';
+
+interface Project {
+  _id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  status: {
+    title: string;
+  };
+  employees: {
+    lastName: string;
+    firstName: string;
+    middleName: string;
+  }[];
+}
 
 function ProjectsPage() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Project[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredProject, setFilteredProject] = useState(data);
-  const navigate = useNavigate();
+  const [filterStatus, setFilterStatus] = useState('');
+  const [filteredProject, setFilteredProject] = useState<Project[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/get/projects')
+    axios.get<Project[]>('http://localhost:3001/get/projects')
       .then(res => {
         setData(res.data);
       })
       .catch(err => console.log(err));
-    //поиск пользователей и фильтр по должности
-    const search = data.filter(data => {
-      const fullName = `${data.title}`;
-      return fullName.toLowerCase().includes(searchQuery.toLowerCase());
-    });
-    setFilteredProject(search);
+  }, []);
 
-  }, [data]);
+  useEffect(() => {
+    // Функция для фильтрации проектов по статусу
+    const filterProjects = () => {
+      let filteredData = data;
 
-  const handleDelete = (id: any) => {
-    axios.delete('http://localhost:3001/deleteProject/' + id)
+      // Фильтрация по статусу
+      if (filterStatus !== '') {
+        filteredData = filteredData.filter((project) => project.status.title === filterStatus);
+      }
+
+      // Поиск по названию проекта
+      if (searchQuery !== '') {
+        filteredData = filteredData.filter((project) => project.title.toLowerCase().includes(searchQuery.toLowerCase()));
+      }
+
+      setFilteredProject(filteredData);
+    };
+
+    filterProjects();
+  }, [data, filterStatus, searchQuery]);
+
+  const handleDelete = (id: string) => {
+    axios.delete(`http://localhost:3001/deleteProject/${id}`)
       .then(res => {
-        console.log(res)
-        navigate('/projectsPage')
-      }).catch(err => console.log(err))
-  }
+        console.log(res);
+        // Обновляем данные проектов после удаления
+        setData(data.filter(project => project._id !== id));
+      })
+      .catch(err => console.log(err));
+  };
 
   return (
     <>
@@ -47,9 +79,14 @@ function ProjectsPage() {
           />
         </div>
 
-        <div className={'div_filter_position'}>
-          <select className={'filter_position'}>
-            <option value="">Новый</option>
+        <div className={'div_filter_project'}>
+          <select
+            className={'filter_project'}
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">Все</option>
+            <option value="Новый">Новый</option>
             <option value="В ожидании">В ожидании</option>
             <option value="В работе">В работе</option>
             <option value="Выполнено">Выполнено</option>
@@ -80,28 +117,26 @@ function ProjectsPage() {
             {
               filteredProject.map((project) => {
                 return (
-                  <>
-                    <tr key={project._id}>
-                      <td>{project.title}</td>
-                      <td>{project.description}</td>
-                      <td>{new Date(project.startDate).toLocaleDateString()}</td> {/* Вывод даты начала без времени */}
-                      <td>{new Date(project.endDate).toLocaleDateString()}</td> {/* Вывод даты окончания без времени */}
-                      <td>{project.status.title}</td>
-                      <td>
-                        {project.employees.map((employee: any) => {
-                          return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
-                        }).join(', ')}
-                      </td>
-                      <td>
-                        <div className='icon'>
-                          <Link to={`/projectsPage/updateProject/${project._id}`}><FiEdit /></Link>
-                          <div className={'icon_delete'}>
-                            <AiOutlineDelete onClick={() => handleDelete(project._id)} />
-                          </div>
+                  <tr key={project._id}>
+                    <td>{project.title}</td>
+                    <td>{project.description}</td>
+                    <td>{new Date(project.startDate).toLocaleDateString()}</td> {/* Вывод даты начала без времени */}
+                    <td>{new Date(project.endDate).toLocaleDateString()}</td> {/* Вывод даты окончания без времени */}
+                    <td>{project.status.title}</td>
+                    <td>
+                      {project.employees.map((employee: any) => {
+                        return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
+                      }).join(', ')}
+                    </td>
+                    <td>
+                      <div className='icon'>
+                        <Link to={`/projectsPage/updateProject/${project._id}`}><FiEdit /></Link>
+                        <div className={'icon_delete'}>
+                          <AiOutlineDelete onClick={() => handleDelete(project._id)} />
                         </div>
-                      </td>
-                    </tr>
-                  </>
+                      </div>
+                    </td>
+                  </tr>
                 )
               })
             }
@@ -112,4 +147,4 @@ function ProjectsPage() {
   )
 }
 
-export default ProjectsPage
+export default ProjectsPage;

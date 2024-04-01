@@ -24,7 +24,7 @@ function EmployeesPage() {
 
   useEffect(() => {
     axios
-      .get<User[]>('http://localhost:3001/')
+      .get('http://localhost:3001/')
       .then((res) => {
         setData(res.data);
       })
