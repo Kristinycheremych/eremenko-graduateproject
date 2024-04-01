@@ -21,6 +21,8 @@ import AddEmployeeStatus from './views/Settings/employeesSettings/employee_statu
 import UpdateEmployeeStatus from './views/Settings/employeesSettings/employee_status/updateEmployeeStatus/UpdateEmployeeStatus';
 import AddProjectForm from './views/Projects/addProjectForm/AddProjectForm';
 import UpdateProject from './views/Projects/updateProjectForm/UpdateProject';
+import AddPosition from './views/Settings/employeesSettings/position/addPosition/AddPosition';
+import UpdatePosition from './views/Settings/employeesSettings/position/updatePosition/UpdatePosition';
 function App() {
 
   return (
@@ -46,6 +48,9 @@ function App() {
             <Route path='/employeeStatus/updateEmployeeStatus/:id' element={<UpdateEmployeeStatus />}></Route>
             <Route path='/projectsPage/addProjectForm' element={<AddProjectForm />}></Route>
             <Route path='/projectsPage/updateProject/:id' element={<UpdateProject />}></Route>
+            <Route path='/position' element={<Position/>}></Route>
+            <Route path='/position/addPosition' element={<AddPosition />}></Route>
+            <Route path='/position/updatePosition/:id' element={<UpdatePosition />}></Route>
           </Routes>
           </Sidebar>
       </BrowserRouter>

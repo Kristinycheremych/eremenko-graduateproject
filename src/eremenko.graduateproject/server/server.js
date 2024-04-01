@@ -6,6 +6,7 @@ const taskStatusesRoutes = require('./routes/TaskStatusesRoutes');
 const projectStatusesRoutes = require('./routes/ProjectStatusesRoutes');
 const employeeStatusRoutes = require('./routes/EmployeeStatusRoutes');
 const projectRouter = require('./routes/ProjectRoutes');
+const positionRoutes = require('./routes/PositionRoutes');
 
 const app = express();
 app.use(cors());
@@ -16,6 +17,7 @@ mongoose.connect("mongodb://localhost:27017/Project_Management")
     .catch(error => console.log(error));
 
 app.use('/', employeeStatusRoutes);
+app.use('/', positionRoutes);
 app.use('/',projectRouter);
 app.use('/', projectStatusesRoutes);
 app.use('/', taskStatusesRoutes);
