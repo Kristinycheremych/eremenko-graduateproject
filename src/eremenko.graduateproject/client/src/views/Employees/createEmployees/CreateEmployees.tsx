@@ -1,23 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './createEmployees.css';
 
 function CreateEmployees() {
-    const [lastName, setLastName] = useState();
-    const [firstName, setFirstName] = useState();
-    const [middleName, setMiddleName] = useState();
-    const [position, setPosition] = useState();
+    const [lastName, setLastName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [middleName, setMiddleName] = useState("");
+    const [position, setPosition] = useState("");
+    const [dataPosition, setDataPosition] = useState<any[]>([]);
     const [isActive, setIsActive] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    function handleSubmit(event: any) {
+    useEffect(() => {
+        axios.get('http://localhost:3001/get/position')
+            .then(res => {
+                setDataPosition(res.data);
+            })
+            .catch(err => console.log(err));
+    }, []);
+
+
+    const handleSubmitPosition = async (event: any) => {
         event.preventDefault();
-        axios.post('http://localhost:3001/create', { lastName, firstName, middleName, position, isActive })
+        axios.post('http://localhost:3001/create', {
+            lastName,
+            firstName,
+            middleName,
+            position,
+            isActive
+        })
             .then(res => {
                 console.log(res);
-                navigate('/employeesPage')
+                navigate('/employeesPage');
             })
             .catch(error => console.log(error));
     }
@@ -26,7 +42,7 @@ function CreateEmployees() {
         <>
             <div className={'pade'}>
                 <div className={'wrapper'}>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmitPosition}>
                         <h3>Добавление пользователя</h3>
                         <div className={'input_div'}>
                             <label htmlFor="lastName">Фамилия</label>
@@ -68,19 +84,18 @@ function CreateEmployees() {
                                 />
                             </div>
                         </div>
-
                         <div className={'input_div'}>
-                            <label htmlFor="position">Должность</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Программист"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setPosition(e.target.value)}
-                                    value={position}
-                                    required
-                                />
-                            </div>
+                            <label htmlFor="status">Должность</label>
+                            <select className={'form_control'} value={position} onChange={(e) => setPosition(e.target.value)} required>
+                                <option value="" >Выберете должность:</option>
+                                {dataPosition.map((position) => {
+                                    return (
+                                        <option key={position._id} value={position._id}>
+                                            {position.title}
+                                        </option>
+                                    )
+                                })}
+                            </select>
                         </div>
 
                         <div className={'input_div'}>

@@ -4,8 +4,11 @@ const UserSchema = new mongoose.Schema({
     lastName: String,
     firstName: String,
     middleName: String,
-    position: String,
-    isActive : Boolean
+    isActive : Boolean,
+    position: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'position' // ссылка на модель 
+    }
 });
 
 const UserModel = mongoose.model("users", UserSchema)

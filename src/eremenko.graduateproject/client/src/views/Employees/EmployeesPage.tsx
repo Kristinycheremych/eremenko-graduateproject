@@ -1,59 +1,91 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { AiOutlineDelete } from "react-icons/ai";
-import { FiEdit } from "react-icons/fi";
+import { Link } from 'react-router-dom';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { FiEdit } from 'react-icons/fi';
 import './employees.css';
 
+interface User {
+  _id: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  position?: {
+    title: string;
+  };
+  isActive: boolean;
+}
+
 function EmployeesPage() {
-  const [data, setData] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [data, setData] = useState<User[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('');
-  const [filteredEmployees, setFilteredEmployees] = useState(data);
-  const navigate = useNavigate();
+  const [filteredEmployees, setFilteredEmployees] = useState<User[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3001/')
-      .then(res => {
+    axios
+      .get<User[]>('http://localhost:3001/')
+      .then((res) => {
         setData(res.data);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
+  }, []);
 
-    //поиск пользователей и фильтр по должности
-    const search = data.filter(data => {
-      const fullName = `${data.lastName} ${data.firstName} ${data.middleName}`;
-      return fullName.toLowerCase().includes(searchQuery.toLowerCase()) && data.position.toLowerCase().includes(filter.toLowerCase());
-    });
-    setFilteredEmployees(search);
+  useEffect(() => {
+    // Функция для фильтрации сотрудников по выбранной должности и поиску по имени, фамилии и отчеству
+    const filterEmployees = () => {
+      let filteredData = data;
 
-  }, [data])
+      // Фильтрация по должности
+      if (filter !== '') {
+        filteredData = filteredData.filter((user) => user.position && user.position.title === filter);
+      }
 
+      // Поиск по имени, фамилии и отчеству
+      if (searchQuery !== '') {
+        filteredData = filteredData.filter((user) => {
+          const fullName = `${user.lastName} ${user.firstName} ${user.middleName}`;
+          return fullName.toLowerCase().includes(searchQuery.toLowerCase());
+        });
+      }
 
-  const handleDelete = (id: any) => {
-    axios.delete('http://localhost:3001/deleteuser/' + id)
-      .then(res => {
-        console.log(res)
-        navigate('/employeesPage')
-      }).catch(err => console.log(err))
-  }
+      setFilteredEmployees(filteredData);
+    };
+
+    filterEmployees();
+  }, [data, filter, searchQuery]);
+
+  const handleDelete = (id: string) => {
+    axios
+      .delete(`http://localhost:3001/deleteuser/${id}`)
+      .then((res) => {
+        console.log(res);
+        // Обновляем данные после удаления сотрудника
+        setData(data.filter((user) => user._id !== id));
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
-
     <>
       <div className={'container'}>
         <div className={'container_search_filter'}>
           <div className={'div_input_search'}>
             <input
-              type='text'
+              type="text"
               className={'input_search'}
-              placeholder='Поиск'
+              placeholder="Поиск"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           <div className={'div_filter_position'}>
-            <select value={filter} onChange={(e) => setFilter(e.target.value)} className={'filter_position'}>
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className={'filter_position'}
+            >
               <option value="">Все</option>
               <option value="Программист">Программист</option>
               <option value="Дизайнер">Дизайнер</option>
@@ -67,7 +99,7 @@ function EmployeesPage() {
           </div>
         </div>
 
-        <div className='table_user'>
+        <div className="table_user">
           <table>
             <thead>
               <tr>
@@ -81,36 +113,33 @@ function EmployeesPage() {
               </tr>
             </thead>
             <tbody>
-              {
-                filteredEmployees.map((user, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{user.lastName}</td>
-                      <td>{user.firstName}</td>
-                      <td>{user.middleName}</td>
-                      <td>{user.position}</td>
-                      <td>{user.isActive ? 'Активный' : 'Неактивный'}</td>
-                      <td>
-                        <div className={'icon_edit'}>
-                          <Link to={`/updateEmployees/${user._id}`}><FiEdit /></Link>
-                        </div>
+              {filteredEmployees.map((user, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.firstName}</td>
+                  <td>{user.middleName}</td>
+                  <td>{user.position ? user.position.title : 'Нет данных'}</td>
+                  <td>{user.isActive ? 'Активный' : 'Неактивный'}</td>
+                  <td>
+                    <div className={'icon_edit'}>
+                      <Link to={`/updateEmployees/${user._id}`}>
+                        <FiEdit />
+                      </Link>
+                    </div>
 
-                        <div className={'icon_delete'}>
-                          <AiOutlineDelete onClick={() => handleDelete(user._id)} />
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })
-              }
+                    <div className={'icon_delete'}>
+                      <AiOutlineDelete onClick={() => handleDelete(user._id)} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
       </div>
     </>
-  )
-
+  );
 }
 
-export default EmployeesPage
+export default EmployeesPage;

@@ -5,6 +5,7 @@ const UserModel = require('../models/UserModel');
 // Получение сотрудников
 router.get('/', (req, res) => {
     UserModel.find()
+        .populate('position')
         .then(users => res.json(users))
         .catch(err => res.json(err))
 });
@@ -12,28 +13,38 @@ router.get('/', (req, res) => {
 router.get('/get/:id', (req, res) => {
     const id = req.params.id
     UserModel.findById({ _id: id })
+        .populate('position')
         .then(post => res.json(post))
         .catch(err => console.log(err))
 });
 
 // Добавление сотрудника
 router.post('/create', (req, res) => {
-    UserModel.create(req.body)
-        .then(user => res.json(user))
-        .catch(err => res.json(err))
+    const { lastName, firstName, middleName, position, isActive} = req.body;
+    const newProject = new UserModel({
+        lastName,
+        firstName,
+        middleName,
+        position,
+        isActive
+    });
+    newProject.save()
+        .then(positions => res.json(positions))
+        .catch(err => res.json(err));
 });
 
 // Изменение сотрудников
 router.put('/update/:id', (req, res) => {
     const id = req.params.id;
-    UserModel.findByIdAndUpdate({ _id: id }, {
+    UserModel.findByIdAndUpdate(id, {
         lastName: req.body.lastName,
         firstName: req.body.firstName,
         middleName: req.body.middleName,
         position: req.body.position,
         isActive: req.body.isActive
-    }).then(user => res.json(user))
-        .catch(err => res.json(err))
+    }, { new: true })
+    .then(positions => res.json(positions))
+    .catch(err => res.json(err))
 });
 
 // Удаление сотрудника
