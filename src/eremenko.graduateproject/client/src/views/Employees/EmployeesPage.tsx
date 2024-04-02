@@ -114,7 +114,7 @@ function EmployeesPage() {
             </thead>
             <tbody>
               {filteredEmployees.map((user, index) => (
-                <tr key={index}>
+                <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : '#ffffff' }}>
                   <td>{index + 1}</td>
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>

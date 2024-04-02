@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import './style.css';
@@ -23,7 +23,7 @@ interface Project {
 
 function ProjectsPage() {
   const [data, setData] = useState<Project[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [filteredProject, setFilteredProject] = useState<Project[]>([]);
 
@@ -111,6 +111,7 @@ function ProjectsPage() {
               <th>Статус</th>
               <th>Ответственный</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -128,9 +129,10 @@ function ProjectsPage() {
                         return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
                       }).join(', ')}
                     </td>
+                    <td className='link_table_progect'><Link to={`/projectsPage/projectDetails/${project._id}`}>Подробнее...</Link></td>
                     <td>
                       <div className='icon'>
-                        <Link to={`/projectsPage/updateProject/${project._id}`}><FiEdit /></Link>
+                        <Link to={`/projectsPage/updateProject/${project._id}`} className={'icon_edit'}><FiEdit /></Link>
                         <div className={'icon_delete'}>
                           <AiOutlineDelete onClick={() => handleDelete(project._id)} />
                         </div>
@@ -142,7 +144,7 @@ function ProjectsPage() {
             }
           </tbody>
         </table>
-      </div>
+      </div >
     </>
   )
 }

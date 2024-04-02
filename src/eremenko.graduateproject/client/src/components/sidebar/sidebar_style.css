@@ -32,7 +32,7 @@ main {
     color: black;
 }
 
-.bars {
+.burger_menu {
     display: flex;
     font-size: 20px;
     cursor: pointer;
@@ -44,6 +44,10 @@ main {
     padding: 10px 15px;
     gap: 15px;
     transition: all 0.5s;
+}
+
+.link_text{
+    white-space: nowrap;
 }
 
 .sublink {
@@ -77,13 +81,6 @@ main {
     transition: all 0.5s;
 }
 
-
-.sublink:focus {
-    background: #196FAD;
-    color: white;
-    transition: all 0.5s;
-}
-
 .subnav {
     padding-left: 23px;
 }
@@ -93,23 +90,6 @@ main {
     color: white;
     transition: all 0.5s;
 }
-
-.link:focus {
-    background: #196FAD;
-    color: white;
-    transition: all 0.5s;
-}
-
-.sublink:focus {
-    background: #196FAD;
-    color: white;
-}
-
-.subSublink:focus {
-    background: #196FAD;
-    color: white;
-}
-
 .subArrow {
     margin-top: -25px;
     margin-left: 160px;
@@ -122,3 +102,8 @@ main {
 .arrow {
     margin-left: 13px;
 }
+
+.icon{
+    font-size: 20px;
+}
+

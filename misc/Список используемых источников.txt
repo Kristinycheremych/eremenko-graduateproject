@@ -1,0 +1,9 @@
+[1] https://practicum.yandex.ru/blog/diagramma-potokov-dannyh-dfd/
+
+[2] https://docs.system-analyst-base.ru/hard-skills/proektirovanie/notacii-i-diagrammy/uml/diagramma-precedentov-use-case
+
+[3] https://translated.turbopages.org/proxy_u/en-ru.ru.7a2d88af-660bc459-6405044e-74722d776562/https/www.geeksforgeeks.org/what-is-wireframing/
+
+[4] https://practicum.yandex.ru/blog/vsyo-o-visual-studio-code/
+
+[5] https://www.calltouch.ru/blog/glossary/interfejs/?ysclid=lui4s8soeh690532014

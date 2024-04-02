@@ -23,6 +23,7 @@ import AddProjectForm from './views/Projects/addProjectForm/AddProjectForm';
 import UpdateProject from './views/Projects/updateProjectForm/UpdateProject';
 import AddPosition from './views/Settings/employeesSettings/position/addPosition/AddPosition';
 import UpdatePosition from './views/Settings/employeesSettings/position/updatePosition/UpdatePosition';
+import ProjectDetails from './views/Projects/projectDetails/ProjectDetails';
 function App() {
 
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path='/position' element={<Position/>}></Route>
             <Route path='/position/addPosition' element={<AddPosition />}></Route>
             <Route path='/position/updatePosition/:id' element={<UpdatePosition />}></Route>
+            <Route path='/projectsPage/projectDetails/:projectId' element={<ProjectDetails />}></Route>
           </Routes>
           </Sidebar>
       </BrowserRouter>
