@@ -32,12 +32,13 @@ function ProjectDetails() {
         <div className='container'>
             <div className="menu">
                 <ul>
-                    <li><Link to={''}>Документы</Link></li>
-                    <li><Link to={''}>Участники</Link></li>
-                    <li><Link to={''}>Этапы</Link></li>
-                    <li><Link to={''}>Задачи</Link></li>
+                    {/* Добавляем пути к другим страницам */}
+                    <li><Link to={`/projectsPage/projectDetails/${projectId}/documents`}>Документы</Link></li>
+                    <li><Link to={`/projectsPage/projectDetails/${projectId}/participants`}>Участники</Link></li>
+                    <li><Link to={`/projectsPage/projectDetails/${projectId}/stages`}>Этапы</Link></li>
+                    <li><Link to={`/projectsPage/projectDetails/${projectId}/tasks`}>Задачи</Link></li>
                     <li className="submenu">
-                        <Link to={''}>Доски <AiFillCaretDown className='iconBoards'/></Link>
+                        <Link to={''}>Доски <AiFillCaretDown className='iconBoards' /></Link>
                         <ul className="sub-menu">
                             <li><Link to={''}>Техническое задание</Link></li>
                             <li><Link to={''}>Дизайн</Link></li>

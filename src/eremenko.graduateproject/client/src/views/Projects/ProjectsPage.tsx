@@ -5,6 +5,13 @@ import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import './style.css';
 
+interface Employee {
+  _id: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+}
+
 interface Project {
   _id: string;
   title: string;
@@ -14,11 +21,7 @@ interface Project {
   status: {
     title: string;
   };
-  employees: {
-    lastName: string;
-    firstName: string;
-    middleName: string;
-  }[];
+  employees: Employee[]; // Список сотрудников
 }
 
 function ProjectsPage() {

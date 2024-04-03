@@ -48,7 +48,6 @@ function UpdateProjectStatuses() {
                                     className={'form_control'}
                                     onChange={(e: any) => setTitle(e.target.value)}
                                     value={title}
-                                    required
                                 />
                             </div>
                         </div>
@@ -61,7 +60,6 @@ function UpdateProjectStatuses() {
                                     className={'form_control'}
                                     onChange={(e: any) => setDescription(e.target.value)}
                                     value={description}
-                                    required
                                 />
                             </div>
                         </div>
