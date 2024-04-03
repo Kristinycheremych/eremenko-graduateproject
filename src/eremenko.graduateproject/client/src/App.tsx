@@ -1,31 +1,38 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import EmployeesPage from './views/Employees/EmployeesPage';
-import ProjectsPage from './views/Projects/ProjectsPage';
-import MainPage from './views/Main/MainPage';
-import Sidebar from './components/sidebar/Sidebar';
-import CreateEmployees from './views/Employees/createEmployees/CreateEmployees';
-import UpdateEmployees from './views/Employees/updateEmployees/UpdateEmployees';
 import "./App.css";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import EmployeesPage from './views/employees/EmployeesPage';
+import ProjectsPage from './views/projects/ProjectsPage';
+import MainPage from './views/main/MainPage';
+import Sidebar from './components/sidebar/Sidebar';
+import CreateEmployees from './views/employees/createEmployees/CreateEmployees';
+import UpdateEmployees from './views/employees/updateEmployees/UpdateEmployees';
 import {menuItems} from './components/sidebar/DataSidebar';
-import ProjectStatuses from './views/Settings/projectsSettings/project_statuses/ProjectStatuses';
-import TaskStatuses from './views/Settings/projectsSettings/task_statuses/TaskStatuses';
-import Divisions from './views/Settings/employeesSettings/divisions/Divisions';
-import EmployeeStatus from './views/Settings/employeesSettings/employee_status/EmployeeStatus';
-import Position from './views/Settings/employeesSettings/position/Position';
-import AddProjectStatuses from './views/Settings/projectsSettings/project_statuses/AddProjectStatuses/AddProjectStatuses';
-import UpdateProjectStatuses from './views/Settings/projectsSettings/project_statuses/updateProjectStatuses/UpdateProjectStatuses';
-import AddTaskStatuses from './views/Settings/projectsSettings/task_statuses/addTaskStatuses/AddTaskStatuses';
-import UpdateTaskStatuses from './views/Settings/projectsSettings/task_statuses/updateTaskStatuses/UpdateTaskStatuses';
-import AddEmployeeStatus from './views/Settings/employeesSettings/employee_status/addEmployeeStatus/AddEmployeeStatus';
-import UpdateEmployeeStatus from './views/Settings/employeesSettings/employee_status/updateEmployeeStatus/UpdateEmployeeStatus';
-import AddProjectForm from './views/Projects/addProjectForm/AddProjectForm';
-import UpdateProject from './views/Projects/updateProjectForm/UpdateProject';
-import AddPosition from './views/Settings/employeesSettings/position/addPosition/AddPosition';
-import UpdatePosition from './views/Settings/employeesSettings/position/updatePosition/UpdatePosition';
-import ProjectDetails from './views/Projects/projectDetails/ProjectDetails';
-import ParticipantsPage from './views/Projects/projectDetails/ParticipantsPage/ParticipantsPage';
-import AddEmployeeForm from './views/Projects/projectDetails/ParticipantsPage/AddEmployeeForm/AddEmployeeForm';
+import ProjectStatuses from './views/settings/projectsSettings/project_statuses/ProjectStatuses';
+import TaskStatuses from './views/settings/projectsSettings/task_statuses/TaskStatuses';
+import Divisions from './views/settings/employeesSettings/divisions/Divisions';
+import EmployeeStatus from './views/settings/employeesSettings/employee_status/EmployeeStatus';
+import Position from './views/settings/employeesSettings/position/Position';
+import AddProjectStatuses from './views/settings/projectsSettings/project_statuses/addProjectStatuses/AddProjectStatuses';
+import UpdateProjectStatuses from './views/settings/projectsSettings/project_statuses/updateProjectStatuses/UpdateProjectStatuses';
+import AddTaskStatuses from './views/settings/projectsSettings/task_statuses/addTaskStatuses/AddTaskStatuses';
+import UpdateTaskStatuses from './views/settings/projectsSettings/task_statuses/updateTaskStatuses/UpdateTaskStatuses';
+import AddEmployeeStatus from './views/settings/employeesSettings/employee_status/addEmployeeStatus/AddEmployeeStatus';
+import UpdateEmployeeStatus from './views/settings/employeesSettings/employee_status/updateEmployeeStatus/UpdateEmployeeStatus';
+import AddProjectForm from './views/projects/addProjectForm/AddProjectForm';
+import UpdateProject from './views/projects/updateProjectForm/UpdateProject';
+import AddPosition from './views/settings/employeesSettings/position/addPosition/AddPosition';
+import UpdatePosition from './views/settings/employeesSettings/position/updatePosition/UpdatePosition';
+import ProjectDetails from './views/projects/projectDetails/ProjectDetails';
+import ParticipantsPage from './views/projects/projectDetails/participantsPage/ParticipantsPage';
+import AddEmployeeForm from './views/projects/projectDetails/participantsPage/addEmployeeForm/AddEmployeeForm';
+import StagesPage from './views/projects/projectDetails/stagesPage/StagesPage';
+import TaskPage from './views/projects/projectDetails/tasksPage/TaskPage';
+import DesignPage from './views/projects/projectDetails/boards/design/DesignPage';
+import IntegrationPage from './views/projects/projectDetails/boards/integration/IntegrationPage';
+import SoftwareProductDevelopment from './views/projects/projectDetails/boards/softwareProductDevelopment/SoftwareProductDevelopment';
+import TechnicalSpecification from './views/projects/projectDetails/boards/technicalSpecification/TechnicalSpecification';
+
 function App() {
 
   return (
@@ -56,6 +63,12 @@ function App() {
             <Route path='/position/updatePosition/:id' element={<UpdatePosition />}></Route>
             <Route path='/projectsPage/projectDetails/:projectId' element={<ProjectDetails />}></Route>
             <Route path="/projectsPage/projectDetails/:projectId/participants" element={<ParticipantsPage/>}></Route>
+            <Route path="/projectsPage/projectDetails/:projectId/stages" element={<StagesPage/>}></Route>
+            <Route path="/projectsPage/projectDetails/:projectId/tasks" element={<TaskPage/>}></Route>
+            <Route path="/projectsPage/projectDetails/:projectId/boards/design" element={<DesignPage/>}></Route>
+            <Route path="/projectsPage/projectDetails/:projectId/boards/integration" element={<IntegrationPage/>}></Route>
+            <Route path="/projectsPage/projectDetails/:projectId/boards/softwareProductDevelopment" element={<SoftwareProductDevelopment/>}></Route>
+            <Route path="/projectsPage/projectDetails/:projectId/boards/technicalSpecification" element={<TechnicalSpecification/>}></Route>
             <Route path="/:projectId/addEmployeeForm" element={<AddEmployeeForm/>}></Route>
           </Routes>
           </Sidebar>

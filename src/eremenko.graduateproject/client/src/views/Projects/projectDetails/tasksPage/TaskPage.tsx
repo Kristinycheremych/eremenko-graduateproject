@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import './projectDetailsStyle.css';
-import Header from '../../../components/header/Header';
+import Header from '../../../../components/header/Header';
 
 interface Project {
     _id: string;
@@ -10,7 +9,7 @@ interface Project {
     description: string;
 }
 
-function ProjectDetails() {
+function TaskPage() {
     const { projectId } = useParams<{ projectId: string }>();
     const [project, setProject] = useState<Project | null>(null);
 
@@ -32,13 +31,25 @@ function ProjectDetails() {
         <>
             <Header />
             <div className='container'>
-                <div className='div_description'>
-                    <p className='heading_description'>Описание</p>
-                    <p className='text_description'>{project.description}</p>
+                <div className={'container_search_filter'}>
+                    <div className={'div_input_search'}>
+                        <input
+                            type="text"
+                            className={'input_search'}
+                            placeholder="Поиск"
+                        />
+                    </div>
+
+                    <div className={'btn_add_users'}>
+                        <Link to={''}>
+                            <button className={'add_user'}>Добавить</button>
+                        </Link>
+                    </div>
+
                 </div>
             </div>
         </>
-    );
+    )
 }
 
-export default ProjectDetails;
+export default TaskPage

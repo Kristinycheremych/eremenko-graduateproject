@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { AiOutlineDelete } from 'react-icons/ai';
+import Header from '../../../../components/header/Header';
 
 interface Employee {
     _id: string;
@@ -27,7 +28,7 @@ interface Project {
 function ParticipantsPage() {
     const { projectId } = useParams<{ projectId: string }>();
     const [project, setProject] = useState<Project | null>(null);
-    const [searchQuery, setSearchQuery] = useState(""); // 1. Состояние для строки поиска
+    const [searchQuery, setSearchQuery] = useState(""); //Состояние для строки поиска
 
     useEffect(() => {
         axios.get<Project>(`http://localhost:3001/getProjects/${projectId}`)
@@ -60,7 +61,7 @@ function ParticipantsPage() {
             });
     };
 
-    // 2. Реализация логики поиска
+    //Реализация логики поиска
     const filteredEmployees = project.employees.filter((employee) =>
         employee.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         employee.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -69,15 +70,8 @@ function ParticipantsPage() {
 
     return (
         <>
+            <Header />
             <div className='container'>
-                <div className="menu">
-                    {/* Ваш код меню остается без изменений */}
-                </div>
-
-                <div className='div_title'>
-                    <p>{project.title}</p>
-                </div>
-
                 <div className={'container_search_filter'}>
                     <div className={'div_input_search'}>
                         <input

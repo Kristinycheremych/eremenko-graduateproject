@@ -1,95 +1,136 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-
-interface Position {
-    _id: string;
-    title: string;
-}
-
-interface FormData {
-    lastName: string;
-    firstName: string;
-    middleName: string;
-    positionId: string;
-    isActive: boolean;
-}
+import React, { useEffect } from 'react';
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function AddEmployeeForm() {
-    const { projectId } = useParams<{ projectId: string }>();
-    const [formData, setFormData] = useState<FormData>({
-        lastName: '',
-        firstName: '',
-        middleName: '',
-        positionId: '',
-        isActive: true
-    });
-    const [positions, setPositions] = useState<Position[]>([]);
+    const [lastName, setLastName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [middleName, setMiddleName] = useState("");
+    const [position, setPosition] = useState("");
+    const [dataPosition, setDataPosition] = useState<any[]>([]);
+    const [isActive, setIsActive] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get<Position[]>(`http://localhost:3001/positions`)
-            .then(response => {
-                setPositions(response.data);
+        axios.get('http://localhost:3001/get/position')
+            .then(res => {
+                setDataPosition(res.data);
             })
-            .catch(error => {
-                console.error('Ошибка при загрузке списка должностей:', error);
-            });
+            .catch(err => console.log(err));
     }, []);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value, type } = e.target;
-        const inputValue = type === 'checkbox' ? !formData.isActive : value; // Изменено на !formData.isActive
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: inputValue
-        }));
-    };
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            await axios.post<void>(`http://localhost:3001/addEmployee/${projectId}`, formData);
-            console.log('Сотрудник успешно добавлен к проекту');
-        } catch (error) {
-            console.error('Ошибка при добавлении сотрудника к проекту:', error);
-        }
-    };
+    const handleSubmitPosition = async (event: any) => {
+        event.preventDefault();
+        axios.post('http://localhost:3001/create', {
+            lastName,
+            firstName,
+            middleName,
+            position,
+            isActive
+        })
+            .then(res => {
+                console.log(res);
+                navigate('/employeesPage');
+            })
+            .catch(error => console.log(error));
+    }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Фамилия:
-                <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required />
-            </label>
-            <br />
-            <label>
-                Имя:
-                <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required />
-            </label>
-            <br />
-            <label>
-                Отчество:
-                <input type="text" name="middleName" value={formData.middleName} onChange={handleChange} required />
-            </label>
-            <br />
-            <label>
-                Должность:
-                <select name="positionId" value={formData.positionId} onChange={handleChange} >
-                    <option value="">Выберите должность</option>
-                    {positions.map(position => (
-                        <option key={position._id} value={position._id}>{position.title}</option>
-                    ))}
-                </select>
-            </label>
-            <br />
-            <label>
-                Активный:
-                <input type="checkbox" name="isActive" checked={formData.isActive} onChange={handleChange} />
-            </label>
-            <br />
-            <button type="submit">Добавить сотрудника</button>
-        </form>
-    );
+        <>
+            <div className={'pade'}>
+                <div className={'wrapper'}>
+                    <form onSubmit={handleSubmitPosition}>
+                        <h3>Добавление пользователя</h3>
+                        <div className={'input_div'}>
+                            <label htmlFor="lastName">Фамилия</label>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Еременко"
+                                    className={'form_control'}
+                                    onChange={(e: any) => setLastName(e.target.value)}
+                                    value={lastName}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className={'input_div'}>
+                            <label htmlFor="firstName">Имя</label>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Кристина"
+                                    className={'form_control'}
+                                    onChange={(e: any) => setFirstName(e.target.value)}
+                                    value={firstName}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className={'input_div'}>
+                            <label htmlFor="middleName">Отчество</label>
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="Юрьевна"
+                                    className={'form_control'}
+                                    onChange={(e: any) => setMiddleName(e.target.value)}
+                                    value={middleName}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className={'input_div'}>
+                            <label htmlFor="status">Должность</label>
+                            <select className={'form_control'} value={position} onChange={(e) => setPosition(e.target.value)} required>
+                                <option value="" >Выберете должность:</option>
+                                {dataPosition.map((position) => {
+                                    return (
+                                        <option key={position._id} value={position._id}>
+                                            {position.title}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+
+                        <div className={'input_div'}>
+                            <label htmlFor="status">Статус</label>
+
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="status"
+                                    onChange={(e) => setIsActive(e.target.value === 'false')}
+                                    value={isActive.toString()}
+                                    required
+                                />
+                                <label htmlFor="isActive">Активный</label>
+                            </div>
+                            <div>
+                                <input
+                                    type="radio"
+                                    name="status"
+                                    required
+                                    onChange={(e) => setIsActive(e.target.value === 'true')}
+                                    value={isActive.toString()}
+                                />
+                                <label htmlFor="isActive">Неактивный</label>
+                            </div>
+                        </div>
+
+                        <div className={'action_buttons'}>
+                            <Link to={"/employeesPage"}><button className={'btn_add_cancel'}>Отменить</button></Link>
+                            <button className={'btn_add_cancel'}>Добавить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </>
+    )
 }
 
-export default AddEmployeeForm;
+export default AddEmployeeForm
