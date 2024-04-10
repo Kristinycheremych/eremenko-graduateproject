@@ -54,3 +54,7 @@
 .iconBoards{
     font-size: 13px;
 }
+
+.menu ul li.active {
+    border-bottom: 1px solid #196FAD;
+}

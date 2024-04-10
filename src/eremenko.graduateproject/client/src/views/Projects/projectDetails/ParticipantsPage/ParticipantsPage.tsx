@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { AiOutlineDelete } from 'react-icons/ai';
 import Header from '../../../../components/header/Header';
 
@@ -29,6 +29,7 @@ function ParticipantsPage() {
     const { projectId } = useParams<{ projectId: string }>();
     const [project, setProject] = useState<Project | null>(null);
     const [searchQuery, setSearchQuery] = useState(""); //Состояние для строки поиска
+    const [selectedPosition, setSelectedPosition] = useState<string>(""); // Состояние для выбранной должности
 
     useEffect(() => {
         axios.get<Project>(`http://localhost:3001/getProjects/${projectId}`)
@@ -63,10 +64,13 @@ function ParticipantsPage() {
 
     //Реализация логики поиска
     const filteredEmployees = project.employees.filter((employee) =>
-        employee.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        employee.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        employee.middleName.toLowerCase().includes(searchQuery.toLowerCase())
+        `${employee.lastName} ${employee.firstName} ${employee.middleName}`.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    // Фильтрация по выбранной должности
+    const filteredByPosition = selectedPosition
+        ? filteredEmployees.filter(employee => employee.position.title.toLowerCase() === selectedPosition.toLowerCase())
+        : filteredEmployees;
 
     return (
         <>
@@ -84,19 +88,15 @@ function ParticipantsPage() {
                     </div>
 
                     <div className={'div_filter_position'}>
-                        <select className={'filter_position'}>
-                            <option value="">Выберите должность</option>
+                        <select
+                            className={'filter_position'}
+                            value={selectedPosition}
+                            onChange={(e) => setSelectedPosition(e.target.value)}>
+                            <option value="">Все</option>
                             <option value="Программист">Программист</option>
                             <option value="Дизайнер">Дизайнер</option>
                         </select>
                     </div>
-
-                    <div className={'btn_add_users'}>
-                        <Link to={`/${projectId}/addEmployeeForm`}>
-                            <button className={'add_user'}>Добавить</button>
-                        </Link>
-                    </div>
-
                 </div>
 
                 <div className="table_user">
@@ -113,7 +113,7 @@ function ParticipantsPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredEmployees.map((user, index) => (
+                            {filteredByPosition.map((user, index) => (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{user.lastName}</td>

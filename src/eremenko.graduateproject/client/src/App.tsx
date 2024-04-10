@@ -25,7 +25,6 @@ import AddPosition from './views/settings/employeesSettings/position/addPosition
 import UpdatePosition from './views/settings/employeesSettings/position/updatePosition/UpdatePosition';
 import ProjectDetails from './views/projects/projectDetails/ProjectDetails';
 import ParticipantsPage from './views/projects/projectDetails/participantsPage/ParticipantsPage';
-import AddEmployeeForm from './views/projects/projectDetails/participantsPage/addEmployeeForm/AddEmployeeForm';
 import StagesPage from './views/projects/projectDetails/stagesPage/StagesPage';
 import TaskPage from './views/projects/projectDetails/tasksPage/TaskPage';
 import DesignPage from './views/projects/projectDetails/boards/design/DesignPage';
@@ -69,7 +68,6 @@ function App() {
             <Route path="/projectsPage/projectDetails/:projectId/boards/integration" element={<IntegrationPage/>}></Route>
             <Route path="/projectsPage/projectDetails/:projectId/boards/softwareProductDevelopment" element={<SoftwareProductDevelopment/>}></Route>
             <Route path="/projectsPage/projectDetails/:projectId/boards/technicalSpecification" element={<TechnicalSpecification/>}></Route>
-            <Route path="/:projectId/addEmployeeForm" element={<AddEmployeeForm/>}></Route>
           </Routes>
           </Sidebar>
       </BrowserRouter>

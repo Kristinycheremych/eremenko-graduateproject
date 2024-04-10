@@ -8,9 +8,10 @@ const AddProjectForm = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [status, setStatus] = useState("");
-    const [employees, setEmployees] = useState("");
+    const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]); // Массив выбранных сотрудников
     const [data, setData] = useState<any[]>([]);
     const [employeesList, setEmployeesList] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState(""); // Запрос для поиска сотрудников
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,7 +23,7 @@ const AddProjectForm = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/') // Предположим, что здесь эндпоинт для получения сотрудников
+        axios.get('http://localhost:3001/')
             .then(res => {
                 setEmployeesList(res.data);
             })
@@ -37,7 +38,7 @@ const AddProjectForm = () => {
             startDate,
             endDate,
             status,
-            employees
+            employees: selectedEmployees // Используйте массив выбранных сотрудников для отправки на сервер
         })
             .then(res => {
                 console.log(res);
@@ -116,20 +117,40 @@ const AddProjectForm = () => {
                             </select>
                         </div>
 
+                        {/* Выбор ответственного сотрудника */}
                         <div className={'input_div'}>
-                            <label htmlFor="employees">Ответственный:</label>
-                            <select className={'form_control'} value={employees} onChange={(e) => setEmployees(e.target.value)} required>
-                                <option value="">Выберите ответственного:</option>
-                                {employeesList.map((employee) => {
-                                    return (
-                                        <option key={employee._id} value={employee._id}>
-                                            {employee.lastName && employee.firstName && employee.middleName ? `${employee.lastName} ${employee.firstName} ${employee.middleName}` : "Недостаточно данных"}
-                                        </option>
+                            <label htmlFor="selectedEmployees">Ответственные:</label>
+                            {/* Поиск сотрудников */}
+                            <div className={'input_div'}>
+                                <input
+                                    type="text"
+                                    className={'form_control'}
+                                    placeholder="Поиск по ФИО"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </div>
+                            <select
+                                className={'form_control_employees'}
+                                multiple
+                                value={selectedEmployees}
+                                onChange={(e) => setSelectedEmployees(Array.from(e.target.selectedOptions, option => option.value))}
+                                required
+                            >
+                                {employeesList
+                                    .filter(employee =>
+                                        `${employee.lastName} ${employee.firstName} ${employee.middleName}`
+                                            .toLowerCase()
+                                            .includes(searchQuery.toLowerCase())
                                     )
-                                })}
+                                    .map((employee) => (
+                                        <option key={employee._id} value={employee._id}>
+                                            {`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
+                                        </option>
+                                    ))
+                                }
                             </select>
                         </div>
-
                         <div className={'action_buttons'}>
                             <Link to={"/projectsPage"}><button className={'btn_add_cancel'}>Отменить</button></Link>
                             <button className={'btn_add_cancel'}>Добавить</button>

@@ -13,7 +13,7 @@ import { IoMdArrowDropright } from "react-icons/io";
 
 export const menuItems = [
     {
-        path: '/',
+        path: '/documents',
         title: 'Документы',
         icon: <IoDocumentTextOutline />,
     },
@@ -28,14 +28,13 @@ export const menuItems = [
         icon: <SlPeople />
     },
     {
-        path: '#',
         title: 'Панель управления',
         icon: <IoSettingsOutline />,
         arrow: <IoMdArrowDropright />,
         subItems: [
             {
                 title: 'Проекты',
-                path: '#',
+                path: '',
                 arrow: <IoMdArrowDropright />,
                 subSections: [
                     {
@@ -51,7 +50,7 @@ export const menuItems = [
             {
                 title: 'Сотрудники',
                 arrow: <IoMdArrowDropright />,
-                path: '#',
+                path: '',
                 subSections: [
                     {
                         title: "Статус сотрудника",
@@ -71,7 +70,7 @@ export const menuItems = [
 
                 title: 'Документы',
                 arrow: <IoMdArrowDropright />,
-                path: '#',
+                path: '',
                 subSections: [
                     {
                         title: "Все",

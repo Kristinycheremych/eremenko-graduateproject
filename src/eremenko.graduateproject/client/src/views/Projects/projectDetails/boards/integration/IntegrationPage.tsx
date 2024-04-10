@@ -1,12 +1,29 @@
 import React from 'react'
 import Header from '../../../../../components/header/Header'
+import { Link } from 'react-router-dom'
 
 function IntegrationPage() {
     return (
         <>
             <Header />
-            <div>
-                <h3>Внедрение</h3>
+            <div className='container'>
+                <div className={'container_search_filter'}>
+                    <div className={'div_input_search'}>
+                        <input
+                            type="text"
+                            className={'input_search'}
+                            placeholder="Поиск"
+                        />
+                    </div>
+
+                    <div className={'btn_add_users'}>
+                        <Link to={''}>
+                            <button className={'add_user'}>Добавить</button>
+                        </Link>
+                    </div>
+
+                </div>
+                <div><p>Внедрение</p></div>
             </div>
         </>
     )

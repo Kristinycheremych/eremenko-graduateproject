@@ -20,7 +20,7 @@ router.get('/get/:id', (req, res) => {
 
 // Добавление сотрудника
 router.post('/create', (req, res) => {
-    const { lastName, firstName, middleName, position, isActive} = req.body;
+    const { lastName, firstName, middleName, position, isActive } = req.body;
     const newProject = new UserModel({
         lastName,
         firstName,
@@ -43,8 +43,8 @@ router.put('/update/:id', (req, res) => {
         position: req.body.position,
         isActive: req.body.isActive
     }, { new: true })
-    .then(positions => res.json(positions))
-    .catch(err => res.json(err))
+        .then(positions => res.json(positions))
+        .catch(err => res.json(err))
 });
 
 // Удаление сотрудника

@@ -17,7 +17,7 @@ interface Project {
         lastName: string;
         firstName: string;
         middleName: string;
-    };
+    }[];
 }
 
 function UpdateProject() {
@@ -27,9 +27,10 @@ function UpdateProject() {
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
     const [statusId, setStatusId] = useState<string>("");
-    const [employeeId, setEmployeeId] = useState<string>("");
+    const [employeeIds, setEmployeeIds] = useState<string[]>([]); // Массив выбранных сотрудников
     const [statusList, setStatusList] = useState<any[]>([]);
     const [employeesList, setEmployeesList] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>(""); // Запрос для поиска сотрудников
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,7 +43,7 @@ function UpdateProject() {
                 setStartDate(new Date(projectData.startDate).toISOString().split('T')[0]);
                 setEndDate(new Date(projectData.endDate).toISOString().split('T')[0]);
                 setStatusId(projectData.status._id);
-                setEmployeeId(projectData.employees._id); // Устанавливаем значение employeeId
+                setEmployeeIds(projectData.employees.map(employee => employee._id)); // Устанавливаем значения employeeIds
             } catch (err) {
                 console.log(err);
             }
@@ -63,6 +64,13 @@ function UpdateProject() {
             .catch(err => console.log(err));
     }, [id]);
 
+    // Фильтрация списка сотрудников по введенному запросу
+    const filteredEmployees = employeesList.filter(employee =>
+        `${employee.lastName} ${employee.firstName} ${employee.middleName}`
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+    );
+
     const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         axios.put(`http://localhost:3001/updateProject/${id}`, {
@@ -71,7 +79,7 @@ function UpdateProject() {
             startDate,
             endDate,
             status: statusId,
-            employees: employeeId
+            employees: employeeIds // Используйте массив выбранных сотрудников для отправки на сервер
         })
             .then(res => {
                 console.log(res);
@@ -153,14 +161,24 @@ function UpdateProject() {
                         </div>
 
                         <div className={'input_div'}>
-                            <label htmlFor="status">Ответственный</label>
+                            <label htmlFor="status">Ответственные</label>
+                            {/* Поиск сотрудников */}
+                            <div className={'input_div'}>
+                                <input
+                                    type="text"
+                                    className={'form_control'}
+                                    placeholder="Поиск по ФИО"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </div>
                             <select
-                                className='form_control'
-                                value={employeeId}
-                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEmployeeId(e.target.value)}>
-                                <option value={""}>Выберите ответсвенного:</option>
+                                className='form_control_employees'
+                                multiple // Разрешить множественный выбор
+                                value={employeeIds}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEmployeeIds(Array.from(e.target.selectedOptions, option => option.value))}>
                                 {
-                                    employeesList.map((employeeItem) => {
+                                    filteredEmployees.map((employeeItem) => {
                                         return (
                                             <option key={employeeItem._id} value={employeeItem._id}>
                                                 {`${employeeItem.lastName} ${employeeItem.firstName} ${employeeItem.middleName}`}
