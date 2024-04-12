@@ -6,7 +6,7 @@ import { menuItems } from './DataSidebar';
 
 function Sidebar({ children }: any) {
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(new Array(menuItems.length).fill(false));
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(new Array(menuItems.length).fill(false));
 
@@ -41,7 +41,7 @@ function Sidebar({ children }: any) {
     return subSections.map((subSections: any, index: any) => (
       <>
         <div>
-          <NavLink to={subSections.path || ''} key={index} className="subSublink" style={({ isActive }) => isActive ? activeStyle : undefined}>
+          <NavLink to={subSections.path || '#'} key={index} className="subSublink" style={({ isActive }) => isActive ? activeStyle : undefined}>
             <div style={{ display: isOpen ? 'block' : 'none' }} className="subSublink_text">
               {subSections.title}
             </div>
@@ -74,13 +74,13 @@ function Sidebar({ children }: any) {
 
   const renderSections = () => {
     return menuItems.map((item, index) => (
-      <NavLink to={item.path || ''} key={index}>
+      <NavLink to={item.path || '#'} key={index}>
         <NavLink
-          to={item.path || ''}
+          to={item.path || '#'}
           key={index}
           className={isOpen ? "link open" : "link "}
           onClick={() => toggleMenu(index)}
-          style={({ isActive }) => isActive ? activeStyle : undefined}
+          // style={({ isActive }) => isActive ? activeStyle : undefined}
         >
           <div className="icon">{item.icon}</div>
           <div style={{ display: isOpen ? 'block' : 'none' }} className="link_text">

@@ -30,3 +30,20 @@ a {
     border: 1px solid #CACACA;
     background: #FFF;
 }
+
+.containet_btn_add {
+    margin-left: auto;
+}
+
+.btn_add {
+    width: 183px;
+    height: 45px;
+    font-size: 14px;
+    border-radius: 6px;
+    padding: 0 0 0 15px;
+    color: #445371;
+    text-decoration: none;
+    border: 2px solid rgba(68, 83, 113, 0.15);
+    background: rgba(255, 255, 255, 0.00);
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.00) inset;
+}

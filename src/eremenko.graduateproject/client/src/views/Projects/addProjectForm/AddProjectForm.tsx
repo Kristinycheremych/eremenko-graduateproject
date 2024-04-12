@@ -38,7 +38,7 @@ const AddProjectForm = () => {
             startDate,
             endDate,
             status,
-            employees: selectedEmployees // Используйте массив выбранных сотрудников для отправки на сервер
+            employees: selectedEmployees // Массив выбранных сотрудников для отправки на сервер
         })
             .then(res => {
                 console.log(res);

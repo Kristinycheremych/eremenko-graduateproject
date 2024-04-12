@@ -10,7 +10,7 @@ interface Employee {
     firstName: string;
     middleName: string;
     isActive: boolean;
-    position: Position; // Добавляем тип для поля position
+    position: Position;
 }
 
 interface Position {

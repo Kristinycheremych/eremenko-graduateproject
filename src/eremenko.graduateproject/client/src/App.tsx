@@ -31,6 +31,10 @@ import DesignPage from './views/projects/projectDetails/boards/design/DesignPage
 import IntegrationPage from './views/projects/projectDetails/boards/integration/IntegrationPage';
 import SoftwareProductDevelopment from './views/projects/projectDetails/boards/softwareProductDevelopment/SoftwareProductDevelopment';
 import TechnicalSpecification from './views/projects/projectDetails/boards/technicalSpecification/TechnicalSpecification';
+import AddStagePage from './views/projects/projectDetails/boards/design/addStagePage/AddStagePage';
+import AddTaskPage from './views/projects/projectDetails/boards/design/addTaskPage/AddTaskPage';
+import AddIntegrationStage from './views/projects/projectDetails/boards/integration/addIntegrationStage/AddIntegrationStage';
+import AddTaskIntegrationStage from './views/projects/projectDetails/boards/integration/addTaskIntegrationStage/AddTaskIntegrationStage';
 
 function App() {
 
@@ -68,6 +72,10 @@ function App() {
             <Route path="/projectsPage/projectDetails/:projectId/boards/integration" element={<IntegrationPage/>}></Route>
             <Route path="/projectsPage/projectDetails/:projectId/boards/softwareProductDevelopment" element={<SoftwareProductDevelopment/>}></Route>
             <Route path="/projectsPage/projectDetails/:projectId/boards/technicalSpecification" element={<TechnicalSpecification/>}></Route>
+            <Route path='projectsPage/projectDetails/:projectId/addStagePage' element={<AddStagePage/>}></Route>
+            <Route path='projectsPage/projectDetails/:projectId/addTaskPage/:stageId' element={<AddTaskPage/>}></Route>
+            <Route path='projectsPage/projectDetails/:projectId/addIntegrationPage' element={<AddIntegrationStage/>}></Route>
+            <Route path='projectsPage/projectDetails/:projectId/addTaskIntegrationPage/:stageId' element={<AddTaskIntegrationStage/>}></Route>
           </Routes>
           </Sidebar>
       </BrowserRouter>

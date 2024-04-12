@@ -40,9 +40,9 @@ function TaskPage() {
                         />
                     </div>
 
-                    <div className={'btn_add_users'}>
+                    <div className={'containet_btn_add'}>
                         <Link to={''}>
-                            <button className={'add_user'}>Добавить</button>
+                            <button className={'btn_add'}>Добавить</button>
                         </Link>
                     </div>
 

@@ -23,7 +23,7 @@ export const menuItems = [
         icon: <GoProjectRoadmap />,
     },
     {
-        path: 'employeesPage',
+        path: '/employeesPage',
         title: 'Сотрудники',
         icon: <SlPeople />
     },
@@ -34,7 +34,6 @@ export const menuItems = [
         subItems: [
             {
                 title: 'Проекты',
-                path: '',
                 arrow: <IoMdArrowDropright />,
                 subSections: [
                     {
@@ -50,7 +49,6 @@ export const menuItems = [
             {
                 title: 'Сотрудники',
                 arrow: <IoMdArrowDropright />,
-                path: '',
                 subSections: [
                     {
                         title: "Статус сотрудника",
@@ -70,7 +68,6 @@ export const menuItems = [
 
                 title: 'Документы',
                 arrow: <IoMdArrowDropright />,
-                path: '',
                 subSections: [
                     {
                         title: "Все",

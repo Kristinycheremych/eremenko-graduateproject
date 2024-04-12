@@ -8,6 +8,7 @@ const employeeStatusRoutes = require('./routes/EmployeeStatusRoutes');
 const projectRouter = require('./routes/ProjectRoutes');
 const positionRoutes = require('./routes/PositionRoutes');
 const stagesRoutes = require('./routes/StagesRoutes');
+const integrationStageRoutes = require('./routes/IntegrationStageRoutes');
 
 const app = express();
 
@@ -24,6 +25,7 @@ mongoose.connect("mongodb://localhost:27017/Project_Management")
 
 // Подключаем роуты
 app.use('/', employeeStatusRoutes);
+app.use('/', integrationStageRoutes);
 app.use('/', positionRoutes);
 app.use('/', projectRouter);
 app.use('/', projectStatusesRoutes);
