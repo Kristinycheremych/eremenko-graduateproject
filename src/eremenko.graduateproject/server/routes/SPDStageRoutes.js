@@ -1,11 +1,11 @@
 const express = require('express');
-const IntegrationStageModal = require('../models/integrationStageModal');
+const SPDStageModal = require('../models/SPDStageModal');
 const router = express.Router();
 
 // Получить этапы для конкретного проекта
-router.get('/projects/:projectId/integrationStage', (req, res) => {
+router.get('/projects/:projectId/SPDStage', (req, res) => {
     const projectId = req.params.projectId;
-    IntegrationStageModal.find({ projectId })
+    SPDStageModal.find({ projectId })
         .populate('projectId')
         .populate('tasks.employees')
         .then(stages => res.json(stages))
@@ -13,23 +13,23 @@ router.get('/projects/:projectId/integrationStage', (req, res) => {
 });
 
 // Добавление этапа 
-router.post('/projects/:projectId/integrationStage', (req, res) => {
+router.post('/projects/:projectId/SPDStage', (req, res) => {
     const { title } = req.body;
     const { projectId } = req.params;
-    const newintegrationStage = new IntegrationStageModal({
+    const newSPDStage = new SPDStageModal({
         title,
         projectId
     });
-    newintegrationStage.save()
+    newSPDStage.save()
         .then(stage => res.json(stage))
         .catch(err => res.status(500).json(err));
 });
 
 // Добавление задач к этапу
-router.post('/projects/:projectId/integrationStage/:stageId/tasks', (req, res) => {
+router.post('/projects/:projectId/SPDStage/:stageId/tasks', (req, res) => {
     const { title, description, employees } = req.body;
     const { stageId } = req.params;
-    IntegrationStageModal.findById(stageId)
+    SPDStageModal.findById(stageId)
         .then(stage => {
             if (!stage) {
                 return res.status(404).json({ error: 'Этап не найден' });
@@ -42,11 +42,11 @@ router.post('/projects/:projectId/integrationStage/:stageId/tasks', (req, res) =
 });
 
 // Изменение этапа 
-router.put('/projects/:projectId/integrationStage/:integrationStageId', (req, res) => {
+router.put('/projects/:projectId/SPDStage/:StageId', (req, res) => {
     const { stageId } = req.params;
     const { title } = req.body;
 
-    IntegrationStageModal.findByIdAndUpdate(stageId, { title }, { new: true })
+    SPDStageModal.findByIdAndUpdate(stageId, { title }, { new: true })
         .then(updatedStage => {
             if (!updatedStage) {
                 return res.status(404).json({ error: 'Этап не найден' });
@@ -57,9 +57,9 @@ router.put('/projects/:projectId/integrationStage/:integrationStageId', (req, re
 });
 
 
-router.delete('/projects/:projectId/integrationStage/:stageId', (req, res) => {
+router.delete('/projects/:projectId/SPDStage/:stageId', (req, res) => {
     const { stageId } = req.params;
-    IntegrationStageModal.findByIdAndDelete(stageId)
+    SPDStageModal.findByIdAndDelete(stageId)
         .then(stage => {
             if (!stage) {
                 return res.status(404).json({ error: 'Этап не найден' });
@@ -70,9 +70,9 @@ router.delete('/projects/:projectId/integrationStage/:stageId', (req, res) => {
 });
 
 // Удаление задачи с этапа
-router.delete('/projects/:projectId/integrationStage/:stageId/tasks/:taskId', (req, res) => {
+router.delete('/projects/:projectId/SPDStage/:stageId/tasks/:taskId', (req, res) => {
     const { stageId, taskId } = req.params;
-    IntegrationStageModal.findById(stageId)
+    SPDStageModal.findById(stageId)
         .then(stage => {
             if (!stage) {
                 return res.status(404).json({ error: 'Этап не найден' });
@@ -89,11 +89,11 @@ router.delete('/projects/:projectId/integrationStage/:stageId/tasks/:taskId', (r
 });
 
 // Перемещение задачи между этапами
-router.post('/projects/:projectId/integrationStage/:sourceStageId/tasks/:taskId/move/:targetStageId', (req, res) => {
+router.post('/projects/:projectId/SPDStage/:sourceStageId/tasks/:taskId/move/:targetStageId', (req, res) => {
     const { sourceStageId, targetStageId, taskId } = req.params;
 
     // Этап, из которого нужно переместить задачу
-    IntegrationStageModal.findById(sourceStageId)
+    SPDStageModal.findById(sourceStageId)
         .then(sourceStage => {
             if (!sourceStage) {
                 throw new Error('Исходный этап не найден');
@@ -109,7 +109,7 @@ router.post('/projects/:projectId/integrationStage/:sourceStageId/tasks/:taskId/
             sourceStage.tasks.pull(taskId);
 
             // Найдем целевой этап и добавьте задачу в него
-            return IntegrationStageModal.findById(targetStageId)
+            return SPDStageModal.findById(targetStageId)
                 .then(targetStage => {
                     if (!targetStage) {
                         throw new Error('Целевой этап не найден');

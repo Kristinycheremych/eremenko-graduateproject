@@ -35,6 +35,10 @@ import AddStagePage from './views/projects/projectDetails/boards/design/addStage
 import AddTaskPage from './views/projects/projectDetails/boards/design/addTaskPage/AddTaskPage';
 import AddIntegrationStage from './views/projects/projectDetails/boards/integration/addIntegrationStage/AddIntegrationStage';
 import AddTaskIntegrationStage from './views/projects/projectDetails/boards/integration/addTaskIntegrationStage/AddTaskIntegrationStage';
+import AddSPDStage from './views/projects/projectDetails/boards/softwareProductDevelopment/addSPDStage/AddSPDStage';
+import AddTaskSPDStage from './views/projects/projectDetails/boards/softwareProductDevelopment/addTaskSPDStage/AddTaskSPDStage';
+import AddTechnicalSpecificationStage from './views/projects/projectDetails/boards/technicalSpecification/addTechnicalSpecificationStage/AddTechnicalSpecificationStage';
+import AddTaskTechnicalSpecificationStage from './views/projects/projectDetails/boards/technicalSpecification/addTaskTechnicalSpecificationStage/AddTaskTechnicalSpecificationStage';
 
 function App() {
 
@@ -76,6 +80,10 @@ function App() {
             <Route path='projectsPage/projectDetails/:projectId/addTaskPage/:stageId' element={<AddTaskPage/>}></Route>
             <Route path='projectsPage/projectDetails/:projectId/addIntegrationPage' element={<AddIntegrationStage/>}></Route>
             <Route path='projectsPage/projectDetails/:projectId/addTaskIntegrationPage/:stageId' element={<AddTaskIntegrationStage/>}></Route>
+            <Route path='projectsPage/projectDetails/:projectId/addSPDPage' element={<AddSPDStage/>}></Route>
+            <Route path='projectsPage/projectDetails/:projectId/addTaskSPDPage/:stageId' element={<AddTaskSPDStage/>}></Route>
+            <Route path='projectsPage/projectDetails/:projectId/technicalSpecificationStage' element={<AddTechnicalSpecificationStage/>}></Route>
+            <Route path='projectsPage/projectDetails/:projectId/addTaskTechnicalSpecificationPage/:stageId' element={<AddTaskTechnicalSpecificationStage/>}></Route>
           </Routes>
           </Sidebar>
       </BrowserRouter>

@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../../../../../components/header/Header';
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { MdOutlineModeEditOutline } from "react-icons/md";
+// import { MdOutlineModeEditOutline } from "react-icons/md";
 
 interface Stage {
     _id: string;
@@ -100,9 +101,9 @@ const IntegrationPage: React.FC = () => {
                             <p>{stage.title}</p>
 
                             <div className='icon_stage'>
-                                <Link to={`/projectsPage/projectDetails/${projectId}/editStagePage/${stage._id}`}>
+                                {/* <Link to={`/projectsPage/projectDetails/${projectId}/editStagePage/${stage._id}`}>
                                     <MdOutlineModeEditOutline />
-                                </Link>
+                                </Link> */}
                                 <RiDeleteBin6Line onClick={() => handleDeleteStage(stage._id)} className='deletedStage' />
                             </div>
                         </div>

@@ -9,6 +9,8 @@ const projectRouter = require('./routes/ProjectRoutes');
 const positionRoutes = require('./routes/PositionRoutes');
 const stagesRoutes = require('./routes/StagesRoutes');
 const integrationStageRoutes = require('./routes/IntegrationStageRoutes');
+const SPDStageRoutes = require('./routes/SPDStageRoutes');
+const technicalSpecificationStageRoutes = require('./routes/TechnicalSpecificationStageRoutes');
 
 const app = express();
 
@@ -29,8 +31,10 @@ app.use('/', integrationStageRoutes);
 app.use('/', positionRoutes);
 app.use('/', projectRouter);
 app.use('/', projectStatusesRoutes);
+app.use('/', SPDStageRoutes);
 app.use('/', stagesRoutes);
 app.use('/', taskStatusesRoutes);
+app.use('/', technicalSpecificationStageRoutes);
 app.use('/', routes);
 
 // Слушаем порт 3001

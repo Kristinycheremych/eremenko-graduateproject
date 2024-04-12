@@ -14,7 +14,7 @@
 }
 
 .stage p {
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .divTask {
@@ -36,10 +36,6 @@
     cursor: pointer;
     gap: 10px;
     margin-top: -30px;
-}
-
-.deletedStage {
-   
 }
 
 .containetDeletedTask {
