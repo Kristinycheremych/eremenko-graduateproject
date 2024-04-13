@@ -65,6 +65,7 @@ function EmployeeStatus() {
                 <th>Название</th>
                 <th>Описание</th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -76,13 +77,13 @@ function EmployeeStatus() {
                         <td className='text_td'>{employeeStatus.title}</td>
                         <td className='text_td'>{employeeStatus.description}</td>
                         <td>
-                          <div className='icon'>
-                            <div className={'icon_edit'}>
-                              <Link to={`/employeeStatus/updateEmployeeStatus/${employeeStatus._id}`}><FiEdit /></Link>
-                            </div>
-                            <div className={'icon_delete'}>
-                              <AiOutlineDelete onClick={() => handleDelete(employeeStatus._id)} />
-                            </div>
+                          <div className={'icon_edit'}>
+                            <Link to={`/employeeStatus/updateEmployeeStatus/${employeeStatus._id}`}><FiEdit /></Link>
+                          </div>
+                        </td>
+                        <td>
+                          <div className={'icon_delete'}>
+                            <AiOutlineDelete onClick={() => handleDelete(employeeStatus._id)} />
                           </div>
                         </td>
                       </tr>

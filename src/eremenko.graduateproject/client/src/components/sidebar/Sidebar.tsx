@@ -17,7 +17,10 @@ function Sidebar({ children }: any) {
 
   const toggle = () => {
     setIsOpen(!isOpen);
-
+    // Сбрасываем состояние открытости подменю при сворачивании меню
+    setIsSubMenuOpen(new Array(menuItems.length).fill(false));
+    // Сбрасываем состояние открытости меню
+    setIsMenuOpen(new Array(menuItems.length).fill(false));
   };
 
   const toggleMenu = (index: any) => {
@@ -55,7 +58,7 @@ function Sidebar({ children }: any) {
 
     return subitems.map((subItems: any, index: any) => (
       <div className="subnav">
-        <NavLink to={subItems.path} key={index} className="sublink" onClick={() => toggleMenuSub(index)} 
+        <NavLink to={subItems.path} key={index} className="sublink" onClick={() => toggleMenuSub(index)}
         >
           <div className="sublink_text" style={{ display: isOpen ? 'block' : 'none' }}>
             {subItems.title}
@@ -74,30 +77,39 @@ function Sidebar({ children }: any) {
 
   const renderSections = () => {
     return menuItems.map((item, index) => (
-      <NavLink to={item.path || '#'} key={index}>
-        <NavLink
-          to={item.path || '#'}
-          key={index}
-          className={isOpen ? "link open" : "link "}
-          onClick={() => toggleMenu(index)}
-          // style={({ isActive }) => isActive ? activeStyle : undefined}
-        >
-          <div className="icon">{item.icon}</div>
-          <div style={{ display: isOpen ? 'block' : 'none' }} className="link_text">
-            {item.title}
+      <div key={index}>
+        {item.path ? (
+          <NavLink
+            to={item.path}
+            className={isOpen ? "link open" : "link "}
+            onClick={() => toggleMenu(index)}
+            style={({ isActive }) => isActive ? activeStyle : undefined}
+          >
+            <div className="icon">{item.icon}</div>
+            <div style={{ display: isOpen ? 'block' : 'none' }} className="link_text">
+              {item.title}
+            </div>
+            <div style={{ display: isOpen ? 'block' : 'none' }} className={isMenuOpen[index] ? 'arrow rotate' : 'arrow'}>{item.arrow}</div>
+          </NavLink>
+        ) : (
+          <div
+            className={isOpen ? "link open" : "link "}
+            onClick={() => toggleMenu(index)}
+          >
+            <div className="icon">{item.icon}</div>
+            <div style={{ display: isOpen ? 'block' : 'none' }} className="link_text">
+              {item.title}
+            </div>
+            <div style={{ display: isOpen ? 'block' : 'none' }} className={isMenuOpen[index] ? 'arrow rotate' : 'arrow'}>{item.arrow}</div>
           </div>
-          <div style={{ display: isOpen ? 'block' : 'none' }} className={isMenuOpen[index] ? 'arrow rotate' : 'arrow'}>{item.arrow}</div>
-        </NavLink>
-        {
-          isMenuOpen[index] && item.subItems && (
-            <>
-              {rendersubSections(item.subItems)}
-            </>
-          )
-        }
-      </NavLink>
-
-    ))
+        )}
+        {isMenuOpen[index] && item.subItems && (
+          <>
+            {rendersubSections(item.subItems)}
+          </>
+        )}
+      </div>
+    ));
   };
 
   return (
@@ -115,7 +127,6 @@ function Sidebar({ children }: any) {
             </div>
           </div>
           <div>{renderSections()}</div>
-
         </div >
         <main>{children}</main>
       </div >

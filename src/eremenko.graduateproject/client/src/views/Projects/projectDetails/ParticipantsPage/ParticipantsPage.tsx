@@ -120,7 +120,11 @@ function ParticipantsPage() {
                                     <td>{user.firstName}</td>
                                     <td>{user.middleName}</td>
                                     <td>{user.position ? user.position.title : 'Нет данных'}</td>
-                                    <td>{user.isActive ? 'Активный' : 'Неактивный'}</td>
+                                    <td>
+                                        <div className={user.isActive ? 'active-status' : 'inactive-status'}>
+                                            {user.isActive ? 'Активный' : 'Неактивный'}
+                                        </div>
+                                    </td>
                                     <td>
                                         <div className={'icon_delete'} onClick={() => handleDeleteEmployee(user._id)}>
                                             <AiOutlineDelete />

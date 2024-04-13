@@ -4,13 +4,6 @@ import { SlPeople } from 'react-icons/sl';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { IoMdArrowDropright } from "react-icons/io";
 
-// interface MenuItem {
-//     path: string;
-//     title: string;
-//     icon: React.ReactNode;
-//     subItems?: MenuItem[];
-// }
-
 export const menuItems = [
     {
         path: '/documents',
@@ -18,7 +11,7 @@ export const menuItems = [
         icon: <IoDocumentTextOutline />,
     },
     {
-        path: '/projectspage',
+        path: '/projectsPage',
         title: 'Проекты',
         icon: <GoProjectRoadmap />,
     },
@@ -44,6 +37,10 @@ export const menuItems = [
                         title: "Статус задач",
                         path: '/taskStatuses'
                     },
+                    {
+                        title: "Этапы",
+                        path: '/stagePage'
+                    }
                 ]
             },
             {
@@ -65,15 +62,13 @@ export const menuItems = [
                 ]
             },
             {
-
                 title: 'Документы',
                 arrow: <IoMdArrowDropright />,
                 subSections: [
                     {
                         title: "Все",
-                        path: '/documents'
+                        path: '/'
                     }
-
                 ]
             }
         ],

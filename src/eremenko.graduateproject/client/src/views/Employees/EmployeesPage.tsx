@@ -110,24 +110,30 @@ function EmployeesPage() {
                 <th>Должность</th>
                 <th>Статус</th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {filteredEmployees.map((user, index) => (
-                <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : '#ffffff'}}>
+                <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
                   <td>{user.position ? user.position.title : 'Нет данных'}</td>
-                  <td>{user.isActive ? 'Активный' : 'Неактивный'}</td>
+                  <td >
+                    <div className={user.isActive ? 'active-status' : 'inactive-status'}>
+                      {user.isActive ? 'Активный' : 'Неактивный'}
+                    </div>
+                  </td>
                   <td>
                     <div className={'icon_edit'}>
                       <Link to={`/updateEmployees/${user._id}`}>
                         <FiEdit />
                       </Link>
                     </div>
-
+                  </td>
+                  <td>
                     <div className={'icon_delete'}>
                       <AiOutlineDelete onClick={() => handleDelete(user._id)} />
                     </div>

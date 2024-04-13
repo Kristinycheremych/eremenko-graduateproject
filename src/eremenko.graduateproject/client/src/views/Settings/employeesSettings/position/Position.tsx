@@ -74,6 +74,7 @@ function Position() {
               <tr>
                 <th>Название</th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -82,14 +83,14 @@ function Position() {
                   <tr key={index}>
                     <td>{position.title}</td>
                     <td>
-                      <div className='icon'>
-                        <div className={'icon_edit'}>
-                          <Link to={`/position/updatePosition/${position._id}`}><FiEdit /></Link>
-                        </div>
+                      <div className={'icon_edit'}>
+                        <Link to={`/position/updatePosition/${position._id}`}><FiEdit /></Link>
+                      </div>
+                    </td>
+                    <td>
                         <div className={'icon_delete'}>
                           <AiOutlineDelete onClick={() => handleDelete(position._id)} />
                         </div>
-                      </div>
                     </td>
                   </tr>
                 ))

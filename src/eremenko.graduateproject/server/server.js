@@ -7,10 +7,12 @@ const projectStatusesRoutes = require('./routes/ProjectStatusesRoutes');
 const employeeStatusRoutes = require('./routes/EmployeeStatusRoutes');
 const projectRouter = require('./routes/ProjectRoutes');
 const positionRoutes = require('./routes/PositionRoutes');
-const stagesRoutes = require('./routes/StagesRoutes');
+const designStagesRoutes = require('./routes/DesignStagesRoutes');
 const integrationStageRoutes = require('./routes/IntegrationStageRoutes');
 const SPDStageRoutes = require('./routes/SPDStageRoutes');
 const technicalSpecificationStageRoutes = require('./routes/TechnicalSpecificationStageRoutes');
+const stageProjectRoutes = require('./routes/StageProjectRoutes');
+const stageRoutes = require('./routes/StageRoutes');
 
 const app = express();
 
@@ -26,13 +28,15 @@ mongoose.connect("mongodb://localhost:27017/Project_Management")
     .catch(error => console.log(error));
 
 // Подключаем роуты
+app.use('/', designStagesRoutes);
 app.use('/', employeeStatusRoutes);
 app.use('/', integrationStageRoutes);
 app.use('/', positionRoutes);
 app.use('/', projectRouter);
 app.use('/', projectStatusesRoutes);
+app.use('/', stageProjectRoutes);
+app.use('/', stageRoutes);
 app.use('/', SPDStageRoutes);
-app.use('/', stagesRoutes);
 app.use('/', taskStatusesRoutes);
 app.use('/', technicalSpecificationStageRoutes);
 app.use('/', routes);

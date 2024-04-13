@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Stage = require('../models/StagesModel');
+const DesignStages = require('../models/DesignStagesModel');
 
 // Получить этапы для конкретного проекта
-router.get('/projects/:projectId/stages', (req, res) => {
+router.get('/projects/:projectId/designStages', (req, res) => {
     const projectId = req.params.projectId;
-    Stage.find({ projectId })
+    DesignStages.find({ projectId })
         .populate('projectId')
         .populate('tasks.employees') // Запрос для заполнения данных о сотрудниках
         .then(stages => res.json(stages))
@@ -13,10 +13,10 @@ router.get('/projects/:projectId/stages', (req, res) => {
 });
 
 // Добавление этапов
-router.post('/projects/:projectId/stages', (req, res) => {
+router.post('/projects/:projectId/designStages', (req, res) => {
     const { title } = req.body;
     const { projectId } = req.params;
-    const newStage = new Stage({
+    const newStage = new DesignStages({
         title,
         projectId
     });
@@ -26,11 +26,11 @@ router.post('/projects/:projectId/stages', (req, res) => {
 });
 
 // Изменение этапа
-router.put('/projects/:projectId/stages/:stageId', (req, res) => {
+router.put('/projects/:projectId/designStages/:stageId', (req, res) => {
     const { stageId } = req.params;
     const { title } = req.body;
 
-    Stage.findByIdAndUpdate(stageId, { title }, { new: true }) // { new: true } указывает на возврат обновленного документа
+    DesignStages.findByIdAndUpdate(stageId, { title }, { new: true }) // { new: true } указывает на возврат обновленного документа
         .then(updatedStage => {
             if (!updatedStage) {
                 return res.status(404).json({ error: 'Этап не найден' });
@@ -41,10 +41,10 @@ router.put('/projects/:projectId/stages/:stageId', (req, res) => {
 });
 
 // Добавление задач к этапу
-router.post('/projects/:projectId/stages/:stageId/tasks', (req, res) => {
+router.post('/projects/:projectId/designStages/:stageId/tasks', (req, res) => {
     const { title, description, employees } = req.body;
     const { stageId } = req.params;
-    Stage.findById(stageId)
+    DesignStages.findById(stageId)
         .then(stage => {
             if (!stage) {
                 return res.status(404).json({ error: 'Этап не найден' });
@@ -57,9 +57,9 @@ router.post('/projects/:projectId/stages/:stageId/tasks', (req, res) => {
 });
 
 // Удаление этапа
-router.delete('/projects/:projectId/stages/:stageId', (req, res) => {
+router.delete('/projects/:projectId/designStages/:stageId', (req, res) => {
     const { stageId } = req.params;
-    Stage.findByIdAndDelete(stageId)
+    DesignStages.findByIdAndDelete(stageId)
         .then(stage => {
             if (!stage) {
                 return res.status(404).json({ error: 'Этап не найден' });
@@ -70,9 +70,9 @@ router.delete('/projects/:projectId/stages/:stageId', (req, res) => {
 });
 
 // Удаление задачи с этапа
-router.delete('/projects/:projectId/stages/:stageId/tasks/:taskId', (req, res) => {
+router.delete('/projects/:projectId/designStages/:stageId/tasks/:taskId', (req, res) => {
     const { stageId, taskId } = req.params;
-    Stage.findById(stageId)
+    DesignStages.findById(stageId)
         .then(stage => {
             if (!stage) {
                 return res.status(404).json({ error: 'Этап не найден' });
@@ -89,11 +89,11 @@ router.delete('/projects/:projectId/stages/:stageId/tasks/:taskId', (req, res) =
 });
 
 // Перемещение задачи между этапами
-router.post('/projects/:projectId/stages/:sourceStageId/tasks/:taskId/move/:targetStageId', (req, res) => {
+router.post('/projects/:projectId/designStages/:sourceStageId/tasks/:taskId/move/:targetStageId', (req, res) => {
     const { sourceStageId, targetStageId, taskId } = req.params;
 
     // Этап, из которого нужно переместить задачу
-    Stage.findById(sourceStageId)
+    DesignStages.findById(sourceStageId)
         .then(sourceStage => {
             if (!sourceStage) {
                 throw new Error('Исходный этап не найден');
@@ -109,7 +109,7 @@ router.post('/projects/:projectId/stages/:sourceStageId/tasks/:taskId/move/:targ
             sourceStage.tasks.pull(taskId);
 
             // Найдем целевой этап и добавьте задачу в него
-            return Stage.findById(targetStageId)
+            return DesignStages.findById(targetStageId)
                 .then(targetStage => {
                     if (!targetStage) {
                         throw new Error('Целевой этап не найден');

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const stageSchema = new mongoose.Schema({
+const designStagesSchema = new mongoose.Schema({
     title: String,
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -16,5 +16,5 @@ const stageSchema = new mongoose.Schema({
     }]
 });
 
-const StageModel = mongoose.model("stage", stageSchema);
-module.exports = StageModel;
+const DesignStagesModel = mongoose.model("designStages", designStagesSchema);
+module.exports = DesignStagesModel;

@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-const AddProjectForm = () => {
-    const [title, setTitle] = useState("");
+function AddStageProject() {
     const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [status, setStatus] = useState("");
-    const [data, setData] = useState<any[]>([]);
-    const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]); // Массив выбранных сотрудников
-
+    const [stageProject, setStageProject] = useState("");
+    const [stageList, setStageList] = useState<any[]>([]); //Список этапов
+    const { projectId } = useParams<{ projectId: string }>();
+    const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]);
     const [employeesList, setEmployeesList] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState(""); // Запрос для поиска сотрудников
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:3001/get/projectStatuses')
+        axios.get('http://localhost:3001/get/stage')
             .then(res => {
-                setData(res.data)
+                setStageList(res.data)
             })
             .catch(err => console.log(err));
     }, []);
@@ -31,19 +31,18 @@ const AddProjectForm = () => {
             .catch(err => console.log(err));
     }, []);
 
-    const handleSubmitProjects = async (event: any) => {
+    const handleSubmitStatus = async (event: any) => {
         event.preventDefault();
-        axios.post('http://localhost:3001/createProject', {
-            title,
+        axios.post(`http://localhost:3001/create/projects/${projectId}/stageProject`, {
             description,
             startDate,
             endDate,
-            status,
-            employees: selectedEmployees // Массив выбранных сотрудников для отправки на сервер
+            stageId: stageProject, // используем stageId вместо stageProject
+            employees: selectedEmployees
         })
             .then(res => {
                 console.log(res);
-                navigate('/projectsPage');
+                navigate(`/projectsPage/projectDetails/${projectId}/stages`);
             })
             .catch(error => console.log(error));
     }
@@ -52,21 +51,8 @@ const AddProjectForm = () => {
         <>
             <div className={'pade'}>
                 <div className={'wrapper'}>
-                    <form onSubmit={handleSubmitProjects}>
-                        <h3>Добавление проекта</h3>
-                        <div className={'input_div'}>
-                            <label htmlFor="title">Название</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Название"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setTitle(e.target.value)}
-                                    value={title}
-                                    required
-                                />
-                            </div>
-                        </div>
+                    <form onSubmit={handleSubmitStatus}>
+                        <h3>Добавление этапа проекта</h3>
                         <div className={'input_div'}>
                             <label htmlFor="description">Описание</label>
                             <div>
@@ -106,12 +92,12 @@ const AddProjectForm = () => {
                         </div>
                         <div className={'input_div'}>
                             <label htmlFor="status">Статус проекта:</label>
-                            <select className={'form_control'} value={status} onChange={(e) => setStatus(e.target.value)} required>
+                            <select className={'form_control'} value={stageProject} onChange={(e) => setStageProject(e.target.value)} required>
                                 <option value="">Выберете статус:</option>
-                                {data.map((projectStatuses) => {
+                                {stageList.map((stage) => {
                                     return (
-                                        <option key={projectStatuses._id} value={projectStatuses._id}>
-                                            {projectStatuses.title}
+                                        <option key={stage._id} value={stage._id}>
+                                            {stage.title}
                                         </option>
                                     )
                                 })}
@@ -152,15 +138,18 @@ const AddProjectForm = () => {
                                 }
                             </select>
                         </div>
+
                         <div className={'action_buttons'}>
-                            <Link to={"/projectsPage"}><button className={'btn_add_cancel'}>Отменить</button></Link>
+                            <Link to={`/projectsPage/projectDetails/${projectId}/stages`}>
+                                <button className={'btn_add_cancel'}>Отменить</button>
+                            </Link>
                             <button className={'btn_add_cancel'}>Добавить</button>
                         </div>
                     </form>
                 </div>
             </div>
         </>
-    );
+    )
 }
 
-export default AddProjectForm;
+export default AddStageProject

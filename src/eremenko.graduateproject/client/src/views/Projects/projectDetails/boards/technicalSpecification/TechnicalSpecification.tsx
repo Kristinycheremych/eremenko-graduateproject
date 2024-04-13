@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../../../../../components/header/Header';
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 interface Stage {
     _id: string;
@@ -26,8 +27,11 @@ interface Task {
 }
 
 function TechnicalSpecification() {
+
     const { projectId } = useParams<{ projectId: string }>();
     const [stages, setStages] = useState<Stage[]>([]);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null); // Состояние для выбранной задачи
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // Состояние для открытия и закрытия боковой панели
 
     useEffect(() => {
         fetchStages();
@@ -41,6 +45,18 @@ function TechnicalSpecification() {
             .catch(err => console.log(err));
     };
 
+    // Функция для открытия модального окна с информацией о задаче
+    const openModal = (task: Task) => {
+        setSelectedTask(task);
+        setSidebarOpen(true); // Открываем боковую панель
+    };
+
+    // Функция для закрытия боковой панели
+    const closeSidebar = () => {
+        setSidebarOpen(false);
+    };
+
+    // Функция для удаления стадии
     const handleDeleteStage = (stageId: string) => {
         axios.delete(`http://localhost:3001/projects/${projectId}/TechnicalSpecificationStage/${stageId}`)
             .then(res => {
@@ -49,6 +65,7 @@ function TechnicalSpecification() {
             .catch(err => console.log(err));
     };
 
+    // Функция для удаления задачи
     const handleDeleteTask = (stageId: string, taskId: string) => {
         axios.delete(`http://localhost:3001/projects/${projectId}/TechnicalSpecificationStage/${stageId}/tasks/${taskId}`)
             .then(res => {
@@ -57,8 +74,14 @@ function TechnicalSpecification() {
             .catch(err => console.log(err));
     };
 
-    const handleTaskMove = (taskId: string, sourceStageId: string, targetStageId: string) => {
-        axios.post(`http://localhost:3001/projects/${projectId}/TechnicalSpecificationStage/${sourceStageId}/tasks/${taskId}/move/${targetStageId}`)
+    // Функция для перемещения задачи
+    const handleTaskMove = (task: Task, targetStageId: string) => {
+        if (!task || !targetStageId) {
+            console.error("Invalid arguments for task move");
+            return;
+        }
+        const sourceStageId = stages.find(stage => stage.tasks.some(t => t._id === task._id))!._id;
+        axios.post(`http://localhost:3001/projects/${projectId}/TechnicalSpecificationStage/${sourceStageId}/tasks/${task._id}/move/${targetStageId}`)
             .then(res => {
                 fetchStages();
             })
@@ -68,6 +91,42 @@ function TechnicalSpecification() {
     return (
         <>
             <Header />
+            <div className={`lateral-panel ${sidebarOpen ? 'open' : ''}`}>
+                <IoIosCloseCircleOutline className="closebtn" onClick={closeSidebar} />
+                <div className="sidebar-content">
+                    {selectedTask && (
+                        <div>
+                            <p className='info-task'>Информация о задаче</p>
+                            <p><h5>Название:</h5>{selectedTask.title}</p>
+                            <p><h5>Описание:</h5>{selectedTask.description}</p>
+                            <p><h5>Создатель:</h5>{selectedTask.employees.map((employee: Employee) => {
+                                return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
+                            }).join(', ')}</p>
+                            {/* Добавление элементов управления перемещением задачи */}
+                            <div className='containerTaskActions'>
+                                <p><h5>Переместить задачу:</h5></p>
+                                <select onChange={(e) => handleTaskMove(selectedTask, e.target.value)} className='selectTask'>
+                                    <option value="" className='selectTask'>Выберите этап</option>
+                                    {stages.map((targetStage: Stage) => (
+                                        <option key={targetStage._id} value={targetStage._id}>{targetStage.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className='containetDeletedTask'>
+                                <button onClick={() => {
+                                    const stageId = stages.find(stage => stage.tasks.some(task => task._id === selectedTask._id))!._id;
+                                    handleDeleteTask(stageId, selectedTask._id);
+                                    setStages(prevStages => prevStages.map(stage => ({
+                                        ...stage,
+                                        tasks: stage.tasks.filter(task => task._id !== selectedTask._id)
+                                    })));
+                                    setSelectedTask(null);
+                                }} className='deletedTask'>Удалить задачу</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
             <div className='container'>
                 <div className={'container_search_filter'}>
                     <div className={'div_input_search'}>
@@ -96,36 +155,21 @@ function TechnicalSpecification() {
             <div className={'stages'}>
                 {stages.map((stage) => (
                     <div key={stage._id} className={'stage'}>
-                        <div className='stageContent'>
-                            <p>{stage.title}</p>
 
-                            <div className='icon_stage'>
-                                {/* <Link to={`/projectsPage/projectDetails/${projectId}/editStagePage/${stage._id}`}>
-                                    <MdOutlineModeEditOutline />
-                                </Link> */}
-                                <RiDeleteBin6Line onClick={() => handleDeleteStage(stage._id)} className='deletedStage' />
-                            </div>
+                        <div className='titleStatusStage'><p>{stage.title}</p>
+                            <RiDeleteBin6Line onClick={() => handleDeleteStage(stage._id)} className='deletedStage' />
                         </div>
+
                         <div className='divTask'>
                             {stage.tasks.map((task: Task) => (
-                                <div key={task._id} className='task'>
+                                <div key={task._id} className='task' onClick={() => openModal(task)}>
                                     <div className='taskContent'>
                                         <p><h5>Название:</h5>{task.title}</p>
-                                        <p><h5>Описание:</h5>{task.description}</p>
+                                        <p className='taskDescription'><h5>Описание:</h5>{task.description}</p>
                                         <p><h5>Создатель:</h5>{task.employees.map((employee: any) => {
                                             return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
                                         }).join(', ')}</p>
-                                        <div className='containerTaskActions'>
-                                            <select onChange={(e) => handleTaskMove(task._id, stage._id, e.target.value)} className='selectTask'>
-                                                <option value="" className='selectTask'>Переместить задачу</option>
-                                                {stages.map((targetStage: Stage) => (
-                                                    <option key={targetStage._id} value={targetStage._id}>{targetStage.title}</option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                        <div className='containetDeletedTask'>
-                                            <button onClick={() => handleDeleteTask(stage._id, task._id)} className='deletedTask'>Удалить задачу</button>
-                                        </div>
+
                                     </div>
                                 </div>
                             ))}

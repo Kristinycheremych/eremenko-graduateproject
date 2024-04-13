@@ -37,7 +37,7 @@ const TaskStatuses = () => {
 
   return (
     <>
-     <div className='containerSettings'>
+      <div className='containerSettings'>
         <div className='div_input_search_settings'>
           <input
             type='text'
@@ -67,6 +67,7 @@ const TaskStatuses = () => {
                 <th>Название</th>
                 <th>Описание</th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -78,13 +79,13 @@ const TaskStatuses = () => {
                         <td className='text_td'>{taskStatuses.title}</td>
                         <td className='text_td'>{taskStatuses.description}</td>
                         <td>
-                          <div className='icon'>
-                            <div className={'icon_edit'}>
-                              <Link to={`/taskStatuses/updateTaskStatuses/${taskStatuses._id}`}><FiEdit /></Link>
-                            </div>
-                            <div className={'icon_delete'}>
-                              <AiOutlineDelete onClick={() => handleDelete(taskStatuses._id)} />
-                            </div>
+                          <div className={'icon_edit'}>
+                            <Link to={`/taskStatuses/updateTaskStatuses/${taskStatuses._id}`}><FiEdit /></Link>
+                          </div>
+                        </td>
+                        <td>
+                          <div className={'icon_delete'}>
+                            <AiOutlineDelete onClick={() => handleDelete(taskStatuses._id)} />
                           </div>
                         </td>
                       </tr>

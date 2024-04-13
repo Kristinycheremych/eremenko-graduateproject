@@ -115,6 +115,7 @@ function ProjectsPage() {
               <th>Ответственный</th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -134,11 +135,11 @@ function ProjectsPage() {
                     </td>
                     <td className='link_table_progect'><Link to={`/projectsPage/projectDetails/${project._id}`}>Подробнее...</Link></td>
                     <td>
-                      <div className='icon'>
-                        <Link to={`/projectsPage/updateProject/${project._id}`} className={'icon_edit'}><FiEdit /></Link>
-                        <div className={'icon_delete'}>
-                          <AiOutlineDelete onClick={() => handleDelete(project._id)} />
-                        </div>
+                      <Link to={`/projectsPage/updateProject/${project._id}`} className={'icon_edit'}><FiEdit /></Link>
+                    </td>
+                    <td>
+                      <div className={'icon_delete'}>
+                        <AiOutlineDelete onClick={() => handleDelete(project._id)} />
                       </div>
                     </td>
                   </tr>

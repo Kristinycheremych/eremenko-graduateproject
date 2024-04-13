@@ -1,31 +1,27 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 
-const AddStagePage: React.FC = () => {
-    const { projectId } = useParams<{ projectId: string }>();
-    const [newStageTitle, setNewStageTitle] = useState<string>('');
+function AddStage() {
+    const [title, setTitle] = useState();
     const navigate = useNavigate();
 
-    const handleAddStage = async (event: any) => {
+    function handleSubmitStage(event: any) {
         event.preventDefault();
-        axios.post(`http://localhost:3001/projects/${projectId}/designStages`,
-            {
-                title: newStageTitle
-            })
+        axios.post('http://localhost:3001/create/stage', { title })
             .then(res => {
                 console.log(res);
-                navigate(`/projectsPage/projectDetails/${projectId}/boards/design`);
+                navigate('/stagePage');
             })
             .catch(error => console.log(error));
-    };
+    }
 
     return (
         <>
             <div className={'pade'}>
                 <div className={'wrapper'}>
-                    <form onSubmit={handleAddStage}>
-                        <h3>Добавление статуса</h3>
+                    <form onSubmit={handleSubmitStage}>
+                        <h3>Добавление этапа</h3>
                         <div className={'input_div'}>
                             <label htmlFor="title">Название</label>
                             <div>
@@ -33,23 +29,22 @@ const AddStagePage: React.FC = () => {
                                     type="text"
                                     placeholder="Название"
                                     className={'form_control'}
-                                    value={newStageTitle}
-                                    onChange={(e) => setNewStageTitle(e.target.value)}
+                                    onChange={(e: any) => setTitle(e.target.value)}
+                                    value={title}
                                     required
                                 />
                             </div>
                         </div>
 
                         <div className={'action_buttons'}>
-                            <Link to={`/projectsPage/projectDetails/${projectId}/boards/design`}><button className={'btn_add_cancel'}>Отменить</button></Link>
+                            <Link to={"/stagePage"}><button className={'btn_add_cancel'}>Отменить</button></Link>
                             <button className={'btn_add_cancel'}>Добавить</button>
                         </div>
                     </form>
                 </div>
             </div>
-
         </>
-    );
-};
+    )
+}
 
-export default AddStagePage;
+export default AddStage

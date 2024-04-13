@@ -67,6 +67,7 @@ function ProjectStatuses() {
                 <th>Название</th>
                 <th>Описание</th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -78,13 +79,13 @@ function ProjectStatuses() {
                         <td className='text_td'>{projectStatuses.title}</td>
                         <td className='text_td'>{projectStatuses.description}</td>
                         <td>
-                          <div className='icon'>
-                            <div className={'icon_edit'}>
-                              <Link to={`/projectStatuses/updateProjectStatuses/${projectStatuses._id}`}><FiEdit /></Link>
-                            </div>
-                            <div className={'icon_delete'}>
-                              <AiOutlineDelete onClick={() => handleDelete(projectStatuses._id)} />
-                            </div>
+                          <div className={'icon_edit'}>
+                            <Link to={`/projectStatuses/updateProjectStatuses/${projectStatuses._id}`}><FiEdit /></Link>
+                          </div>
+                        </td>
+                        <td>
+                          <div className={'icon_delete'}>
+                            <AiOutlineDelete onClick={() => handleDelete(projectStatuses._id)} />
                           </div>
                         </td>
                       </tr>

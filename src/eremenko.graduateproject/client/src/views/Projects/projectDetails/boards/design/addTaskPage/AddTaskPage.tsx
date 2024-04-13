@@ -12,7 +12,7 @@ const AddTaskPage: React.FC = () => {
 
     const handleAddTask = async () => {
         try {
-            await axios.post(`http://localhost:3001/projects/${projectId}/stages/${stageId}/tasks`,
+            await axios.post(`http://localhost:3001/projects/${projectId}/designStages/${stageId}/tasks`,
                 {
                     title: newTaskTitle,
                     description: newTaskDescription,
