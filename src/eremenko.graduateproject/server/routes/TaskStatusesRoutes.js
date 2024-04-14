@@ -2,41 +2,44 @@ const express = require('express');
 const router = express.Router();
 const TaskStatusesModel = require('../models/TaskStatusesModel');
 
-// Получение статуса задачи
-router.get('/get/taskStatuses', (req, res) => {
-    TaskStatusesModel.find()
+// Получение статусов задач по ID этапа проекта
+router.get('/get/taskStatuses/:stageProjectId', (req, res) => {
+    const stageProjectId = req.params.stageProjectId;
+    TaskStatusesModel.find({ stageProjectId: stageProjectId })
         .then(taskStatuses => res.json(taskStatuses))
-        .catch(err => res.json(err))
+        .catch(err => res.json(err));
 });
 
-router.get('/getTaskStatuses/:id', (req, res) => {
-    const id = req.params.id
-    TaskStatusesModel.findById({ _id: id })
-        .then(post => res.json(post))
-        .catch(err => console.log(err))
+// Получение статуса задачи по ID
+router.get('/get/taskStatuses/:stageProjectId/:id', (req, res) => {
+    const id = req.params.id;
+    TaskStatusesModel.findById(id)
+        .then(taskStatus => res.json(taskStatus))
+        .catch(err => res.json(err));
 });
 
-// Добавление статуса задачи
-router.post('/createTaskStatuses', (req, res) => {
+// Создание статуса задачи для конкретного этапа
+router.post('/create/taskStatuses/:stageProjectId', (req, res) => {
     TaskStatusesModel.create(req.body)
-        .then(taskStatuses => res.json(taskStatuses))
-        .catch(err => res.json(err))
+        .then(taskStatus => res.json(taskStatus))
+        .catch(err => res.json(err));
 });
 
 // Изменение статуса задачи
-router.put('/updateTaskStatuses/:id', (req, res) => {
+router.put('/update/taskStatuses/:id', (req, res) => {
     const id = req.params.id;
-    TaskStatusesModel.findByIdAndUpdate({ _id: id }, {
+    TaskStatusesModel.findByIdAndUpdate(id, {
         title: req.body.title,
         description: req.body.description
-    }).then(taskStatuses => res.json(taskStatuses))
+    })
+        .then(taskStatus => res.json(taskStatus))
         .catch(err => res.json(err))
 });
 
 // Удаление статуса задачи
-router.delete('/deleteTaskStatuses/:id', (req, res) => {
+router.delete('/delete/taskStatuses/:id', (req, res) => {
     const id = req.params.id;
-    TaskStatusesModel.findByIdAndDelete({ _id: id })
+    TaskStatusesModel.findByIdAndDelete(id)
         .then(response => res.json(response))
         .catch(err => res.json(err))
 });

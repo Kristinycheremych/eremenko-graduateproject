@@ -79,4 +79,25 @@ router.delete('/delete/projects/:projectId/stageProject/:stageProjectId', async 
     }
 });
 
+// Маршрут для получения подробностей об этапе по его stageId
+router.get('/get/stageDetails/:stageId', async (req, res) => {
+    const stageId = req.params.stageId;
+
+    try {
+        const stageDetails = await StageProjectModal.findOne({ _id: stageId })
+            .populate('stageId', 'title'); // Указываем, что нам нужно только поле title из объекта stageId
+
+        // Проверяем, найден ли этап
+        if (!stageDetails) {
+            return res.status(404).json({ error: 'Этап не найден' });
+        }
+
+        // Отправляем данные этапа в ответе
+        res.json(stageDetails);
+    } catch (error) {
+        console.error('Ошибка при получении подробностей об этапе:', error);
+        res.status(500).json({ error: 'Ошибка сервера' });
+    }
+});
+
 module.exports = router;

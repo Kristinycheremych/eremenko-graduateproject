@@ -13,7 +13,7 @@ const TaskStatuses = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3001/get/taskStatuses')
+    axios.get('http://localhost:3001/get/taskStatuses/')
       .then(res => {
         setData(res.data);
       })

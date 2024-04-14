@@ -41,6 +41,9 @@ function Header() {
             <div className="menu">
                 <ul>
                     {/* Добавляем пути к другим страницам */}
+                    <li className={activeMenu === `/projectsPage/projectDetails/${projectId}` ? 'active' : ''}>
+                        <Link to={`/projectsPage/projectDetails/${projectId}`}>О проекте</Link>
+                    </li>
                     <li className={activeMenu === '/' ? 'active' : ''}>
                         <Link to={''}>Документы</Link>
                     </li>

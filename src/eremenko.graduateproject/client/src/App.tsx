@@ -44,6 +44,8 @@ import AddStage from './views/settings/projectsSettings/stage/addStage/AddStage'
 import UpdateStage from './views/settings/projectsSettings/stage/updateStage/UpdateStage';
 import AddStageProject from './views/projects/projectDetails/stagesPage/addStageProject/AddStageProject';
 import UpdateStageProject from './views/projects/projectDetails/stagesPage/updateStageProject/UpdateStageProject';
+import StageDetailsProject from './views/projects/projectDetails/stagesPage/stageProjectDetails/StageDetailsProject';
+import AddTaskStatusPage from './views/projects/projectDetails/stagesPage/stageProjectDetails/addTaskStatus/AddTaskStatusPage';
 function App() {
 
   return (
@@ -95,6 +97,8 @@ function App() {
             <Route path="/projectsPage/projectDetails/:projectId/stages" element={<StagesPage />}></Route>
             <Route path='/projectsPage/projects/:projectId/addStageProject' element={<AddStageProject/>}></Route>
             <Route path='/projectsPage/projects/:projectId/addStageProject/:id' element={<UpdateStageProject/>}></Route>
+            <Route path="/projectsPage/projects/:projectId/stageDetails/:stageId" element={<StageDetailsProject/>} />
+            <Route path="/projectsPage/projects/:projectId/stageDetails/:stageId/addTaskStatus" element={<AddTaskStatusPage/>} />
           </Routes>
         </Sidebar>
       </BrowserRouter>

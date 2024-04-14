@@ -1,0 +1,7 @@
+.detailStage p{
+    font-size: 20px;
+    padding-left: 10px;
+}
+.detailStage{
+    display: flex;
+}

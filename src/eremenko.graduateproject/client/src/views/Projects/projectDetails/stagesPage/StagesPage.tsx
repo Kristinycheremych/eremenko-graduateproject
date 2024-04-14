@@ -113,6 +113,7 @@ function StagesPage() {
                                 <th>Ответственный</th>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -122,9 +123,16 @@ function StagesPage() {
                                     <td>{stage.description}</td>
                                     <td>{new Date(stage.startDate).toLocaleDateString()}</td> {/* Вывод даты начала без времени */}
                                     <td>{new Date(stage.endDate).toLocaleDateString()}</td> {/* Вывод даты окончания без времени */}
-                                    <td>{stage.employees.map((employee: any) => {
-                                        return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
-                                    }).join(', ')}</td>
+                                    <td>
+                                        {stage.employees.map((employee: any) => {
+                                            return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
+                                        }).join(', ')}
+                                    </td>
+                                    <td>
+                                        <Link to={`/projectsPage/projects/${projectId}/stageDetails/${stage._id}`}>
+                                           Подробнее...
+                                        </Link>
+                                    </td>
                                     <td>
                                         <div className={'icon_edit'}>
                                             <Link to={`/projectsPage/projects/${projectId}/addStageProject/${stage._id}`}>

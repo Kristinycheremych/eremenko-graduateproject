@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-04-13T17:47:45.586Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="fonRBvOQlCfqJ-zau-rl" version="23.1.5" type="device" pages="4">
+<mxfile host="Electron" modified="2024-04-14T09:23:07.397Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="CHQOYXaOe3EUgEWADmXI" version="23.1.5" type="device" pages="4">
   <diagram name="Страница — 1" id="Oe9R-0hjICJy9wMVjzW0">
     <mxGraphModel dx="-150" dy="1021" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -3089,7 +3089,7 @@
             <mxRectangle width="130" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Vk0Ah3zp0SIOumATo9BT-81" value="СтатусыЗадачи" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=none;swimlaneLine=1;" parent="1" vertex="1">
+        <mxCell id="Vk0Ah3zp0SIOumATo9BT-81" value="СтатусыЗадач" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=none;swimlaneLine=1;" parent="1" vertex="1">
           <mxGeometry x="1850" y="690" width="180" height="120" as="geometry" />
         </mxCell>
         <mxCell id="Vk0Ah3zp0SIOumATo9BT-82" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;labelBackgroundColor=none;" parent="Vk0Ah3zp0SIOumATo9BT-81" vertex="1">
