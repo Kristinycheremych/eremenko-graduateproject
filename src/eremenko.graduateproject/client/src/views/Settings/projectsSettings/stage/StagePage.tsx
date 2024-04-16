@@ -9,6 +9,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 interface Stage {
     _id: string;
     title: string;
+    description: string;
 }
 
 
@@ -73,6 +74,7 @@ function StagePage() {
                         <thead>
                             <tr>
                                 <th>Название</th>
+                                <th>Описание</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -82,6 +84,7 @@ function StagePage() {
                                 filteredStage.map((stage, index) => (
                                     <tr key={index}>
                                         <td>{stage.title}</td>
+                                        <td>{stage.description}</td>
                                         <td>
                                             <div className={'icon_edit'}>
                                                 <Link to={`/stagePage/updateStage/${stage._id}`}><FiEdit /></Link>

@@ -4,11 +4,12 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function AddStage() {
     const [title, setTitle] = useState();
+    const [description, setDescription] = useState();
     const navigate = useNavigate();
 
     function handleSubmitStage(event: any) {
         event.preventDefault();
-        axios.post('http://localhost:3001/create/stage', { title })
+        axios.post('http://localhost:3001/create/stage', { title, description })
             .then(res => {
                 console.log(res);
                 navigate('/stagePage');
@@ -35,7 +36,18 @@ function AddStage() {
                                 />
                             </div>
                         </div>
-
+                        <div className={'input_div'}>
+                            <label htmlFor="title">Описание</label>
+                            <div>
+                                <textarea
+                                    placeholder="Описание"
+                                    className={'form_control'}
+                                    onChange={(e: any) => setDescription(e.target.value)}
+                                    value={description}
+                                    required
+                                />
+                            </div>
+                        </div>
                         <div className={'action_buttons'}>
                             <Link to={"/stagePage"}><button className={'btn_add_cancel'}>Отменить</button></Link>
                             <button className={'btn_add_cancel'}>Добавить</button>

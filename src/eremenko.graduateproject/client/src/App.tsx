@@ -27,18 +27,6 @@ import ProjectDetails from './views/projects/projectDetails/ProjectDetails';
 import ParticipantsPage from './views/projects/projectDetails/participantsPage/ParticipantsPage';
 import StagesPage from './views/projects/projectDetails/stagesPage/StagesPage';
 import TaskPage from './views/projects/projectDetails/tasksPage/TaskPage';
-import DesignPage from './views/projects/projectDetails/boards/design/DesignPage';
-import IntegrationPage from './views/projects/projectDetails/boards/integration/IntegrationPage';
-import SoftwareProductDevelopment from './views/projects/projectDetails/boards/softwareProductDevelopment/SoftwareProductDevelopment';
-import TechnicalSpecification from './views/projects/projectDetails/boards/technicalSpecification/TechnicalSpecification';
-import AddStagePage from './views/projects/projectDetails/boards/design/addStagePage/AddStagePage';
-import AddTaskPage from './views/projects/projectDetails/boards/design/addTaskPage/AddTaskPage';
-import AddIntegrationStage from './views/projects/projectDetails/boards/integration/addIntegrationStage/AddIntegrationStage';
-import AddTaskIntegrationStage from './views/projects/projectDetails/boards/integration/addTaskIntegrationStage/AddTaskIntegrationStage';
-import AddSPDStage from './views/projects/projectDetails/boards/softwareProductDevelopment/addSPDStage/AddSPDStage';
-import AddTaskSPDStage from './views/projects/projectDetails/boards/softwareProductDevelopment/addTaskSPDStage/AddTaskSPDStage';
-import AddTechnicalSpecificationStage from './views/projects/projectDetails/boards/technicalSpecification/addTechnicalSpecificationStage/AddTechnicalSpecificationStage';
-import AddTaskTechnicalSpecificationStage from './views/projects/projectDetails/boards/technicalSpecification/addTaskTechnicalSpecificationStage/AddTaskTechnicalSpecificationStage';
 import StagePage from './views/settings/projectsSettings/stage/StagePage';
 import AddStage from './views/settings/projectsSettings/stage/addStage/AddStage';
 import UpdateStage from './views/settings/projectsSettings/stage/updateStage/UpdateStage';
@@ -46,6 +34,7 @@ import AddStageProject from './views/projects/projectDetails/stagesPage/addStage
 import UpdateStageProject from './views/projects/projectDetails/stagesPage/updateStageProject/UpdateStageProject';
 import StageDetailsProject from './views/projects/projectDetails/stagesPage/stageProjectDetails/StageDetailsProject';
 import AddTaskStatusPage from './views/projects/projectDetails/stagesPage/stageProjectDetails/addTaskStatus/AddTaskStatusPage';
+import AddTask from './views/projects/projectDetails/stagesPage/stageProjectDetails/addTask/AddTask';
 function App() {
 
   return (
@@ -77,18 +66,6 @@ function App() {
             <Route path='/projectsPage/projectDetails/:projectId' element={<ProjectDetails />}></Route>
             <Route path="/projectsPage/projectDetails/:projectId/participants" element={<ParticipantsPage />}></Route>
             <Route path="/projectsPage/projectDetails/:projectId/tasks" element={<TaskPage />}></Route>
-            <Route path="/projectsPage/projectDetails/:projectId/boards/design" element={<DesignPage />}></Route>
-            <Route path="/projectsPage/projectDetails/:projectId/boards/integration" element={<IntegrationPage />}></Route>
-            <Route path="/projectsPage/projectDetails/:projectId/boards/softwareProductDevelopment" element={<SoftwareProductDevelopment />}></Route>
-            <Route path="/projectsPage/projectDetails/:projectId/boards/technicalSpecification" element={<TechnicalSpecification />}></Route>
-            <Route path='projectsPage/projectDetails/:projectId/addStagePage' element={<AddStagePage />}></Route>
-            <Route path='projectsPage/projectDetails/:projectId/addTaskPage/:stageId' element={<AddTaskPage />}></Route>
-            <Route path='projectsPage/projectDetails/:projectId/addIntegrationPage' element={<AddIntegrationStage />}></Route>
-            <Route path='projectsPage/projectDetails/:projectId/addTaskIntegrationPage/:stageId' element={<AddTaskIntegrationStage />}></Route>
-            <Route path='projectsPage/projectDetails/:projectId/addSPDPage' element={<AddSPDStage />}></Route>
-            <Route path='projectsPage/projectDetails/:projectId/addTaskSPDPage/:stageId' element={<AddTaskSPDStage />}></Route>
-            <Route path='projectsPage/projectDetails/:projectId/technicalSpecificationStage' element={<AddTechnicalSpecificationStage />}></Route>
-            <Route path='projectsPage/projectDetails/:projectId/addTaskTechnicalSpecificationPage/:stageId' element={<AddTaskTechnicalSpecificationStage />}></Route>
             {/* Этапы */}
             <Route path='/stagePage' element={<StagePage/>}></Route>
             <Route path='/stagePage/addStage' element={<AddStage/>}></Route>
@@ -97,8 +74,10 @@ function App() {
             <Route path="/projectsPage/projectDetails/:projectId/stages" element={<StagesPage />}></Route>
             <Route path='/projectsPage/projects/:projectId/addStageProject' element={<AddStageProject/>}></Route>
             <Route path='/projectsPage/projects/:projectId/addStageProject/:id' element={<UpdateStageProject/>}></Route>
-            <Route path="/projectsPage/projects/:projectId/stageDetails/:stageId" element={<StageDetailsProject/>} />
+            <Route path="/projectsPage/projectDetails/:projectId/stages/stageDetails/:stageId" element={<StageDetailsProject/>} />
             <Route path="/projectsPage/projects/:projectId/stageDetails/:stageId/addTaskStatus" element={<AddTaskStatusPage/>} />
+            {/* Задачи */}
+            <Route path='/projectsPage/projects/:projectId/stageDetails/:stageId/addTask' element={<AddTask />} />
           </Routes>
         </Sidebar>
       </BrowserRouter>

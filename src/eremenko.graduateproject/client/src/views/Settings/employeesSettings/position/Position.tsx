@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
-import './style.css';
 
 interface Position {
   _id: string;

@@ -29,13 +29,12 @@ router.get('/get/projects/:projectId/stageProject/:id', (req, res) => {
 // Добавить этап для конкретного проекта
 router.post('/create/projects/:projectId/stageProject', async (req, res) => {
     const { projectId } = req.params;
-    const { startDate, description, endDate, stageId, employees } = req.body;
+    const { startDate, endDate, stageId, employees } = req.body;
 
     try {
         const newStage = new StageProjectModal({
             projectId,
             startDate,
-            description,
             endDate,
             stageId,
             employees
@@ -54,7 +53,6 @@ router.put('/update/projects/:projectId/stageProject/:id', (req, res) => {
     const id = req.params.id;
     StageProjectModal.findByIdAndUpdate(id, {
         startDate: req.body.startDate,
-        description: req.body.description,
         endDate: req.body.endDate,
         stageId: req.body.stageId,
         employees: req.body.employees
@@ -85,7 +83,7 @@ router.get('/get/stageDetails/:stageId', async (req, res) => {
 
     try {
         const stageDetails = await StageProjectModal.findOne({ _id: stageId })
-            .populate('stageId', 'title'); // Указываем, что нам нужно только поле title из объекта stageId
+            .populate('stageId'); // Указываем, что нам нужно только поле title из объекта stageId
 
         // Проверяем, найден ли этап
         if (!stageDetails) {

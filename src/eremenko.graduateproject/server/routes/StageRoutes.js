@@ -27,7 +27,8 @@ router.post('/create/stage', (req, res) => {
 router.put('/update/stage/:id', (req, res) => {
     const id = req.params.id;
     StageModal.findByIdAndUpdate({ _id: id }, {
-        title: req.body.title
+        title: req.body.title,
+        description: req.body.description
     }).then(stages => res.json(stages))
         .catch(err => res.json(err))
 });

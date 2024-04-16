@@ -118,13 +118,12 @@
     cursor: pointer;
 }
 
-.taskDescription {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    /* Ограничиваем до трех строк */
-    -webkit-box-orient: vertical;
-    /* строки текста отображались вертикально */
-    overflow: hidden;
+.detailStage p{
+    font-size: 20px;
+    padding-left: 10px;
+}
+.detailStage{
+    display: flex;
 }
 
 /* Стили для боковой панели */
@@ -132,6 +131,11 @@
     font-size: 25px;
     padding-bottom: 30px;
 }
+
+.btn_add{
+    cursor: pointer;
+}
+
 
 .lateral-panel {
     height: 100%;

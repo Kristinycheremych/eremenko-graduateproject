@@ -18,7 +18,7 @@ router.get('/get/taskStatuses/:stageProjectId/:id', (req, res) => {
         .catch(err => res.json(err));
 });
 
-// Создание статуса задачи для конкретного этапа
+// Создание статуса задачи для конкетного этапа
 router.post('/create/taskStatuses/:stageProjectId', (req, res) => {
     TaskStatusesModel.create(req.body)
         .then(taskStatus => res.json(taskStatus))

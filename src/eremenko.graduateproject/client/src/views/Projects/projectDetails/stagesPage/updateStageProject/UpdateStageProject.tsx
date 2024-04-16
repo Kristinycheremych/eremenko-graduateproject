@@ -108,19 +108,8 @@ function UpdateStageProject() {
                                 }
                             </select>
                         </div>
+
                         
-                        <div className={'input_div'}>
-                            <label htmlFor="description">Описание</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Описание"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setDescription(e.target.value)}
-                                    value={description}
-                                />
-                            </div>
-                        </div>
 
                         <div className={'input_div'}>
                             <label htmlFor="startDate">Дата начала</label>

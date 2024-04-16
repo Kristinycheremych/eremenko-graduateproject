@@ -124,7 +124,7 @@ function ProjectsPage() {
                 return (
                   <tr key={project._id}>
                     <td>{project.title}</td>
-                    <td>{project.description}</td>
+                    <td><p className='taskDescription'>{project.description}</p></td>
                     <td>{new Date(project.startDate).toLocaleDateString()}</td> {/* Вывод даты начала без времени */}
                     <td>{new Date(project.endDate).toLocaleDateString()}</td> {/* Вывод даты окончания без времени */}
                     <td>{project.status.title}</td>

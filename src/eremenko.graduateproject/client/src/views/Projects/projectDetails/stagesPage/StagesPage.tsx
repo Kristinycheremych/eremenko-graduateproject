@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios, { AxiosResponse } from 'axios';
@@ -20,11 +21,11 @@ interface Employee {
 
 interface Stage {
     _id: string;
-    description: String;
     startDate: string;
     endDate: string;
     stageId: {
         title: string;
+        description: string;
     };
     employees: Employee[];
 }
@@ -39,14 +40,14 @@ function StagesPage() {
         fetchStages();
     }, []);
 
-    const fetchStages = async () => {
+    async function fetchStages() {
         try {
             const response: AxiosResponse<Stage[]> = await axios.get(`http://localhost:3001/get/projects/${projectId}/stageProject`);
             setStages(response.data);
         } catch (error) {
             console.error('Ошибка извлечения этапов:', error);
         }
-    };
+    }
 
     useEffect(() => {
         axios.get<Project>(`http://localhost:3001/getProjects/${projectId}`)
@@ -120,7 +121,8 @@ function StagesPage() {
                             {filteredStages.map(stage => (
                                 <tr key={stage._id}>
                                     <td>{stage.stageId ? stage.stageId.title : 'Нет данных'}</td>
-                                    <td>{stage.description}</td>
+                                    
+                                    <td><p className='taskDescription'>{stage.stageId.description}</p></td>
                                     <td>{new Date(stage.startDate).toLocaleDateString()}</td> {/* Вывод даты начала без времени */}
                                     <td>{new Date(stage.endDate).toLocaleDateString()}</td> {/* Вывод даты окончания без времени */}
                                     <td>
@@ -129,8 +131,8 @@ function StagesPage() {
                                         }).join(', ')}
                                     </td>
                                     <td>
-                                        <Link to={`/projectsPage/projects/${projectId}/stageDetails/${stage._id}`}>
-                                           Подробнее...
+                                        <Link to={`/projectsPage/projectDetails/${projectId}/stages/stageDetails/${stage._id}`}>
+                                            Подробнее...
                                         </Link>
                                     </td>
                                     <td>

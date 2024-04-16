@@ -24,7 +24,7 @@ const AddTaskStatus: React.FC = () => {
         axios.post<TaskStatus>(`http://localhost:3001/create/taskStatuses/${stageId}`, newStatus)
             .then(() => {
                 setTitle('');
-                navigate(`/projectsPage/projects/${projectId}/stageDetails/${stageId}`);
+                navigate(`/projectsPage/projectDetails/${projectId}/stages/stageDetails/${stageId}`);
             })
             .catch((error) => {
                 console.error('Ошибка при добавлении статуса задачи:', error);
@@ -50,7 +50,7 @@ const AddTaskStatus: React.FC = () => {
                             />
                         </div>
                         <div className={'action_buttons'}>
-                            <Link to={`/projectsPage/projects/${projectId}/stageDetails/${stageId}`}><button className={'btn_add_cancel'}>Отменить</button></Link>
+                            <Link to={`/projectsPage/projectDetails/${projectId}/stages/stageDetails/${stageId}`}><button className={'btn_add_cancel'}>Отменить</button></Link>
                             <button type="submit" className={'btn_add_cancel'}>Добавить</button>
                         </div>
                     </form>

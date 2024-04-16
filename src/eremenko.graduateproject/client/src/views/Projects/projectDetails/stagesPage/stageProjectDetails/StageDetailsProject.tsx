@@ -3,14 +3,15 @@ import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../../../../../components/header/Header';
 import { RiDeleteBin6Line } from "react-icons/ri";
-import './styleStageDetailsProgect.css'
+import { IoIosCloseCircleOutline } from "react-icons/io";
+import './style.css'
 
 interface StageDetails {
     _id: string;
     stageId: {
         title: string;
+        description: string;
     };
-    description: string;
     startDate: string;
     endDate: string;
 }
@@ -18,50 +19,134 @@ interface StageDetails {
 interface TaskStatus {
     _id: string;
     title: string;
+}
+
+interface Task {
+    _id: string;
+    title: string;
     description: string;
+    employees: Employee[];
+    taskStatusId: string;
+}
+
+interface Employee {
+    _id: string;
+    lastName: string;
+    firstName: string;
+    middleName: string;
 }
 
 function StageDetailsProject() {
-    const { stageId } = useParams<{ stageId: string }>();
-    const { projectId } = useParams<{ projectId: string }>();
-
+    const { stageId, projectId } = useParams<{ stageId: string, projectId: string }>();
     const [stageDetails, setStageDetails] = useState<StageDetails | null>(null);
     const [taskStatuses, setTaskStatuses] = useState<TaskStatus[]>([]);
+    const [tasksByStatus, setTasksByStatus] = useState<{ [key: string]: Task[] }>({});
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // Состояние для открытия и закрытия боковой панели
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null); // Состояние для выбранной задачи
 
     useEffect(() => {
-        const fetchStageDetails = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get<StageDetails>(`http://localhost:3001/get/stageDetails/${stageId}`);
-                setStageDetails(response.data);
+                const stageResponse = await axios.get<StageDetails>(`http://localhost:3001/get/stageDetails/${stageId}`);
+                setStageDetails(stageResponse.data);
+
+                const statusResponse = await axios.get<TaskStatus[]>(`http://localhost:3001/get/taskStatuses/${stageId}`);
+                setTaskStatuses(statusResponse.data);
+
+                statusResponse.data.forEach((status) => {
+                    fetchTasksByStatus(status._id);
+                });
             } catch (error) {
-                console.error('Ошибка при загрузке подробностей об этапе:', error);
+                console.error('Ошибка при загрузке данных:', error);
             }
         };
 
-        fetchStageDetails();
+        fetchData();
     }, [stageId]);
 
-    useEffect(() => {
-        const fetchTaskStatuses = async () => {
-            try {
-                const response = await axios.get<TaskStatus[]>(`http://localhost:3001/get/taskStatuses/${stageId}`);
-                setTaskStatuses(response.data);
-            } catch (error) {
-                console.error('Ошибка при загрузке статусов задач:', error);
-            }
-        };
-
-        fetchTaskStatuses();
-    }, [stageId]);
+    const fetchTasksByStatus = async (taskStatusId: string) => {
+        try {
+            const response = await axios.get<Task[]>(`http://localhost:3001/tasks/${taskStatusId}`);
+            setTasksByStatus((prevTasks) => ({
+                ...prevTasks,
+                [taskStatusId]: response.data,
+            }));
+        } catch (error) {
+            console.error('Ошибка при загрузке задач для конкретного статуса:', error);
+        }
+    };
 
     const handleDeleteStatus = async (statusId: string) => {
         try {
             await axios.delete(`http://localhost:3001/delete/taskStatuses/${statusId}`);
-            // После удаления обновляем список статусов задач
             const updatedTaskStatuses = taskStatuses.filter(status => status._id !== statusId);
             setTaskStatuses(updatedTaskStatuses);
+            setTasksByStatus(prevState => {
+                const newState = { ...prevState };
+                delete newState[statusId];
+                return newState;
+            });
         } catch (error) {
             console.error('Ошибка при удалении статуса задачи:', error);
+        }
+    };
+
+    const handleDeleteTask = async (taskId: string) => {
+        try {
+            await axios.delete(`http://localhost:3001/tasks/${taskId}`);
+            // После удаления задачи обновляем список задач
+            const updatedTasks = { ...tasksByStatus };
+            Object.keys(updatedTasks).forEach(key => {
+                updatedTasks[key] = updatedTasks[key].filter(task => task._id !== taskId);
+            });
+            setTasksByStatus(updatedTasks);
+            // Если выбрана задача, и она удалена, закрываем боковую панель
+            if (selectedTask && selectedTask._id === taskId) {
+                setSelectedTask(null);
+                setSidebarOpen(false);
+            }
+        } catch (error) {
+            console.error('Ошибка при удалении задачи:', error);
+        }
+    };
+
+    // Функция для открытия модального окна с информацией о задаче
+    const openModal = (task: Task) => {
+        setSelectedTask(task);
+        setSidebarOpen(true); // Открываем боковую панель
+    };
+
+    // Функция для закрытия боковой панели
+    const closeSidebar = () => {
+        setSidebarOpen(false);
+    };
+
+    const handleMoveTask = async (taskId: string, newTaskStatusId: string) => {
+        try {
+            if (!selectedTask) {
+                console.error('Не выбрана задача для перемещения');
+                return;
+            }
+
+            const response = await axios.post(`http://localhost:3001/tasks/${taskId}/move/${newTaskStatusId}`);
+            const updatedTask = response.data;
+
+            // Обновляем список задач
+            const updatedTasks = { ...tasksByStatus };
+            const oldStatusId = selectedTask.taskStatusId;
+            const newStatusId = newTaskStatusId;
+            if (oldStatusId && newStatusId) {
+                // Удаляем задачу из предыдущего статуса
+                updatedTasks[oldStatusId] = updatedTasks[oldStatusId].filter(task => task._id !== taskId);
+                // Добавляем задачу в новый статус
+                updatedTasks[newStatusId] = [...updatedTasks[newStatusId], updatedTask];
+            }
+            setTasksByStatus(updatedTasks);
+
+            // Обновляем selectedTask
+            setSelectedTask(updatedTask);
+        } catch (error) {
+            console.error('Ошибка при перемещении задачи:', error);
         }
     };
 
@@ -72,6 +157,35 @@ function StageDetailsProject() {
     return (
         <>
             <Header />
+            <div className={`lateral-panel ${sidebarOpen ? 'open' : ''}`}>
+                <IoIosCloseCircleOutline className="closebtn" onClick={closeSidebar} />
+                <div className="sidebar-content">
+                    {selectedTask && (
+                        <div>
+                            <p className='info-task'>Информация о задаче</p>
+                            <p><h5>Название:</h5>{selectedTask.title}</p>
+                            <p><h5>Описание:</h5>{selectedTask.description}</p>
+                            <p><h5>Ответственный(ые):</h5>{selectedTask.employees.map((employee: Employee) => {
+                                return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
+                            }).join(', ')}</p>
+                            {/* Добавление элементов управления перемещением задачи */}
+                            <div className='containerTaskActions'>
+                                <p><h5>Переместить задачу:</h5></p>
+                                <select onChange={(e) => handleMoveTask(selectedTask._id, e.target.value)} className='selectTask'>
+                                    <option value="" className='selectTask'>Выберите статус</option>
+                                    {taskStatuses.map((status) => (
+                                        <option key={status._id} value={status._id}>{status.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            {/* Удаление задачи */}
+                            <div className='containetDeletedTask'>
+                                <button onClick={() => handleDeleteTask(selectedTask._id)} className='deletedTask'>Удалить задачу</button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
             <div className='container'>
                 <div className={'container_search_filter'}>
                     <div className={'div_input_search'}>
@@ -81,9 +195,10 @@ function StageDetailsProject() {
                             placeholder="Поиск"
                         />
                     </div>
+
                     <div className={'containet_btn_add'}>
                         <Link to={`/projectsPage/projects/${projectId}/stageDetails/${stageId}/addTaskStatus`}>
-                            <button className={'btn_add'}>Добавить статус <br />задачи</button>
+                            <button className={'btn_add'}>Добавить статус<br />задачи</button>
                         </Link>
                     </div>
                 </div>
@@ -93,6 +208,15 @@ function StageDetailsProject() {
                         <h3>Подробности об этапе:</h3>
                         <p>{stageDetails.stageId ? stageDetails.stageId.title : 'Нет данных'}</p>
                     </div>
+                    <div >
+                        <p><h5>Описание: </h5>{stageDetails.stageId.description}</p>
+                    </div>
+                    
+                    <Link to={`/projectsPage/projects/${projectId}/stageDetails/${stageId}/addTask`}>
+                        <div className='containet_btn_add_task'>
+                            <button className={'btn_add_task'} >Добавить задачу</button>
+                        </div>
+                    </Link>
 
                     <div className='stages'>
                         {taskStatuses && taskStatuses.map((status) => (
@@ -101,11 +225,24 @@ function StageDetailsProject() {
                                     <p>{status.title}</p>
                                     <RiDeleteBin6Line className='deletedStage' onClick={() => handleDeleteStatus(status._id)} />
                                 </div>
+
+                                <div className='divTask'>
+                                    {tasksByStatus[status._id]?.map((task) => (
+                                        <div className='task'>
+                                            <div key={task._id} className='taskContent' onClick={() => openModal(task)}>
+                                                <p><h5>Название: </h5>{task.title}</p>
+                                                <p className='taskDescription'><h5>Описание:</h5>{task.description}</p>
+                                                <p><h5>Ответственный(ые):</h5>{task.employees.length > 0 ? task.employees.map((employee: Employee) => {
+                                                    return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
+                                                }).join(', ') : 'Нет данных'}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
-
             </div>
         </>
     );

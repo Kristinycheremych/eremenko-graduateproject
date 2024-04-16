@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function AddStageProject() {
-    const [description, setDescription] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [stageProject, setStageProject] = useState("");
@@ -34,7 +33,6 @@ function AddStageProject() {
     const handleSubmitStatus = async (event: any) => {
         event.preventDefault();
         axios.post(`http://localhost:3001/create/projects/${projectId}/stageProject`, {
-            description,
             startDate,
             endDate,
             stageId: stageProject, // используем stageId вместо stageProject
@@ -53,19 +51,21 @@ function AddStageProject() {
                 <div className={'wrapper'}>
                     <form onSubmit={handleSubmitStatus}>
                         <h3>Добавление этапа проекта</h3>
+
                         <div className={'input_div'}>
-                            <label htmlFor="description">Описание</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Описание"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setDescription(e.target.value)}
-                                    value={description}
-                                    required
-                                />
-                            </div>
+                            <label htmlFor="status">Статус проекта:</label>
+                            <select className={'form_control'} value={stageProject} onChange={(e) => setStageProject(e.target.value)} required>
+                                <option value="">Выберете статус:</option>
+                                {stageList.map((stage) => {
+                                    return (
+                                        <option key={stage._id} value={stage._id}>
+                                            {stage.title}
+                                        </option>
+                                    )
+                                })}
+                            </select>
                         </div>
+                      
                         <div className={'input_div'}>
                             <label htmlFor="startDate">Дата начала</label>
                             <div>
@@ -89,19 +89,6 @@ function AddStageProject() {
                                     required
                                 />
                             </div>
-                        </div>
-                        <div className={'input_div'}>
-                            <label htmlFor="status">Статус проекта:</label>
-                            <select className={'form_control'} value={stageProject} onChange={(e) => setStageProject(e.target.value)} required>
-                                <option value="">Выберете статус:</option>
-                                {stageList.map((stage) => {
-                                    return (
-                                        <option key={stage._id} value={stage._id}>
-                                            {stage.title}
-                                        </option>
-                                    )
-                                })}
-                            </select>
                         </div>
 
                         {/* Выбор ответственного сотрудника */}

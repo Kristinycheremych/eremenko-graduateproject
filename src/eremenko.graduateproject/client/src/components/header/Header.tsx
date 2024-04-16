@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { AiFillCaretDown } from "react-icons/ai";
+// import { AiFillCaretDown } from "react-icons/ai";
 import './styleHeader.css';
 
 interface Project {
@@ -56,7 +56,7 @@ function Header() {
                     <li className={activeMenu === `/projectsPage/projectDetails/${projectId}/tasks` ? 'active' : ''}>
                         <Link to={`/projectsPage/projectDetails/${projectId}/tasks`}>Задачи</Link>
                     </li>
-                    <li className="submenu">
+                    {/* <li className="submenu">
                         <Link to={''}>Доски <AiFillCaretDown className='iconBoards' /></Link>
                         <ul className="sub-menu">
                             <li className={activeMenu === `/projectsPage/projectDetails/${projectId}/boards/technicalSpecification` ? 'active' : ''}>
@@ -72,7 +72,7 @@ function Header() {
                                 <Link to={`/projectsPage/projectDetails/${projectId}/boards/integration`}>Внедрение</Link>
                             </li>
                         </ul>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
             <div className='div_title'>

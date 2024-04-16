@@ -5,7 +5,6 @@ const StageProjectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'stage' // ссылка на модель статусов проектов
     },
-    description: String,
     startDate: Date,
     endDate: Date,
     projectId: {
