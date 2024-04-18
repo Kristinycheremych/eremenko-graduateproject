@@ -87,9 +87,9 @@ function ParticipantsPage() {
                         />
                     </div>
 
-                    <div className={'div_filter_position'}>
+                    <div className={'div_filter'}>
                         <select
-                            className={'filter_position'}
+                            className={'filter'}
                             value={selectedPosition}
                             onChange={(e) => setSelectedPosition(e.target.value)}>
                             <option value="">Все</option>
@@ -125,7 +125,7 @@ function ParticipantsPage() {
                                             {user.isActive ? 'Активный' : 'Неактивный'}
                                         </div>
                                     </td>
-                                    <td>
+                                    <td className='td-icon'>
                                         <div className={'icon_delete'} onClick={() => handleDeleteEmployee(user._id)}>
                                             <AiOutlineDelete />
                                         </div>

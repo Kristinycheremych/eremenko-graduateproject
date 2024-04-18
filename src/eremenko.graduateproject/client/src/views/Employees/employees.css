@@ -11,9 +11,6 @@ a {
     gap: 20px;
 }
 
-.div_filter_position {
-    margin-left: auto;
-}
 
 .div_input_search {
     width: 280px;
@@ -33,7 +30,7 @@ a {
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.00) inset;
 }
 
-.filter_position {
+.filter {
     width: 183px;
     height: 45px;
     font-size: 14px;
@@ -46,18 +43,6 @@ a {
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.00) inset;
 }
 
-.add_user {
-    width: 183px;
-    height: 45px;
-    font-size: 14px;
-    border-radius: 6px;
-    color: #445371;
-    text-decoration: none;
-    border: 2px solid rgba(68, 83, 113, 0.15);
-    background: rgba(255, 255, 255, 0.00);
-    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.00) inset;
-    cursor: pointer;
-}
 
 table {
     width: 100%;
@@ -87,6 +72,10 @@ table td {
     border-bottom: 1px dotted #ccc;
 }
 
+.table_user{
+    padding-top: 30px;
+    margin: 0 auto;
+}
 
 .icon_edit {
     font-size: 20px;
@@ -104,16 +93,18 @@ tr:nth-of-type(2n) {
 }
 
 .active-status {
-    color: #3EB215;
-    background: #ECF8E8;
-    padding: 10px;
+    color: #019F3C;
+    background: #C0E7CE;
+    width: 100px;
+    margin: 0 auto;
     border-radius: 6px;
 }
 
 .inactive-status {
-    color: #B21515;
-    background: #F8E8E8;
-    padding: 10px;
+    color: #D91528;
+    background: #F6C5C9;
+    width: 100px;
+    margin: 0 auto;
     border-radius: 6px;
 }
 
@@ -151,4 +142,114 @@ tr:nth-of-type(2n) {
         text-transform: uppercase;
         font-weight: bold;
     }
+}
+
+
+/* Добавление и редактирование сотрудников */
+
+.pade {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper {
+    width: 470px;
+    height: max-content;
+    border-radius: 12px;
+    background: #FFF;
+    box-shadow: 0px 32px 32px 0px rgba(68, 83, 113, 0.05), 0px 0px 32px 0px rgba(68, 83, 113, 0.10);
+}
+
+.input_div {
+    width: 100%;
+    margin-top: 8px;
+    color: #353535;
+    font-size: 14px;
+}
+
+.input_div div {
+    margin-top: 8px;
+}
+
+.title-add {
+    padding: 24px 20px 24px 20px;
+}
+
+.container-data-form {
+    padding: 0 20px 8px 20px;
+}
+
+label {
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+}
+
+input {
+    padding-left: 10px;
+}
+
+
+.label-status {
+    padding-left: 5px;
+    font-weight: normal;
+}
+
+.cont-status {
+    padding: 0 20px 0 20px;
+}
+
+.title-add h3 {
+    font-size: 22px
+}
+
+.form_control {
+    width: 100%;
+    height: 46px;
+    border-radius: 8px;
+    border: 1px solid #CACACA;
+    background: #FFF;
+}
+
+.action_buttons {
+    text-align: center;
+}
+
+.buttons {
+    padding: 24px 20px 24px 20px;
+    float: right;
+    display: flex;
+}
+
+.buttons div {
+    padding-left: 12px;
+}
+
+.button_add_cancel {
+    background: #FFF;
+    width: 93px;
+    height: 44px;
+    border: 1px solid #E5E6E7;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.button_add {
+    background: #FFF;
+    border: 1px solid #E5E6E7;
+    width: 107px;
+    height: 44px;
+    border-radius: 3px;
+    cursor: pointer;
+    float: right;
+    display: inline-block;
+}
+
+.button_add_cancel:hover,
+.button_add:hover {
+    background: #196FAD;
+    color: #fff;
 }

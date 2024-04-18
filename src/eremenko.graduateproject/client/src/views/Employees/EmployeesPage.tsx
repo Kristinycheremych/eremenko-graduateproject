@@ -10,7 +10,7 @@ interface User {
   lastName: string;
   firstName: string;
   middleName: string;
-  position?: {
+  position: {
     title: string;
   };
   isActive: boolean;
@@ -80,11 +80,11 @@ function EmployeesPage() {
             />
           </div>
 
-          <div className={'div_filter_position'}>
+          <div className={'div_filter'}>
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className={'filter_position'}
+              className={'filter'}
             >
               <option value="">Все</option>
               <option value="Программист">Программист</option>
@@ -92,9 +92,9 @@ function EmployeesPage() {
             </select>
           </div>
 
-          <div className={'btn_add_users'}>
+          <div className={'containet_btn_add'}>
             <Link to="/createEmployees">
-              <button className={'add_user'}>Добавить</button>
+              <button className={'btn_add'}>Добавить</button>
             </Link>
           </div>
         </div>
@@ -122,18 +122,18 @@ function EmployeesPage() {
                   <td>{user.middleName}</td>
                   <td>{user.position ? user.position.title : 'Нет данных'}</td>
                   <td >
-                    <div className={user.isActive ? 'active-status' : 'inactive-status'}>
+                    <p className={user.isActive ? 'active-status' : 'inactive-status'}>
                       {user.isActive ? 'Активный' : 'Неактивный'}
-                    </div>
+                    </p>
                   </td>
-                  <td>
+                  <td className='td-icon'>
                     <div className={'icon_edit'}>
                       <Link to={`/updateEmployees/${user._id}`}>
                         <FiEdit />
                       </Link>
                     </div>
                   </td>
-                  <td>
+                  <td className='td-icon'>
                     <div className={'icon_delete'}>
                       <AiOutlineDelete onClick={() => handleDelete(user._id)} />
                     </div>

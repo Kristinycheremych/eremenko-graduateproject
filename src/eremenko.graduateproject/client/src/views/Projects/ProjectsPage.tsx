@@ -24,11 +24,33 @@ interface Project {
   employees: Employee[]; // Список сотрудников
 }
 
+interface StatusColors {
+  [status: string]: string;
+}
+
+
 function ProjectsPage() {
   const [data, setData] = useState<Project[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [filteredProject, setFilteredProject] = useState<Project[]>([]);
+
+  // Определение объекта с цветами для каждого статуса
+  const statusColors:StatusColors = {
+    "Новый": "#445371",
+    "В ожидании": "#F29100",
+    "В работе": "#0055FF",
+    "Выполнено": "#019F3C",
+    "Отменено": "#D91528"
+  };
+
+  const statusBackground:StatusColors = {
+    "Новый": "#D0D4DC",
+    "В ожидании": "#FCE3BF",
+    "В работе": "#BFD4FF",
+    "Выполнено": "#C0E7CE",
+    "Отменено": "#F6C5C9"
+  };
 
   useEffect(() => {
     axios.get<Project[]>('http://localhost:3001/get/projects')
@@ -82,24 +104,23 @@ function ProjectsPage() {
           />
         </div>
 
-        <div className={'div_filter_project'}>
+        <div className={'div_filter'}>
           <select
-            className={'filter_project'}
+            className={'filter'}
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
             <option value="">Все</option>
-            <option value="Новый">Новый</option>
-            <option value="В ожидании">В ожидании</option>
-            <option value="В работе">В работе</option>
-            <option value="Выполнено">Выполнено</option>
-            <option value="Отменено">Отменено</option>
+            {/* Опции для всех доступных статусов */}
+            {Array.from(new Set(data.map(project => project.status.title))).map((status, index) => (
+              <option key={index} value={status}>{status}</option>
+            ))}
           </select>
         </div>
 
-        <div className={'btn_add_users'}>
+        <div className={'containet_btn_add'}>
           <Link to="./addProjectForm">
-            <button className={'add_user'}>Добавить</button>
+            <button className={'btn_add'}>Добавить</button>
           </Link>
         </div>
       </div>
@@ -127,17 +148,18 @@ function ProjectsPage() {
                     <td><p className='taskDescription'>{project.description}</p></td>
                     <td>{new Date(project.startDate).toLocaleDateString()}</td> {/* Вывод даты начала без времени */}
                     <td>{new Date(project.endDate).toLocaleDateString()}</td> {/* Вывод даты окончания без времени */}
-                    <td>{project.status.title}</td>
+                    {/* Использование цвета для статуса проекта */}
+                    <td><p style={{ color: statusColors[project.status.title], backgroundColor: statusBackground[project.status.title], borderRadius: '6px'}}>{project.status.title}</p></td>
                     <td>
                       {project.employees.map((employee: any) => {
                         return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
                       }).join(', ')}
                     </td>
-                    <td className='link_table_progect'><Link to={`/projectsPage/projectDetails/${project._id}`}>Подробнее...</Link></td>
+                    <td className='link_table_progect td-icon'><Link to={`/projectsPage/projectDetails/${project._id}`}>Подробнее...</Link></td>
                     <td>
                       <Link to={`/projectsPage/updateProject/${project._id}`} className={'icon_edit'}><FiEdit /></Link>
                     </td>
-                    <td>
+                    <td className='td-icon'>
                       <div className={'icon_delete'}>
                         <AiOutlineDelete onClick={() => handleDelete(project._id)} />
                       </div>

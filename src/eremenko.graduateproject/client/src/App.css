@@ -59,3 +59,11 @@ a {
     /* строки текста отображались вертикально */
     overflow: hidden;
 }
+
+.td-icon{
+    width: 70px;
+}
+
+.td-position{
+    width: 500px;
+}

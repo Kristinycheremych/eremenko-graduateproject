@@ -21,37 +21,45 @@ function AddEmployeeStatus() {
       <div className={'pade'}>
         <div className={'wrapper'}>
           <form onSubmit={handleSubmitStatuses}>
-            <h3>Добавление статуса сотрудника</h3>
-            <div className={'input_div'}>
-              <label htmlFor="title">Название</label>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Название"
-                  className={'form_control'}
-                  onChange={(e: any) => setTitle(e.target.value)}
-                  value={title}
-                  required
-                />
+            <div className='title-add'>
+              <h3>Добавление статуса сотрудника</h3>
+            </div>
+            <div className='container-data-form'>
+              <div className={'input_div'}>
+                <label htmlFor="title">Название</label>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Введите название"
+                    className={'form_control'}
+                    onChange={(e: any) => setTitle(e.target.value)}
+                    value={title}
+                    required
+                  />
+                </div>
+              </div>
+              <div className={'input_div'}>
+                <label htmlFor="description">Описание</label>
+                <div>
+                  <textarea
+                    placeholder="Введите описание"
+                    className={'form_control'}
+                    onChange={(e: any) => setDescription(e.target.value)}
+                    value={description}
+                    required
+                  />
+                </div>
               </div>
             </div>
-            <div className={'input_div'}>
-              <label htmlFor="description">Описание</label>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Описание"
-                  className={'form_control'}
-                  onChange={(e: any) => setDescription(e.target.value)}
-                  value={description}
-                  required
-                />
-              </div>
-            </div>
-
             <div className={'action_buttons'}>
-              <Link to={"/employeeStatus"}><button className={'btn_add_cancel'}>Отменить</button></Link>
-              <button className={'btn_add_cancel'}>Добавить</button>
+              <div className='buttons'>
+                <div>
+                  <Link to={"/employeeStatus"}><button className={'button_add_cancel'}>Отменить</button></Link>
+                </div>
+                <div>
+                  <button className={'button_add'}>Добавить</button>
+                </div>
+              </div>
             </div>
           </form>
         </div>

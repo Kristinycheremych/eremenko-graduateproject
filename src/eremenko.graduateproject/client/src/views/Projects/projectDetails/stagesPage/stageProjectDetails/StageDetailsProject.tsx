@@ -43,6 +43,7 @@ function StageDetailsProject() {
     const [tasksByStatus, setTasksByStatus] = useState<{ [key: string]: Task[] }>({});
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // Состояние для открытия и закрытия боковой панели
     const [selectedTask, setSelectedTask] = useState<Task | null>(null); // Состояние для выбранной задачи
+    const [filterStatus, setFilterStatus] = useState<string>('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -196,6 +197,20 @@ function StageDetailsProject() {
                         />
                     </div>
 
+
+                    <div className={'div_filter'}>
+                        <select
+                            className={'filter'}
+                            value={filterStatus}
+                            onChange={(e) => setFilterStatus(e.target.value)}
+                        >
+                            <option value="">Все</option>
+                            {taskStatuses.map((status) => (
+                                <option key={status._id} value={status._id}>{status.title}</option>
+                            ))}
+                        </select>
+                    </div>
+
                     <div className={'containet_btn_add'}>
                         <Link to={`/projectsPage/projects/${projectId}/stageDetails/${stageId}/addTaskStatus`}>
                             <button className={'btn_add'}>Добавить статус<br />задачи</button>
@@ -211,12 +226,14 @@ function StageDetailsProject() {
                     <div >
                         <p><h5>Описание: </h5>{stageDetails.stageId.description}</p>
                     </div>
-                    
-                    <Link to={`/projectsPage/projects/${projectId}/stageDetails/${stageId}/addTask`}>
-                        <div className='containet_btn_add_task'>
-                            <button className={'btn_add_task'} >Добавить задачу</button>
-                        </div>
-                    </Link>
+
+                    <div className='btn-add-task'>
+                        <Link to={`/projectsPage/projects/${projectId}/stageDetails/${stageId}/addTask`}>
+                            <div className='containet_btn_add_task'>
+                                <button className={'btn_add_task'} >Добавить задачу</button>
+                            </div>
+                        </Link>
+                    </div>
 
                     <div className='stages'>
                         {taskStatuses && taskStatuses.map((status) => (
@@ -225,17 +242,18 @@ function StageDetailsProject() {
                                     <p>{status.title}</p>
                                     <RiDeleteBin6Line className='deletedStage' onClick={() => handleDeleteStatus(status._id)} />
                                 </div>
-
                                 <div className='divTask'>
                                     {tasksByStatus[status._id]?.map((task) => (
                                         <div className='task'>
-                                            <div key={task._id} className='taskContent' onClick={() => openModal(task)}>
-                                                <p><h5>Название: </h5>{task.title}</p>
-                                                <p className='taskDescription'><h5>Описание:</h5>{task.description}</p>
-                                                <p><h5>Ответственный(ые):</h5>{task.employees.length > 0 ? task.employees.map((employee: Employee) => {
-                                                    return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
-                                                }).join(', ') : 'Нет данных'}</p>
-                                            </div>
+                                            {(!filterStatus || filterStatus === status._id) && ( // условие фильтрации
+                                                <div key={task._id} className='taskContent' onClick={() => openModal(task)}>
+                                                    <p><h5>Название: </h5>{task.title}</p>
+                                                    <p className='taskDescription'><h5>Описание:</h5>{task.description}</p>
+                                                    <p><h5>Ответственный(ые):</h5>{task.employees.length > 0 ? task.employees.map((employee: Employee) => {
+                                                        return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
+                                                    }).join(', ') : 'Нет данных'}</p>
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>

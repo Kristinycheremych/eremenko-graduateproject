@@ -9,14 +9,11 @@ import CreateEmployees from './views/employees/createEmployees/CreateEmployees';
 import UpdateEmployees from './views/employees/updateEmployees/UpdateEmployees';
 import { menuItems } from './components/sidebar/DataSidebar';
 import ProjectStatuses from './views/settings/projectsSettings/project_statuses/ProjectStatuses';
-import TaskStatuses from './views/settings/projectsSettings/task_statuses/TaskStatuses';
 import Divisions from './views/settings/employeesSettings/divisions/Divisions';
 import EmployeeStatus from './views/settings/employeesSettings/employee_status/EmployeeStatus';
 import Position from './views/settings/employeesSettings/position/Position';
 import AddProjectStatuses from './views/settings/projectsSettings/project_statuses/addProjectStatuses/AddProjectStatuses';
 import UpdateProjectStatuses from './views/settings/projectsSettings/project_statuses/updateProjectStatuses/UpdateProjectStatuses';
-import AddTaskStatuses from './views/settings/projectsSettings/task_statuses/addTaskStatuses/AddTaskStatuses';
-import UpdateTaskStatuses from './views/settings/projectsSettings/task_statuses/updateTaskStatuses/UpdateTaskStatuses';
 import AddEmployeeStatus from './views/settings/employeesSettings/employee_status/addEmployeeStatus/AddEmployeeStatus';
 import UpdateEmployeeStatus from './views/settings/employeesSettings/employee_status/updateEmployeeStatus/UpdateEmployeeStatus';
 import AddProjectForm from './views/projects/addProjectForm/AddProjectForm';
@@ -52,9 +49,6 @@ function App() {
             <Route path='/position' element={<Position />}></Route>
             <Route path='/projectStatuses/addProjectStatuses' element={<AddProjectStatuses />}></Route>
             <Route path='/projectStatuses/updateProjectStatuses/:id' element={<UpdateProjectStatuses />}></Route>
-            <Route path='/taskStatuses/updateTaskStatuses/:id' element={<UpdateTaskStatuses />}></Route>
-            <Route path='/taskStatuses' element={<TaskStatuses />}></Route>
-            <Route path='/taskStatuses/addTaskStatuses' element={<AddTaskStatuses />}></Route>
             <Route path='/employeeStatus' element={<EmployeeStatus />}></Route>
             <Route path='/employeeStatus/addEmployeeStatus' element={<AddEmployeeStatus />}></Route>
             <Route path='/employeeStatus/updateEmployeeStatus/:id' element={<UpdateEmployeeStatus />}></Route>

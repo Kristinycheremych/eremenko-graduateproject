@@ -45,57 +45,59 @@ function Position() {
 
   return (
     <>
-      <div className='containerSettings'>
-        <div className='div_input_search_settings'>
-          <input
-            type='text'
-            className='input_search_settings'
-            placeholder='Поиск'
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+      <div className='container'>
+        <div className='container_search_filter'>
+          <div className='div_input_search'>
+            <input
+              type='text'
+              className='input_search'
+              placeholder='Поиск'
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
-        <div className='btn_add_settings'>
-          <Link to="./addPosition">
-            <button className='add_settings'>Добавить</button>
-          </Link>
+          <div className='containet_btn_add'>
+            <Link to="./addPosition">
+              <button className='btn_add'>Добавить</button>
+            </Link>
+          </div>
         </div>
-      </div>
-      <div className='container_settings'>
-        <div className='title'>
-          <h2>Должность</h2>
-        </div>
+        <div className='container_settings'>
+          <div className='title'>
+            <h2>Должность</h2>
+          </div>
 
-        <div className='table_user_settings'>
-          <table className='table_position'>
-            <thead>
-              <tr>
-                <th>Название</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                filteredPosition.map((position, index) => (
-                  <tr key={index}>
-                    <td>{position.title}</td>
-                    <td>
-                      <div className={'icon_edit'}>
-                        <Link to={`/position/updatePosition/${position._id}`}><FiEdit /></Link>
-                      </div>
-                    </td>
-                    <td>
+          <div className='table_user_settings'>
+            <table className='table_position td-position'>
+              <thead>
+                <tr>
+                  <th >Название</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  filteredPosition.map((position, index) => (
+                    <tr key={index}>
+                      <td >{position.title}</td>
+                      <td className='td-icon'>
+                        <div className={'icon_edit'}>
+                          <Link to={`/position/updatePosition/${position._id}`}><FiEdit /></Link>
+                        </div>
+                      </td>
+                      <td className='td-icon'>
                         <div className={'icon_delete'}>
                           <AiOutlineDelete onClick={() => handleDelete(position._id)} />
                         </div>
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>

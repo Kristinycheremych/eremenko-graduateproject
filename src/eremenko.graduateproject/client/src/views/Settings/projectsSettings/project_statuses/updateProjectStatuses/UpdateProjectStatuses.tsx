@@ -37,36 +37,44 @@ function UpdateProjectStatuses() {
             <div className={'pade'}>
                 <div className={'wrapper'}>
                     <form onSubmit={handleUpdate}>
-                        <h3>Изменение статуса проекта</h3>
-
-                        <div className={'input_div'}>
-                            <label htmlFor="title">Название</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Название"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setTitle(e.target.value)}
-                                    value={title}
-                                />
-                            </div>
+                        <div>
+                            <h3>Изменение статуса проекта</h3>
                         </div>
-                        <div className={'input_div'}>
-                            <label htmlFor="description">Описание</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Описание"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setDescription(e.target.value)}
-                                    value={description}
-                                />
+                        <div className='container-data-form'>
+                            <div className={'input_div'}>
+                                <label htmlFor="title">Название</label>
+                                <div>
+                                    <input
+                                        type="text"
+                                        placeholder="Введите название"
+                                        className={'form_control'}
+                                        onChange={(e: any) => setTitle(e.target.value)}
+                                        value={title}
+                                    />
+                                </div>
+                            </div>
+                            <div className={'input_div'}>
+                                <label htmlFor="description">Описание</label>
+                                <div>
+                                    <textarea
+                                        placeholder="Введите описание"
+                                        className={'form_control'}
+                                        onChange={(e: any) => setDescription(e.target.value)}
+                                        value={description}
+                                    />
+                                </div>
                             </div>
                         </div>
 
                         <div className={'action_buttons'}>
-                            <Link to={"/projectStatuses"}><button className={'btn_add_cancel'}>Отменить</button></Link>
-                            <button className={'btn_add_cancel'}>Изменить</button>
+                            <div className='buttons'>
+                                <div>
+                                    <Link to={"/projectStatuses"}><button className={'button_add_cancel'}>Отменить</button></Link>
+                                </div>
+                                <div>
+                                    <button className={'button_add'}>Изменить</button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

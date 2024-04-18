@@ -37,21 +37,34 @@ const AddTaskStatus: React.FC = () => {
             <div className='pade'>
                 <div className='wrapper'>
                     <form onSubmit={handleSubmit}>
-                        <h3>Добавление статуса задачи</h3>
-                        <div className='input_div'>
-                            <label htmlFor="title">Название:</label>
-                            <input
-                                type="text"
-                                id="title"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                className={'form_control'}
-                                required
-                            />
+                        <div className='title-add'>
+                            <h3>Добавление статуса задачи</h3>
+                        </div>
+                        <div className='container-data-form'>
+                            <div className='input_div'>
+                                <label htmlFor="title">Название:</label>
+                                <div>
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        placeholder='Введите название'
+                                        className={'form_control'}
+                                        required
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className={'action_buttons'}>
-                            <Link to={`/projectsPage/projectDetails/${projectId}/stages/stageDetails/${stageId}`}><button className={'btn_add_cancel'}>Отменить</button></Link>
-                            <button type="submit" className={'btn_add_cancel'}>Добавить</button>
+                            <div className='buttons'>
+                                <div>
+                                    <Link to={`/projectsPage/projectDetails/${projectId}/stages/stageDetails/${stageId}`}><button className={'button_add_cancel'}>Отменить</button></Link>
+                                </div>
+                                <div>
+                                    <button type="submit" className={'button_add'}>Добавить</button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

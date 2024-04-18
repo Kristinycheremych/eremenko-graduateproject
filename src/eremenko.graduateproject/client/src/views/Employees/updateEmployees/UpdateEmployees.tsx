@@ -2,7 +2,6 @@ import React from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import './updateEmployees.css';
 
 interface Position {
     _id: string;
@@ -66,64 +65,70 @@ function UpdateEmployees() {
             <div className={'pade'}>
                 <div className={'wrapper'}>
                     <form onSubmit={handleUpdate}>
-                        <h3>Изменение пользователя</h3>
+                        <div className='title-add'>
+                            <h3>Изменение пользователя</h3>
+                        </div>
 
-                        <div className={'input_div'}>
-                            <label htmlFor="lastName">Фамилия</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Еременко"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setLastName(e.target.value)}
-                                    value={lastName}
-                                />
+                        <div className='container-data-form'>
+                            <div className={'input_div'}>
+                                <label htmlFor="lastName">Фамилия</label>
+                                <div>
+                                    <input
+                                        type="text"
+                                        placeholder="Еременко"
+                                        className={'form_control'}
+                                        onChange={(e: any) => setLastName(e.target.value)}
+                                        value={lastName}
+                                    />
+                                </div>
+                            </div>
+                            <div className={'input_div'}>
+                                <label htmlFor="firstName">Имя</label>
+                                <div>
+                                    <input
+                                        type="text"
+                                        placeholder="Кристина"
+                                        className={'form_control'}
+                                        onChange={(e: any) => setFirstName(e.target.value)}
+                                        value={firstName}
+                                    />
+                                </div>
+                            </div>
+
+
+                            <div className={'input_div'}>
+                                <label htmlFor="middleName">Отчество</label>
+                                <div>
+                                    <input
+                                        type="text"
+                                        placeholder="Юрьевна"
+                                        className={'form_control'}
+                                        onChange={(e: any) => setMiddleName(e.target.value)}
+                                        value={middleName}
+                                    />
+                                </div>
+                            </div>
+                            <div className={'input_div'}>
+                                <label htmlFor="status">Должность</label>
+                                <div>
+                                    <select className='form_control' value={positionId}
+                                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPositionId(e.target.value)}>
+                                        <option value={""}>Выберите должность:</option>
+                                        {
+                                            positionList.map((positionItem) => {
+                                                return (
+                                                    <option key={positionItem._id} value={positionItem._id}>
+                                                        {positionItem.title}
+                                                    </option>
+                                                )
+                                            })
+                                        }
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div className={'input_div'}>
-                            <label htmlFor="firstName">Имя</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Кристина"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setFirstName(e.target.value)}
-                                    value={firstName}
-                                />
-                            </div>
-                        </div>
 
-
-                        <div className={'input_div'}>
-                            <label htmlFor="middleName">Отчество</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Юрьевна"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setMiddleName(e.target.value)}
-                                    value={middleName}
-                                />
-                            </div>
-                        </div>
-                        <div className={'input_div'}>
-                            <label htmlFor="status">Должность</label>
-                            <select className='form_control' value={positionId}
-                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPositionId(e.target.value)}>
-                                <option value={""}>Выберите должность:</option>
-                                {
-                                    positionList.map((positionItem) => {
-                                        return (
-                                            <option key={positionItem._id} value={positionItem._id}>
-                                                {positionItem.title}
-                                            </option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
-
-                        <div className={'input_div'}>
+                        <div className={'input_div cont-status'}>
                             <label htmlFor="status">Статус</label>
 
                             <div>
@@ -133,7 +138,7 @@ function UpdateEmployees() {
                                     checked={isActive}
                                     onChange={() => setIsActive(!isActive)}
                                 />
-                                <label htmlFor="isActive">Активный</label>
+                                <label htmlFor="isActive" className='label-status'>Активный</label>
                             </div>
                             <div>
                                 <input
@@ -142,13 +147,19 @@ function UpdateEmployees() {
                                     checked={!isActive}
                                     onChange={() => setIsActive(!isActive)}
                                 />
-                                <label htmlFor="isActive">Неактивный</label>
+                                <label htmlFor="isActive" className='label-status'>Неактивный</label>
                             </div>
                         </div>
 
                         <div className={'action_buttons'}>
-                            <Link to={"/employeesPage"}><button className={'btn_add_cancel'}>Отменить</button></Link>
-                            <button className={'btn_add_cancel'}>Изменить</button>
+                            <div className='buttons'>
+                                <div>
+                                    <Link to={"/employeesPage"}><button className={'button_add_cancel'}>Отменить</button></Link>
+                                </div>
+                                <div>
+                                    <button className={'button_add'}>Изменить</button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

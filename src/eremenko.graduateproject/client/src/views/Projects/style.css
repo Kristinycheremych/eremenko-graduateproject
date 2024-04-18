@@ -15,4 +15,7 @@
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.00) inset;
 }
 
-
+.table_user_settings{
+    padding-top: 30px;
+    margin: 0 auto;
+}

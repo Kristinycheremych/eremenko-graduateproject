@@ -126,6 +126,10 @@
     display: flex;
 }
 
+.btn-add-task{
+    width: 183px;
+}
+
 /* Стили для боковой панели */
 .info-task {
     font-size: 25px;

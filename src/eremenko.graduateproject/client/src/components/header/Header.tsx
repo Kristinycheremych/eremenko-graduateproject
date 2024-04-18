@@ -56,23 +56,6 @@ function Header() {
                     <li className={activeMenu === `/projectsPage/projectDetails/${projectId}/tasks` ? 'active' : ''}>
                         <Link to={`/projectsPage/projectDetails/${projectId}/tasks`}>Задачи</Link>
                     </li>
-                    {/* <li className="submenu">
-                        <Link to={''}>Доски <AiFillCaretDown className='iconBoards' /></Link>
-                        <ul className="sub-menu">
-                            <li className={activeMenu === `/projectsPage/projectDetails/${projectId}/boards/technicalSpecification` ? 'active' : ''}>
-                                <Link to={`/projectsPage/projectDetails/${projectId}/boards/technicalSpecification`}>Техническое задание</Link>
-                            </li>
-                            <li className={activeMenu === `/projectsPage/projectDetails/${projectId}/boards/design` ? 'active' : ''}>
-                                <Link to={`/projectsPage/projectDetails/${projectId}/boards/design`}>Дизайн</Link>
-                            </li>
-                            <li className={activeMenu === `/projectsPage/projectDetails/${projectId}/boards/softwareProductDevelopment` ? 'active' : ''}>
-                                <Link to={`/projectsPage/projectDetails/${projectId}/boards/softwareProductDevelopment`}>Разработка программного продукта</Link>
-                            </li>
-                            <li className={activeMenu === `/projectsPage/projectDetails/${projectId}/boards/integration` ? 'active' : ''}>
-                                <Link to={`/projectsPage/projectDetails/${projectId}/boards/integration`}>Внедрение</Link>
-                            </li>
-                        </ul>
-                    </li> */}
                 </ul>
             </div>
             <div className='div_title'>

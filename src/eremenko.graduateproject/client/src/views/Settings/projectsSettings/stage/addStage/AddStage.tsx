@@ -22,35 +22,45 @@ function AddStage() {
             <div className={'pade'}>
                 <div className={'wrapper'}>
                     <form onSubmit={handleSubmitStage}>
-                        <h3>Добавление этапа</h3>
-                        <div className={'input_div'}>
-                            <label htmlFor="title">Название</label>
-                            <div>
-                                <input
-                                    type="text"
-                                    placeholder="Название"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setTitle(e.target.value)}
-                                    value={title}
-                                    required
-                                />
-                            </div>
+                        <div className='title-add'>
+                            <h3>Добавление этапа</h3>
                         </div>
-                        <div className={'input_div'}>
-                            <label htmlFor="title">Описание</label>
-                            <div>
-                                <textarea
-                                    placeholder="Описание"
-                                    className={'form_control'}
-                                    onChange={(e: any) => setDescription(e.target.value)}
-                                    value={description}
-                                    required
-                                />
+                        <div className='container-data-form'>
+                            <div className={'input_div'}>
+                                <label htmlFor="title">Название</label>
+                                <div>
+                                    <input
+                                        type="text"
+                                        placeholder="Введите название"
+                                        className={'form_control'}
+                                        onChange={(e: any) => setTitle(e.target.value)}
+                                        value={title}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className={'input_div'}>
+                                <label htmlFor="title">Описание</label>
+                                <div>
+                                    <textarea
+                                        placeholder="Введите описание"
+                                        className={'form_control'}
+                                        onChange={(e: any) => setDescription(e.target.value)}
+                                        value={description}
+                                        required
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className={'action_buttons'}>
-                            <Link to={"/stagePage"}><button className={'btn_add_cancel'}>Отменить</button></Link>
-                            <button className={'btn_add_cancel'}>Добавить</button>
+                            <div className='buttons'>
+                                <div>
+                                    <Link to={"/stagePage"}><button className={'button_add_cancel'}>Отменить</button></Link>
+                                </div>
+                                <div>
+                                    <button className={'button_add'}>Добавить</button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -135,14 +135,14 @@ function StagesPage() {
                                             Подробнее...
                                         </Link>
                                     </td>
-                                    <td>
+                                    <td className='td-icon'>
                                         <div className={'icon_edit'}>
                                             <Link to={`/projectsPage/projects/${projectId}/addStageProject/${stage._id}`}>
                                                 <FiEdit />
                                             </Link>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td className='td-icon'>
                                         <div className={'icon_delete'}>
                                             <AiOutlineDelete onClick={() => handleDelete(stage._id)} />
                                         </div>

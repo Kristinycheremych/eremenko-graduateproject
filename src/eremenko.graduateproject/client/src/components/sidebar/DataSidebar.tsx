@@ -34,10 +34,6 @@ export const menuItems = [
                         path: '/projectStatuses'
                     },
                     {
-                        title: "Статус задач",
-                        path: '/taskStatuses'
-                    },
-                    {
                         title: "Этапы",
                         path: '/stagePage'
                     }
