@@ -3,23 +3,25 @@ import React from 'react';
 function Divisions() {
   return (
     <>
-      <div className='containerSettings'>
-        <div className='div_input_search_settings'>
-          <input
-            type='text'
-            className='input_search_settings'
-            placeholder='Поиск'
-          />
+      <div className='container'>
+        <div className='container_search_filter'>
+          <div className='div_input_search'>
+            <input
+              type='text'
+              className='input_search'
+              placeholder='Поиск'
+            />
+          </div>
+
+          <div className='containet_btn_add'>
+            <button className='btn_add'>Добавить</button>
+          </div>
         </div>
 
-        <div className='btn_add_settings'>
-          <button className='add_settings'>Добавить</button>
-        </div>
-      </div>
-
-      <div className='container_settings'>
-        <div className='title'>
-          <h2>Подразделения</h2>
+        <div className='container_settings'>
+          <div className='title'>
+            <h2>Подразделения</h2>
+          </div>
         </div>
       </div>
     </>

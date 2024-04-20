@@ -51,7 +51,7 @@ a {
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.00) inset;
 }
 
-.taskDescription {
+.description{
     display: -webkit-box;
     -webkit-line-clamp: 2;
     /* Ограничиваем до трех строк */

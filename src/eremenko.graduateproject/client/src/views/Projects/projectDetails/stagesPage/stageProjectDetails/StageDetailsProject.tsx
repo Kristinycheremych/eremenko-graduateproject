@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../../../../../components/header/Header';
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { AiOutlineDelete } from "react-icons/ai";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { BsThreeDots } from "react-icons/bs";
 import './style.css'
 
 interface StageDetails {
@@ -36,13 +37,14 @@ interface Employee {
     middleName: string;
 }
 
+
 function StageDetailsProject() {
     const { stageId, projectId } = useParams<{ stageId: string, projectId: string }>();
     const [stageDetails, setStageDetails] = useState<StageDetails | null>(null);
     const [taskStatuses, setTaskStatuses] = useState<TaskStatus[]>([]);
     const [tasksByStatus, setTasksByStatus] = useState<{ [key: string]: Task[] }>({});
-    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false); // Состояние для открытия и закрытия боковой панели
-    const [selectedTask, setSelectedTask] = useState<Task | null>(null); // Состояние для выбранной задачи
+    const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [filterStatus, setFilterStatus] = useState<string>('');
 
     useEffect(() => {
@@ -78,6 +80,10 @@ function StageDetailsProject() {
     };
 
     const handleDeleteStatus = async (statusId: string) => {
+        // Запрос подтверждения удаления
+        const confirmDelete = window.confirm('Вы уверены, что хотите удалить этот статус задачи?');
+        if (!confirmDelete) return;
+
         try {
             await axios.delete(`http://localhost:3001/delete/taskStatuses/${statusId}`);
             const updatedTaskStatuses = taskStatuses.filter(status => status._id !== statusId);
@@ -114,7 +120,7 @@ function StageDetailsProject() {
     // Функция для открытия модального окна с информацией о задаче
     const openModal = (task: Task) => {
         setSelectedTask(task);
-        setSidebarOpen(true); // Открываем боковую панель
+        setSidebarOpen(true);
     };
 
     // Функция для закрытия боковой панели
@@ -196,8 +202,6 @@ function StageDetailsProject() {
                             placeholder="Поиск"
                         />
                     </div>
-
-
                     <div className={'div_filter'}>
                         <select
                             className={'filter'}
@@ -240,18 +244,34 @@ function StageDetailsProject() {
                             <div key={status._id} className={'stage'}>
                                 <div className='titleStatusStage'>
                                     <p>{status.title}</p>
-                                    <RiDeleteBin6Line className='deletedStage' onClick={() => handleDeleteStatus(status._id)} />
+                                    <div className='div-deleted'>
+                                        <AiOutlineDelete className='deletedStage' onClick={() => handleDeleteStatus(status._id)} />
+                                    </div>
                                 </div>
                                 <div className='divTask'>
                                     {tasksByStatus[status._id]?.map((task) => (
                                         <div className='task'>
                                             {(!filterStatus || filterStatus === status._id) && ( // условие фильтрации
-                                                <div key={task._id} className='taskContent' onClick={() => openModal(task)}>
-                                                    <p><h5>Название: </h5>{task.title}</p>
-                                                    <p className='taskDescription'><h5>Описание:</h5>{task.description}</p>
-                                                    <p><h5>Ответственный(ые):</h5>{task.employees.length > 0 ? task.employees.map((employee: Employee) => {
-                                                        return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
-                                                    }).join(', ') : 'Нет данных'}</p>
+                                                <div key={task._id} className='taskContent'>
+                                                    <div className='structure'>
+                                                        <div className='heading'>
+                                                            <p className='title-task'>{task.title}</p>
+                                                            <div className='BsThreeDots'>
+                                                                <BsThreeDots onClick={() => openModal(task)} />
+                                                            </div>
+                                                        </div>
+                                                        <div className='div-task-description'>
+                                                            <p className='description description-task'>{task.description}</p>
+                                                        </div>
+                                                        <div className='avatar-container'>
+                                                            {task.employees.length > 0 ? task.employees.slice(0, 3).map((employee: Employee, index) => (
+                                                                <div key={index} className='avatar'>
+                                                                    <div className='avatar-letter'>{employee.firstName.charAt(0)}{employee.middleName ? employee.middleName.charAt(0) : ''}</div>
+                                                                </div>
+                                                            )) : <span>Нет данных</span>}
+                                                            {task.employees.length > 3 && <span><div className='avatar'>+</div></span>}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
