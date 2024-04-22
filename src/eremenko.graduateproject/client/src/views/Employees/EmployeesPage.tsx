@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { FiEdit } from 'react-icons/fi';
-import './employees.css';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { AiOutlineDelete } from "react-icons/ai";
+import { FiEdit } from "react-icons/fi";
+import "./employees.css";
 
 interface User {
   _id: string;
@@ -13,18 +13,35 @@ interface User {
   position: {
     title: string;
   };
+  employeeStatus: {
+    title: string;
+  };
   isActive: boolean;
+}
+
+interface EmployeeStatusColors {
+  [employeeStatus: string]: string;
 }
 
 function EmployeesPage() {
   const [data, setData] = useState<User[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filter, setFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filter, setFilter] = useState<string>("");
   const [filteredEmployees, setFilteredEmployees] = useState<User[]>([]);
+
+  const statusColors: EmployeeStatusColors = {
+    Активный: "#019F3C",
+    Неактивный: "#D91528",
+  };
+
+  const statusBackground: EmployeeStatusColors = {
+    Активный: "#C0E7CE",
+    Неактивный: "#F6C5C9",
+  };
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/')
+      .get("http://localhost:3001/get/employees")
       .then((res) => {
         setData(res.data);
       })
@@ -37,12 +54,14 @@ function EmployeesPage() {
       let filteredData = data;
 
       // Фильтрация по должности
-      if (filter !== '') {
-        filteredData = filteredData.filter((user) => user.position && user.position.title === filter);
+      if (filter !== "") {
+        filteredData = filteredData.filter(
+          (user) => user.position && user.position.title === filter
+        );
       }
 
       // Поиск по имени, фамилии и отчеству
-      if (searchQuery !== '') {
+      if (searchQuery !== "") {
         filteredData = filteredData.filter((user) => {
           const fullName = `${user.lastName} ${user.firstName} ${user.middleName}`;
           return fullName.toLowerCase().includes(searchQuery.toLowerCase());
@@ -57,7 +76,7 @@ function EmployeesPage() {
 
   const handleDelete = (id: string) => {
     axios
-      .delete(`http://localhost:3001/deleteuser/${id}`)
+      .delete(`http://localhost:3001/delete/employees/${id}`)
       .then((res) => {
         console.log(res);
         // Обновляем данные после удаления сотрудника
@@ -68,23 +87,23 @@ function EmployeesPage() {
 
   return (
     <>
-      <div className={'container'}>
-        <div className={'container_search_filter'}>
-          <div className={'div_input_search'}>
+      <div className={"container"}>
+        <div className={"container_search_filter"}>
+          <div className={"div_input_search"}>
             <input
               type="text"
-              className={'input_search'}
+              className={"input_search"}
               placeholder="Поиск"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
-          <div className={'div_filter'}>
+          <div className={"div_filter"}>
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className={'filter'}
+              className={"filter"}
             >
               <option value="">Все</option>
               <option value="Программист">Программист</option>
@@ -92,9 +111,9 @@ function EmployeesPage() {
             </select>
           </div>
 
-          <div className={'containet_btn_add'}>
+          <div className={"containet_btn_add"}>
             <Link to="/createEmployees">
-              <button className={'btn_add'}>Добавить</button>
+              <button className={"btn_add"}>Добавить</button>
             </Link>
           </div>
         </div>
@@ -120,21 +139,32 @@ function EmployeesPage() {
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
-                  <td>{user.position ? user.position.title : 'Нет данных'}</td>
-                  <td >
-                    <p className={user.isActive ? 'active-status' : 'inactive-status'}>
-                      {user.isActive ? 'Активный' : 'Неактивный'}
+                  <td>{user.position ? user.position.title : "Нет данных"}</td>
+                  <td>
+                    <p
+                      style={{
+                        color: statusColors[user.employeeStatus.title],
+                        backgroundColor:
+                          statusBackground[user.employeeStatus.title],
+                        borderRadius: "6px",
+                        width: "100px",
+                      }}
+                      
+                    >
+                      {user.employeeStatus
+                        ? user.employeeStatus.title
+                        : "Нет данных"}
                     </p>
                   </td>
-                  <td className='td-icon'>
-                    <div className={'icon_edit'}>
+                  <td className="td-icon">
+                    <div className={"icon_edit"}>
                       <Link to={`/updateEmployees/${user._id}`}>
                         <FiEdit />
                       </Link>
                     </div>
                   </td>
-                  <td className='td-icon'>
-                    <div className={'icon_delete'}>
+                  <td className="td-icon">
+                    <div className={"icon_delete"}>
                       <AiOutlineDelete onClick={() => handleDelete(user._id)} />
                     </div>
                   </td>

@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const StageSchema = new mongoose.Schema({
-    title: String,
-    description: String
+  title: String,
+  description: String,
 });
-const StageModal = mongoose.model("stage", StageSchema)
-module.exports = StageModal
+const StageModal = mongoose.model("stage", StageSchema);
+module.exports = StageModal;

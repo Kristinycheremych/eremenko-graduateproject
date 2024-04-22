@@ -1,21 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const StageProjectSchema = new mongoose.Schema({
-    stageId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'stage' // ссылка на модель статусов проектов
+  stageId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "stage", // ссылка на модель статусов проектов
+  },
+  startDate: Date,
+  endDate: Date,
+  projectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "project",
+  },
+  employees: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users", // ссылка на модель сотрудников
     },
-    startDate: Date,
-    endDate: Date,
-    projectId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'project'
-    },
-    employees: [{ 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'users' // ссылка на модель сотрудников
-    }]
+  ],
 });
 
-const StageProjectModal = mongoose.model("stageProject", StageProjectSchema)
-module.exports = StageProjectModal
+const StageProjectModal = mongoose.model("stageProject", StageProjectSchema);
+module.exports = StageProjectModal;

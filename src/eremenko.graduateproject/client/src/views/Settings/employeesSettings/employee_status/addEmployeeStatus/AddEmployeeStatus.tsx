@@ -1,6 +1,6 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function AddEmployeeStatus() {
   const [title, setTitle] = useState();
@@ -9,41 +9,45 @@ function AddEmployeeStatus() {
 
   function handleSubmitStatuses(event: any) {
     event.preventDefault();
-    axios.post('http://localhost:3001/createEmployeeStatus', { title, description })
-      .then(res => {
-        console.log(res);
-        navigate('/employeeStatus');
+    axios
+      .post("http://localhost:3001/createEmployeeStatus", {
+        title,
+        description,
       })
-      .catch(error => console.log(error));
+      .then((res) => {
+        console.log(res);
+        navigate("/employeeStatus");
+      })
+      .catch((error) => console.log(error));
   }
   return (
     <>
-      <div className={'pade'}>
-        <div className={'wrapper'}>
+      <div className={"pade"}>
+        <div className={"wrapper"}>
           <form onSubmit={handleSubmitStatuses}>
-            <div className='title-add'>
+            <div className="title-add">
               <h3>Добавление статуса сотрудника</h3>
             </div>
-            <div className='container-data-form'>
-              <div className={'input_div'}>
+            <div className="container-data-form">
+              <div className={"input_div"}>
                 <label htmlFor="title">Название</label>
                 <div>
                   <input
                     type="text"
                     placeholder="Введите название"
-                    className={'form_control'}
+                    className={"form_control"}
                     onChange={(e: any) => setTitle(e.target.value)}
                     value={title}
                     required
                   />
                 </div>
               </div>
-              <div className={'input_div'}>
+              <div className={"input_div"}>
                 <label htmlFor="description">Описание</label>
                 <div>
                   <textarea
                     placeholder="Введите описание"
-                    className={'form_control'}
+                    className={"form_control"}
                     onChange={(e: any) => setDescription(e.target.value)}
                     value={description}
                     required
@@ -51,13 +55,15 @@ function AddEmployeeStatus() {
                 </div>
               </div>
             </div>
-            <div className={'action_buttons'}>
-              <div className='buttons'>
+            <div className={"action_buttons"}>
+              <div className="buttons">
                 <div>
-                  <Link to={"/employeeStatus"}><button className={'button_add_cancel'}>Отменить</button></Link>
+                  <Link to={"/employeeStatus"}>
+                    <button className={"button_add_cancel"}>Отменить</button>
+                  </Link>
                 </div>
                 <div>
-                  <button className={'button_add'}>Добавить</button>
+                  <button className={"button_add"}>Добавить</button>
                 </div>
               </div>
             </div>
@@ -65,7 +71,7 @@ function AddEmployeeStatus() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default AddEmployeeStatus
+export default AddEmployeeStatus;

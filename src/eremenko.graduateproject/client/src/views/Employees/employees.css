@@ -1,255 +1,243 @@
 a {
-    color: black;
+  color: black;
 }
 
 .container_search_filter {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 30px;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  gap: 20px;
 }
 
-
 .div_input_search {
-    width: 280px;
-    height: 45px;
+  width: 280px;
+  height: 45px;
 }
 
 .input_search {
-    width: 100%;
-    height: 100%;
-    font-size: 14px;
-    border-radius: 6px;
-    color: #445371;
-    padding: 0 0 0 15px;
-    text-decoration: none;
-    border: 2px solid rgba(68, 83, 113, 0.15);
-    background: rgba(255, 255, 255, 0.00);
-    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.00) inset;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  border-radius: 6px;
+  color: #445371;
+  padding: 0 0 0 15px;
+  text-decoration: none;
+  border: 2px solid rgba(68, 83, 113, 0.15);
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0) inset;
 }
 
 .filter {
-    width: 183px;
-    height: 45px;
-    font-size: 14px;
-    border-radius: 6px;
-    padding: 0 0 0 15px;
-    color: #445371;
-    text-decoration: none;
-    border: 2px solid rgba(68, 83, 113, 0.15);
-    background: rgba(255, 255, 255, 0.00);
-    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.00) inset;
+  width: 183px;
+  height: 45px;
+  font-size: 14px;
+  border-radius: 6px;
+  padding: 0 0 0 15px;
+  color: #445371;
+  text-decoration: none;
+  border: 2px solid rgba(68, 83, 113, 0.15);
+  background: rgba(255, 255, 255, 0);
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0) inset;
 }
 
-
 table {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    border-collapse: collapse;
-    border-spacing: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 table th {
-    background: #ECEEF1;
-    padding: 10px 20px;
-    border-bottom: 1px solid;
-    color: #9BA4B4;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
+  background: #eceef1;
+  padding: 10px 20px;
+  border-bottom: 1px solid;
+  color: #9ba4b4;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
 }
 
 table td {
-    padding: 10px 20px;
-    color: #212121;
-    font-size: 16px;
-    font-weight: 400;
-    height: 30px;
-    text-align: center;
-    border-bottom: 1px dotted #ccc;
+  padding: 10px 20px;
+  color: #212121;
+  font-size: 16px;
+  font-weight: 400;
+  height: 30px;
+  text-align: center;
+  border-bottom: 1px dotted #ccc;
 }
 
-.table_user{
-    padding-top: 30px;
-    margin: 0 auto;
+.table_user {
+  padding-top: 30px;
+  margin: 0 auto;
 }
 
 .icon_edit {
-    font-size: 20px;
-    display: inline-block;
+  font-size: 20px;
+  display: inline-block;
 }
 
 .icon_delete {
-    display: inline-block;
-    cursor: pointer;
-    font-size: 25px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 25px;
 }
 
 tr:nth-of-type(2n) {
-    background: var(--table-even);
+  background: var(--table-even);
 }
 
-.active-status {
-    color: #019F3C;
-    background: #C0E7CE;
-    width: 100px;
-    margin: 0 auto;
-    border-radius: 6px;
+table p {
+  margin: 0 auto;
 }
 
-.inactive-status {
-    color: #D91528;
-    background: #F6C5C9;
-    width: 100px;
-    margin: 0 auto;
-    border-radius: 6px;
+.statusProject{
+  white-space: nowrap;
 }
-
 
 @media screen and (max-width: 1183px) {
-    table {
-        border: 0;
-    }
+  table {
+    border: 0;
+  }
 
-    table thead {
-        display: none;
-    }
+  table thead {
+    display: none;
+  }
 
-    table tr {
-        margin-bottom: 10px;
-        display: block;
-        border-bottom: 2px solid #ddd;
-    }
+  table tr {
+    margin-bottom: 10px;
+    display: block;
+    border-bottom: 2px solid #ddd;
+  }
 
-    table td {
-        display: block;
-        text-align: center;
-        font-size: 13px;
-        border-bottom: 1px dotted #ccc;
-        border-right: 1px solid transparent;
-    }
+  table td {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    border-bottom: 1px dotted #ccc;
+    border-right: 1px solid transparent;
+  }
 
-    table td:last-child {
-        border-bottom: 0;
-    }
+  table td:last-child {
+    border-bottom: 0;
+  }
 
-    table td:before {
-        content: attr(data-label);
-        float: left;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
+  table td:before {
+    content: attr(data-label);
+    float: left;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
 }
-
 
 /* Добавление и редактирование сотрудников */
 
 .pade {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .wrapper {
-    width: 470px;
-    height: max-content;
-    border-radius: 12px;
-    background: #FFF;
-    box-shadow: 0px 32px 32px 0px rgba(68, 83, 113, 0.05), 0px 0px 32px 0px rgba(68, 83, 113, 0.10);
+  width: 470px;
+  height: max-content;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0px 32px 32px 0px rgba(68, 83, 113, 0.05),
+    0px 0px 32px 0px rgba(68, 83, 113, 0.1);
 }
 
 .input_div {
-    width: 100%;
-    margin-top: 8px;
-    color: #353535;
-    font-size: 14px;
+  width: 100%;
+  margin-top: 8px;
+  color: #353535;
+  font-size: 14px;
 }
 
 .input_div div {
-    margin-top: 8px;
+  margin-top: 8px;
 }
 
 .title-add {
-    padding: 24px 20px 24px 20px;
+  padding: 24px 20px 24px 20px;
 }
 
 .container-data-form {
-    padding: 0 20px 8px 20px;
+  padding: 0 20px 8px 20px;
 }
 
 label {
-    font-size: 16px;
-    color: #000;
-    font-weight: 500;
+  font-size: 16px;
+  color: #000;
+  font-weight: 500;
 }
 
 input {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
-
 .label-status {
-    padding-left: 5px;
-    font-weight: normal;
+  padding-left: 5px;
+  font-weight: normal;
 }
 
 .cont-status {
-    padding: 0 20px 0 20px;
+  padding: 0 20px 0 20px;
 }
 
 .title-add h3 {
-    font-size: 22px
+  font-size: 22px;
 }
 
 .form_control {
-    width: 100%;
-    height: 46px;
-    border-radius: 8px;
-    border: 1px solid #CACACA;
-    background: #FFF;
+  width: 100%;
+  height: 46px;
+  border-radius: 8px;
+  border: 1px solid #cacaca;
+  background: #fff;
 }
 
 .action_buttons {
-    text-align: center;
+  text-align: center;
 }
 
 .buttons {
-    padding: 24px 20px 24px 20px;
-    float: right;
-    display: flex;
+  padding: 24px 20px 24px 20px;
+  float: right;
+  display: flex;
 }
 
 .buttons div {
-    padding-left: 12px;
+  padding-left: 12px;
 }
 
 .button_add_cancel {
-    background: #FFF;
-    width: 93px;
-    height: 44px;
-    border: 1px solid #E5E6E7;
-    border-radius: 3px;
-    cursor: pointer;
-    display: inline-block;
+  background: #fff;
+  width: 93px;
+  height: 44px;
+  border: 1px solid #e5e6e7;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
 }
 
 .button_add {
-    background: #FFF;
-    border: 1px solid #E5E6E7;
-    width: 107px;
-    height: 44px;
-    border-radius: 3px;
-    cursor: pointer;
-    float: right;
-    display: inline-block;
+  background: #fff;
+  border: 1px solid #e5e6e7;
+  width: 107px;
+  height: 44px;
+  border-radius: 3px;
+  cursor: pointer;
+  float: right;
+  display: inline-block;
 }
 
 .button_add_cancel:hover,
 .button_add:hover {
-    background: #196FAD;
-    color: #fff;
+  background: #196fad;
+  color: #fff;
 }

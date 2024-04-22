@@ -1,32 +1,32 @@
 .div_title {
-    padding-top: 30px;
-    border-bottom: 1px solid black;
+  padding-top: 30px;
+  border-bottom: 1px solid black;
 }
 
 .div_title p {
-    font-size: 30px;
+  font-size: 30px;
 }
 
 .menu {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 .menu li {
-    float: left;
+  float: left;
 }
 
 .menu li a {
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
 /* .sub-menu {
@@ -56,5 +56,5 @@
 } */
 
 .menu ul li.active {
-    border-bottom: 1px solid #196FAD;
+  border-bottom: 1px solid #196fad;
 }
