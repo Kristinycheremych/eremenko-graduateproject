@@ -23,7 +23,6 @@ import UpdatePosition from "./views/settings/employeesSettings/position/updatePo
 import ProjectDetails from "./views/projects/projectDetails/ProjectDetails";
 import ParticipantsPage from "./views/projects/projectDetails/participantsPage/ParticipantsPage";
 import StagesPage from "./views/projects/projectDetails/stagesPage/StagesPage";
-import TaskPage from "./views/projects/projectDetails/tasksPage/TaskPage";
 import StagePage from "./views/settings/projectsSettings/stage/StagePage";
 import AddStage from "./views/settings/projectsSettings/stage/addStage/AddStage";
 import UpdateStage from "./views/settings/projectsSettings/stage/updateStage/UpdateStage";
@@ -107,10 +106,6 @@ function App() {
               element={<ParticipantsPage />}
             ></Route>
             {/* Задачи */}
-            <Route
-              path="/projectsPage/projectDetails/:projectId/tasks"
-              element={<TaskPage />}
-            ></Route>
             <Route
               path="/projectsPage/projects/:projectId/stageDetails/:stageId/addTask"
               element={<AddTask />}

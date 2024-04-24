@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 function CreateEmployees() {
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [gender, setGender] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [position, setPosition] = useState("");
   const [dataPosition, setDataPosition] = useState<any[]>([]);
@@ -39,6 +40,7 @@ function CreateEmployees() {
         firstName,
         middleName,
         position,
+        gender,
         employeeStatus,
       })
       .then((res) => {
@@ -98,6 +100,21 @@ function CreateEmployees() {
                 </div>
               </div>
               <div className={"input_div"}>
+                <label htmlFor="gender">Пол</label>
+                <div>
+                  <select
+                    className={"form_control"}
+                    value={gender}
+                    onChange={(e: any) => setGender(e.target.value)}
+                    required
+                  >
+                    <option value="">Выберите пол</option>
+                    <option value="Мужской">Мужской</option>
+                    <option value="Женский">Женский</option>
+                  </select>
+                </div>
+              </div>
+              <div className={"input_div"}>
                 <label htmlFor="position">Должность</label>
                 <div>
                   <select
@@ -129,7 +146,10 @@ function CreateEmployees() {
                     <option value="">Выберете статус:</option>
                     {dataEmployeeStatus.map((employeeStatus) => {
                       return (
-                        <option key={employeeStatus._id} value={employeeStatus._id}>
+                        <option
+                          key={employeeStatus._id}
+                          value={employeeStatus._id}
+                        >
                           {employeeStatus.title}
                         </option>
                       );

@@ -22,12 +22,13 @@ router.get("/get/employees/:id", (req, res) => {
 
 // Добавление сотрудника
 router.post("/create/employees", (req, res) => {
-  const { lastName, firstName, middleName, position, employeeStatus } = req.body;
+  const { lastName, firstName, middleName, position, gender,  employeeStatus } = req.body;
   const newProject = new UserModel({
     lastName,
     firstName,
     middleName,
     position,
+    gender,
     employeeStatus,
   });
   newProject
@@ -46,6 +47,7 @@ router.put("/update/employees/:id", (req, res) => {
       firstName: req.body.firstName,
       middleName: req.body.middleName,
       position: req.body.position,
+      gender: req.body.gender,
       employeeStatus: req.body.employeeStatus,
     },
     { new: true }

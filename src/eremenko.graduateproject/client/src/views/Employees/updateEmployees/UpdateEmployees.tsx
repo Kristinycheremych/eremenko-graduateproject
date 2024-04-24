@@ -8,7 +8,7 @@ interface Position {
   lastName: string;
   firstName: string;
   middleName: string;
-  isActive: boolean;
+  gender: string;
   position: {
     _id: string;
     title: string;
@@ -23,6 +23,7 @@ function UpdateEmployees() {
   const { id } = useParams();
   const [lastName, setLastName] = useState<string>();
   const [firstName, setFirstName] = useState<string>();
+  const [gender, setGender] = useState<string>();
   const [middleName, setMiddleName] = useState<string>();
   const [positionId, setPositionId] = useState<string>();
   const [positionList, setPositionList] = useState<any[]>([]);
@@ -38,6 +39,7 @@ function UpdateEmployees() {
         setLastName(response.data.lastName);
         setFirstName(response.data.firstName);
         setMiddleName(response.data.middleName);
+        setGender(response.data.gender);
         setPositionId(response.data.position._id);
         setEmployeeStatusId(response.data.employeeStatus._id);
       } catch (err) {
@@ -70,6 +72,7 @@ function UpdateEmployees() {
         lastName,
         firstName,
         middleName,
+        gender,
         position: positionId,
         employeeStatus: employeeStatusId,
       })
@@ -127,14 +130,26 @@ function UpdateEmployees() {
                 </div>
               </div>
               <div className={"input_div"}>
+                <label htmlFor="gender">Пол</label>
+                <div>
+                  <select
+                    className="form_control"
+                    value={gender}
+                    onChange={(e: any) => setGender(e.target.value)}
+                  >
+                    <option value="">Выберите пол</option>
+                    <option value="Мужской">Мужской</option>
+                    <option value="Женский">Женский</option>
+                  </select>
+                </div>
+              </div>
+              <div className={"input_div"}>
                 <label htmlFor="position">Должность</label>
                 <div>
                   <select
                     className="form_control"
                     value={positionId}
-                    onChange={(e: any) =>
-                      setPositionId(e.target.value)
-                    }
+                    onChange={(e: any) => setPositionId(e.target.value)}
                   >
                     <option value={""}>Выберите должность:</option>
                     {positionList.map((positionItem) => {

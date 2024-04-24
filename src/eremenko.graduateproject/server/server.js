@@ -10,6 +10,8 @@ const positionRoutes = require("./routes/PositionRoutes");
 const stageProjectRoutes = require("./routes/StageProjectRoutes");
 const stageRoutes = require("./routes/StageRoutes");
 const taskRoutes = require("./routes/TaskRoutes");
+const divisionsRoutes = require("./routes/DivisionsRoutes");
+const employeeProjectRoutes = require("./routes/EmployeeProjectRoutes");
 
 const app = express();
 
@@ -26,6 +28,8 @@ mongoose
   .catch((error) => console.log(error));
 
 // Подключаем роуты
+app.use("/", divisionsRoutes);
+app.use("/", employeeProjectRoutes);
 app.use("/", employeesRoutes);
 app.use("/", employeeStatusRoutes);
 app.use("/", positionRoutes);

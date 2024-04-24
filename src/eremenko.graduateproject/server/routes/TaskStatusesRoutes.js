@@ -10,13 +10,6 @@ router.get("/get/taskStatuses/:stageProjectId", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-// Получение статуса задачи по ID
-router.get("/get/taskStatuses/:stageProjectId/:id", (req, res) => {
-  const id = req.params.id;
-  TaskStatusesModel.findById(id)
-    .then((taskStatus) => res.json(taskStatus))
-    .catch((err) => res.json(err));
-});
 
 // Создание статуса задачи для конкетного этапа
 router.post("/create/taskStatuses/:stageProjectId", (req, res) => {

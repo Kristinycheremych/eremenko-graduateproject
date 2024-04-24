@@ -4,7 +4,7 @@ const EmployeesSchema = new mongoose.Schema({
   lastName: String,
   firstName: String,
   middleName: String,
-  isActive: Boolean,
+  gender: String,
   position: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "position",
@@ -12,6 +12,10 @@ const EmployeesSchema = new mongoose.Schema({
   employeeStatus: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "employee_status",
+  },
+  divisions: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "divisions",
   },
 });
 

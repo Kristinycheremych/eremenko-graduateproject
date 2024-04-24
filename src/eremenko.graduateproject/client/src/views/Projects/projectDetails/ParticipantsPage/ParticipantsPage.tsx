@@ -63,7 +63,7 @@ function ParticipantsPage() {
 
   const handleDeleteEmployee = (employeeId: string) => {
     axios
-      .delete(`http://localhost:3001/deleteEmployee/${projectId}/${employeeId}`)
+      .delete(`http://localhost:3001/employeeProject/${projectId}/${employeeId}`)
       .then((response) => {
         // Обновляем список сотрудников после удаления
         setProject((prevProject) => {
@@ -107,8 +107,8 @@ function ParticipantsPage() {
               type="text"
               className={"input_search"}
               placeholder="Поиск"
-              value={searchQuery} // Привязка строки поиска к состоянию
-              onChange={(e) => setSearchQuery(e.target.value)} // Обработчик изменения строки поиска
+              value={searchQuery} 
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 

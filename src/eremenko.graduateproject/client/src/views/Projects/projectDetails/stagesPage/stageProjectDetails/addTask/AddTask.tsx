@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -22,19 +23,15 @@ const AddTaskPage: React.FC = () => {
     stageId: string;
     projectId: string;
   }>();
-
-  const [newTaskDescription, setNewTaskDescription] = useState<string>("");
   const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]); // Массив выбранных сотрудников
   const [searchQuery, setSearchQuery] = useState(""); // Запрос для поиска сотрудников
   const [employeesList, setEmployeesList] = useState<any[]>([]);
-
-  const navigate = useNavigate();
-
   const [stageDetails, setStageDetails] = useState<StageDetails | null>(null);
   const [taskStatuses, setTaskStatuses] = useState<TaskStatus[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string>("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -49,7 +46,7 @@ const AddTaskPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const stageResponse = await axios.get<StageDetails>(
-          `http://localhost:3001/get/stageDetails/${stageId}`
+          `http://localhost:3001/get/projects/${projectId}/stageProject/${stageId}`
         );
         setStageDetails(stageResponse.data);
 

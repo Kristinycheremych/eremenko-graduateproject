@@ -16,7 +16,7 @@ interface User {
   employeeStatus: {
     title: string;
   };
-  isActive: boolean;
+  gender: String
 }
 
 interface EmployeeStatusColors {
@@ -126,6 +126,7 @@ function EmployeesPage() {
                 <th>Фамилия</th>
                 <th>Имя</th>
                 <th>Отчество</th>
+                <th>Пол</th>
                 <th>Должность</th>
                 <th>Статус</th>
                 <th></th>
@@ -139,6 +140,7 @@ function EmployeesPage() {
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
+                  <td>{user.gender}</td>
                   <td>{user.position ? user.position.title : "Нет данных"}</td>
                   <td>
                     <p

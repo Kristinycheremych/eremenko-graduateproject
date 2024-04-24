@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
@@ -51,11 +52,12 @@ function StageDetailsProject() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>("");
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const stageResponse = await axios.get<StageDetails>(
-          `http://localhost:3001/get/stageDetails/${stageId}`
+          `http://localhost:3001/get/projects/${projectId}/stageProject/${stageId}`
         );
         setStageDetails(stageResponse.data);
 

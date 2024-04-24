@@ -7,11 +7,11 @@ function AddStageProject() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [stageProject, setStageProject] = useState("");
-  const [stageList, setStageList] = useState<any[]>([]); //Список этапов
+  const [stageList, setStageList] = useState<any[]>([]);
   const { projectId } = useParams<{ projectId: string }>();
   const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]);
   const [employeesList, setEmployeesList] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState(""); // Запрос для поиска сотрудников
+  const [searchQuery, setSearchQuery] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ function AddStageProject() {
       .post(`http://localhost:3001/create/projects/${projectId}/stageProject`, {
         startDate,
         endDate,
-        stageId: stageProject, // используем stageId вместо stageProject
+        stageId: stageProject,
         employees: selectedEmployees,
       })
       .then((res) => {
@@ -58,7 +58,7 @@ function AddStageProject() {
             </div>
             <div className="container-data-form">
               <div className={"input_div"}>
-                <label htmlFor="status">Статус проекта:</label>
+                <label htmlFor="status">Этап:</label>
                 <div>
                   <select
                     className={"form_control"}
@@ -66,7 +66,7 @@ function AddStageProject() {
                     onChange={(e) => setStageProject(e.target.value)}
                     required
                   >
-                    <option value="">Выберете статус:</option>
+                    <option value="">Выберете этап:</option>
                     {stageList.map((stage) => {
                       return (
                         <option key={stage._id} value={stage._id}>
