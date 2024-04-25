@@ -23,7 +23,7 @@ interface Project {
   _id: string;
   title: string;
   description: string;
-  employees: Employee[];
+  supervisorId: Employee[];
 }
 
 interface EmployeeStatusColors {
@@ -63,15 +63,15 @@ function ParticipantsPage() {
 
   const handleDeleteEmployee = (employeeId: string) => {
     axios
-      .delete(`http://localhost:3001/employeeProject/${projectId}/${employeeId}`)
+      .delete(`http://localhost:3001/deleteEmployee/${projectId}/${employeeId}`)
       .then((response) => {
         // Обновляем список сотрудников после удаления
         setProject((prevProject) => {
           if (prevProject) {
-            const updatedEmployees = prevProject.employees.filter(
+            const updatedEmployees = prevProject.supervisorId.filter(
               (employee) => employee._id !== employeeId
             );
-            return { ...prevProject, employees: updatedEmployees };
+            return { ...prevProject, supervisorId: updatedEmployees };
           }
           return prevProject;
         });
@@ -82,7 +82,7 @@ function ParticipantsPage() {
   };
 
   //Реализация логики поиска
-  const filteredEmployees = project.employees.filter((employee) =>
+  const filteredEmployees = project.supervisorId.filter((employee) =>
     `${employee.lastName} ${employee.firstName} ${employee.middleName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())

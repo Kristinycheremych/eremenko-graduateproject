@@ -5,6 +5,7 @@ const EmployeesSchema = new mongoose.Schema({
   firstName: String,
   middleName: String,
   gender: String,
+  serviceNumber: Number,
   position: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "position",

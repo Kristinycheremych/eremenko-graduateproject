@@ -8,11 +8,11 @@ interface Project {
   description: string;
   startDate: string;
   endDate: string;
-  status: {
+  statusProjectId: {
     _id: string;
     title: string;
   };
-  employees: {
+  supervisorId: {
     _id: string;
     lastName: string;
     firstName: string;
@@ -26,11 +26,11 @@ function UpdateProject() {
   const [description, setDescription] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
-  const [statusId, setStatusId] = useState<string>("");
-  const [employeeIds, setEmployeeIds] = useState<string[]>([]); // Массив выбранных сотрудников
-  const [statusList, setStatusList] = useState<any[]>([]);
-  const [employeesList, setEmployeesList] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>(""); // Запрос для поиска сотрудников
+  const [statusProjectId, setStatusProjectId] = useState<string>("");
+  const [supervisorList, setSupervisorList] = useState<any[]>([]);
+  const [selectedSupervisors, setSelectedSupervisors] = useState<string[]>([]);
+  const [statusProjectIdList, setStatusProjectIdList] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,8 +46,8 @@ function UpdateProject() {
           new Date(projectData.startDate).toISOString().split("T")[0]
         );
         setEndDate(new Date(projectData.endDate).toISOString().split("T")[0]);
-        setStatusId(projectData.status._id);
-        setEmployeeIds(projectData.employees.map((employee) => employee._id)); // Устанавливаем значения employeeIds
+        setStatusProjectId(projectData.statusProjectId._id);
+        setSelectedSupervisors(projectData.supervisorId.map((employee) => employee._id)); // Устанавливаем значения employeeIds
       } catch (err) {
         console.log(err);
       }
@@ -58,21 +58,21 @@ function UpdateProject() {
     axios
       .get("http://localhost:3001/get/projectStatuses")
       .then((res) => {
-        setStatusList(res.data);
+        setStatusProjectIdList(res.data);
       })
       .catch((err) => console.log(err));
 
     axios
       .get("http://localhost:3001/get/employees")
       .then((res) => {
-        setEmployeesList(res.data);
+        setSupervisorList(res.data);
       })
       .catch((err) => console.log(err));
   }, [id]);
 
   // Фильтрация списка сотрудников по введенному запросу
-  const filteredEmployees = employeesList.filter((employee) =>
-    `${employee.lastName} ${employee.firstName} ${employee.middleName}`
+  const filteredSupervisors = supervisorList.filter((supervisor) =>
+    `${supervisor.lastName} ${supervisor.firstName} ${supervisor.middleName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
@@ -85,8 +85,8 @@ function UpdateProject() {
         description,
         startDate,
         endDate,
-        status: statusId,
-        employees: employeeIds, // Используйте массив выбранных сотрудников для отправки на сервер
+        statusProjectId,
+        supervisorId: selectedSupervisors, 
       })
       .then((res) => {
         console.log(res);
@@ -157,11 +157,11 @@ function UpdateProject() {
                 <div>
                   <select
                     className="form_control"
-                    value={statusId}
-                    onChange={(e) => setStatusId(e.target.value)}
+                    value={statusProjectId}
+                    onChange={(e) => setStatusProjectId(e.target.value)}
                   >
                     <option value={""}>Выберите статус:</option>
-                    {statusList.map((statusItem) => {
+                    {statusProjectIdList.map((statusItem) => {
                       return (
                         <option key={statusItem._id} value={statusItem._id}>
                           {statusItem.title}
@@ -173,7 +173,7 @@ function UpdateProject() {
               </div>
 
               <div className={"input_div"}>
-                <label htmlFor="status">Ответственные</label>
+                <label htmlFor="status">Куратор</label>
                 {/* Поиск сотрудников */}
                 <div className={"input_div"}>
                   <input
@@ -188,20 +188,20 @@ function UpdateProject() {
                   <select
                     className="form_control_employees"
                     multiple // Разрешить множественный выбор
-                    value={employeeIds}
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                      setEmployeeIds(
+                    value={selectedSupervisors}
+                    onChange={(e: any) =>
+                      setSelectedSupervisors(
                         Array.from(
                           e.target.selectedOptions,
-                          (option) => option.value
+                          (option: HTMLOptionElement) => option.value
                         )
                       )
                     }
                   >
-                    {filteredEmployees.map((employeeItem) => {
+                    {filteredSupervisors.map((supervisorItem) => {
                       return (
-                        <option key={employeeItem._id} value={employeeItem._id}>
-                          {`${employeeItem.lastName} ${employeeItem.firstName} ${employeeItem.middleName}`}
+                        <option key={supervisorItem._id} value={supervisorItem._id}>
+                          {`${supervisorItem.lastName} ${supervisorItem.firstName} ${supervisorItem.middleName}`}
                         </option>
                       );
                     })}
@@ -214,11 +214,11 @@ function UpdateProject() {
               <div className="buttons">
                 <div>
                   <Link to={"/projectsPage"}>
-                    <button className={"button_add_cancel"}>Отменить</button>
+                    <button type="button" className={"button_add_cancel"}>Отменить</button>
                   </Link>
                 </div>
                 <div>
-                  <button className={"button_add"}>Изменить</button>
+                  <button type="submit" className={"button_add"}>Изменить</button>
                 </div>
               </div>
             </div>

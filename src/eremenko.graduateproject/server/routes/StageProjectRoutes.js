@@ -8,7 +8,6 @@ router.get("/get/projects/:projectId/stageProject", (req, res) => {
   StageProjectModal.find({ projectId })
     .populate("projectId")
     .populate("stageId")
-    .populate("employees")
     .then((stageProject) => res.json(stageProject))
     .catch((err) => res.json(err));
 });
@@ -18,7 +17,6 @@ router.get("/get/projects/:projectId/stageProject/:id", (req, res) => {
   StageProjectModal.findOne({ _id: id })
     .populate("projectId")
     .populate("stageId")
-    .populate("employees")
     .then((stageProject) => res.json(stageProject))
     .catch((err) => res.json(err));
 });
@@ -26,13 +24,13 @@ router.get("/get/projects/:projectId/stageProject/:id", (req, res) => {
 // Добавить этап для конкретного проекта
 router.post("/create/projects/:projectId/stageProject", async (req, res) => {
   const { projectId } = req.params;
-  const { startDate, endDate, stageId, employees } = req.body;
+  const { startDate, endDate, stageId, periodExecution } = req.body;
   const newStage = new StageProjectModal({
     projectId,
     startDate,
     endDate,
+    periodExecution,
     stageId,
-    employees,
   });
 
   newStage
@@ -47,10 +45,10 @@ router.put("/update/projects/:projectId/stageProject/:id", (req, res) => {
   StageProjectModal.findByIdAndUpdate(
     id,
     {
+      stageId: req.body.stageId,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
-      stageId: req.body.stageId,
-      employees: req.body.employees,
+      periodExecution: req.body.periodExecution
     },
     { new: true }
   )

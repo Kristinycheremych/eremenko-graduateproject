@@ -3,12 +3,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
-interface Position {
+interface Employee {
   _id: string;
   lastName: string;
   firstName: string;
   middleName: string;
   gender: string;
+  serviceNumber: number;
   position: {
     _id: string;
     title: string;
@@ -23,8 +24,9 @@ function UpdateEmployees() {
   const { id } = useParams();
   const [lastName, setLastName] = useState<string>();
   const [firstName, setFirstName] = useState<string>();
-  const [gender, setGender] = useState<string>();
   const [middleName, setMiddleName] = useState<string>();
+  const [gender, setGender] = useState<string>();
+  const [serviceNumber, setServiceNumber] = useState<number>();
   const [positionId, setPositionId] = useState<string>();
   const [positionList, setPositionList] = useState<any[]>([]);
   const [employeeStatusId, setEmployeeStatusId] = useState<string>();
@@ -33,13 +35,14 @@ function UpdateEmployees() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<Position>(
+        const response = await axios.get<Employee>(
           `http://localhost:3001/get/employees/${id}`
         );
         setLastName(response.data.lastName);
         setFirstName(response.data.firstName);
         setMiddleName(response.data.middleName);
         setGender(response.data.gender);
+        setServiceNumber(response.data.serviceNumber);
         setPositionId(response.data.position._id);
         setEmployeeStatusId(response.data.employeeStatus._id);
       } catch (err) {
@@ -73,6 +76,7 @@ function UpdateEmployees() {
         firstName,
         middleName,
         gender,
+        serviceNumber,
         position: positionId,
         employeeStatus: employeeStatusId,
       })
@@ -141,6 +145,18 @@ function UpdateEmployees() {
                     <option value="Мужской">Мужской</option>
                     <option value="Женский">Женский</option>
                   </select>
+                </div>
+              </div>
+              <div className={"input_div"}>
+                <label htmlFor="middleName">Табельный намер</label>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="Введите табельный номер"
+                    className={"form_control"}
+                    onChange={(e: any) => setServiceNumber(e.target.value)}
+                    value={serviceNumber}
+                  />
                 </div>
               </div>
               <div className={"input_div"}>

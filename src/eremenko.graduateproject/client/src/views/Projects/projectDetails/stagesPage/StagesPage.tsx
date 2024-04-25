@@ -12,22 +12,16 @@ interface Project {
   description: string;
 }
 
-interface Employee {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-}
 
 interface Stage {
   _id: string;
   startDate: string;
   endDate: string;
+  periodExecution: string;
   stageId: {
     title: string;
     description: string;
   };
-  employees: Employee[];
 }
 
 function StagesPage() {
@@ -119,7 +113,7 @@ function StagesPage() {
                 <th>Описание</th>
                 <th>Дата начала</th>
                 <th>Планируемая дата окончания</th>
-                <th>Ответственный</th>
+                <th>Срок выполнения</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -136,13 +130,7 @@ function StagesPage() {
                   </td>
                   <td>{new Date(stage.startDate).toLocaleDateString()}</td>{" "}
                   <td>{new Date(stage.endDate).toLocaleDateString()}</td>{" "}
-                  <td>
-                    {stage.employees
-                      .map((employee: any) => {
-                        return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
-                      })
-                      .join(", ")}
-                  </td>
+                  <td>{new Date(stage.periodExecution).toLocaleDateString()}</td>{" "}
                   <td>
                     <Link
                       to={`/projectsPage/projectDetails/${projectId}/stages/stageDetails/${stage._id}`}

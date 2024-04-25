@@ -5,18 +5,13 @@ const StageProjectSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "stage", // ссылка на модель статусов проектов
   },
-  startDate: Date,
-  endDate: Date,
   projectId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "project",
   },
-  employees: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users", // ссылка на модель сотрудников
-    },
-  ],
+  startDate: Date,
+  endDate: Date,
+  periodExecution: Date
 });
 
 const StageProjectModal = mongoose.model("stageProject", StageProjectSchema);

@@ -7,19 +7,18 @@ const AddProjectForm = () => {
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [status, setStatus] = useState("");
-  const [data, setData] = useState<any[]>([]);
-  const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]); // Массив выбранных сотрудников
-
-  const [employeesList, setEmployeesList] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState(""); // Запрос для поиска сотрудников
+  const [statusProjectId, setStatusProjectId] = useState("");
+  const [statusProjectIdList, setStatusProjectIdList] = useState<any[]>([]);
+  const [selectedSupervisors, setSelectedSupervisors] = useState<string[]>([]);
+  const [supervisorIdList, setSupervisorIdList] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get("http://localhost:3001/get/projectStatuses")
       .then((res) => {
-        setData(res.data);
+        setStatusProjectIdList(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -28,7 +27,7 @@ const AddProjectForm = () => {
     axios
       .get("http://localhost:3001/get/employees")
       .then((res) => {
-        setEmployeesList(res.data);
+        setSupervisorIdList(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -41,8 +40,8 @@ const AddProjectForm = () => {
         description,
         startDate,
         endDate,
-        status,
-        employees: selectedEmployees, // Массив выбранных сотрудников для отправки на сервер
+        statusProjectId,
+        supervisorId: selectedSupervisors, // Массив выбранных сотрудников для отправки на сервер
       })
       .then((res) => {
         console.log(res);
@@ -114,12 +113,12 @@ const AddProjectForm = () => {
                 <div>
                   <select
                     className={"form_control"}
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
+                    value={statusProjectId}
+                    onChange={(e) => setStatusProjectId(e.target.value)}
                     required
                   >
                     <option value="">Выберете статус:</option>
-                    {data.map((projectStatuses) => {
+                    {statusProjectIdList.map((projectStatuses) => {
                       return (
                         <option
                           key={projectStatuses._id}
@@ -149,9 +148,9 @@ const AddProjectForm = () => {
                 <select
                   className={"form_control_employees"}
                   multiple
-                  value={selectedEmployees}
+                  value={selectedSupervisors}
                   onChange={(e) =>
-                    setSelectedEmployees(
+                    setSelectedSupervisors(
                       Array.from(
                         e.target.selectedOptions,
                         (option) => option.value
@@ -160,7 +159,7 @@ const AddProjectForm = () => {
                   }
                   required
                 >
-                  {employeesList
+                  {supervisorIdList
                     .filter((employee) =>
                       `${employee.lastName} ${employee.firstName} ${employee.middleName}`
                         .toLowerCase()

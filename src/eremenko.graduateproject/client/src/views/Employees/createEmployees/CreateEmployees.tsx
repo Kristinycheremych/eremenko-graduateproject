@@ -6,8 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 function CreateEmployees() {
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
-  const [gender, setGender] = useState("");
   const [middleName, setMiddleName] = useState("");
+  const [gender, setGender] = useState("");
+  const [serviceNumber, setServiceNumber] = useState("");
   const [position, setPosition] = useState("");
   const [dataPosition, setDataPosition] = useState<any[]>([]);
   const [employeeStatus, setEmployeeStatus] = useState("");
@@ -39,8 +40,9 @@ function CreateEmployees() {
         lastName,
         firstName,
         middleName,
-        position,
+        serviceNumber,
         gender,
+        position,
         employeeStatus,
       })
       .then((res) => {
@@ -112,6 +114,19 @@ function CreateEmployees() {
                     <option value="Мужской">Мужской</option>
                     <option value="Женский">Женский</option>
                   </select>
+                </div>
+              </div>
+              <div className={"input_div"}>
+                <label htmlFor="serviceNumber">Табельный номер</label>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="Введите табельны номер"
+                    className={"form_control"}
+                    onChange={(e: any) => setServiceNumber(e.target.value)}
+                    value={serviceNumber}
+                    required
+                  />
                 </div>
               </div>
               <div className={"input_div"}>

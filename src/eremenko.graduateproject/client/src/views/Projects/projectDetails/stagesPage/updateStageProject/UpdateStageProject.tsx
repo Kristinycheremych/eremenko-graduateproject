@@ -8,16 +8,11 @@ interface StageProject {
   description: string;
   startDate: string;
   endDate: string;
+  periodExecution: string;
   stageId: {
     _id: string;
     title: string;
   };
-  employees: {
-    _id: string;
-    lastName: string;
-    firstName: string;
-    middleName: string;
-  }[];
 }
 
 function UpdateStageProject() {
@@ -25,12 +20,10 @@ function UpdateStageProject() {
   const { projectId } = useParams<{ projectId: string }>();
   const [description, setDescription] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
+  const [periodExecution, setPeriodExecution] = useState<string>("")
   const [endDate, setEndDate] = useState<string>("");
   const [stageId, setStageId] = useState<string>("");
-  const [employeeId, setEmployeeIds] = useState<string[]>([]);
   const [stageList, setStageList] = useState<any[]>([]);
-  const [employeesList, setEmployeesList] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,10 +40,10 @@ function UpdateStageProject() {
         setEndDate(
           new Date(stageProjectData.endDate).toISOString().split("T")[0]
         );
-        setStageId(stageProjectData.stageId._id);
-        setEmployeeIds(
-          stageProjectData.employees.map((employee) => employee._id)
+        setPeriodExecution(
+          new Date(stageProjectData.periodExecution).toISOString().split("T")[0]
         );
+        setStageId(stageProjectData.stageId._id);
       } catch (err) {
         console.log(err);
       }
@@ -64,23 +57,9 @@ function UpdateStageProject() {
         setStageList(res.data);
       })
       .catch((err) => console.log(err));
-
-    axios
-      .get("http://localhost:3001/get/employees")
-      .then((res) => {
-        setEmployeesList(res.data);
-      })
-      .catch((err) => console.log(err));
   }, [id]);
 
-  // Фильтрация списка сотрудников по введенному запросу
-  const filteredEmployees = employeesList.filter((employee) =>
-    `${employee.lastName} ${employee.firstName} ${employee.middleName}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
-
-  const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdate = (event: any) => {
     event.preventDefault();
     axios
       .put(
@@ -89,8 +68,8 @@ function UpdateStageProject() {
           description,
           startDate,
           endDate,
+          periodExecution,
           stageId: stageId,
-          employees: employeeId,
         }
       )
       .then((res) => {
@@ -115,7 +94,7 @@ function UpdateStageProject() {
                   <select
                     className="form_control"
                     value={stageId}
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    onChange={(e:any) =>
                       setStageId(e.target.value)
                     }
                   >
@@ -137,7 +116,7 @@ function UpdateStageProject() {
                   <input
                     type="date"
                     className={"form_control"}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    onChange={(e:any) =>
                       setStartDate(e.target.value)
                     }
                     value={startDate}
@@ -151,47 +130,25 @@ function UpdateStageProject() {
                   <input
                     type="date"
                     className={"form_control"}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    onChange={(e: any) =>
                       setEndDate(e.target.value)
                     }
                     value={endDate}
                   />
                 </div>
               </div>
-
               <div className={"input_div"}>
-                <label htmlFor="status">Ответственные</label>
-                {/* Поиск сотрудников */}
-                <div className={"input_div"}>
+                <label htmlFor="periodExecution">Срок выполнения</label>
+                <div>
                   <input
-                    type="text"
+                    type="date"
                     className={"form_control"}
-                    placeholder="Поиск по ФИО"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e: any) =>
+                      setPeriodExecution(e.target.value)
+                    }
+                    value={periodExecution}
                   />
                 </div>
-                <select
-                  className="form_control_employees"
-                  multiple // Разрешить множественный выбор
-                  value={employeeId}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                    setEmployeeIds(
-                      Array.from(
-                        e.target.selectedOptions,
-                        (option) => option.value
-                      )
-                    )
-                  }
-                >
-                  {filteredEmployees.map((employeeItem) => {
-                    return (
-                      <option key={employeeItem._id} value={employeeItem._id}>
-                        {`${employeeItem.lastName} ${employeeItem.firstName} ${employeeItem.middleName}`}
-                      </option>
-                    );
-                  })}
-                </select>
               </div>
             </div>
 

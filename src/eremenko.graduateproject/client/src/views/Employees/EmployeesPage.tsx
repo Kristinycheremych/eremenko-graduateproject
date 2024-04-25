@@ -10,6 +10,7 @@ interface User {
   lastName: string;
   firstName: string;
   middleName: string;
+  serviceNumber: number;
   position: {
     title: string;
   };
@@ -127,6 +128,7 @@ function EmployeesPage() {
                 <th>Имя</th>
                 <th>Отчество</th>
                 <th>Пол</th>
+                <th>Табельный номер</th>
                 <th>Должность</th>
                 <th>Статус</th>
                 <th></th>
@@ -141,6 +143,7 @@ function EmployeesPage() {
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
                   <td>{user.gender}</td>
+                  <td>{user.serviceNumber}</td>
                   <td>{user.position ? user.position.title : "Нет данных"}</td>
                   <td>
                     <p

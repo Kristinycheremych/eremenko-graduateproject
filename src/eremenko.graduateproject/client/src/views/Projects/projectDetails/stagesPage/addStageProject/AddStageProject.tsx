@@ -6,12 +6,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 function AddStageProject() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [periodExecution, setPeriodExecution] =useState("");
   const [stageProject, setStageProject] = useState("");
   const [stageList, setStageList] = useState<any[]>([]);
   const { projectId } = useParams<{ projectId: string }>();
-  const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]);
-  const [employeesList, setEmployeesList] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,23 +21,14 @@ function AddStageProject() {
       .catch((err) => console.log(err));
   }, []);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/get/employees")
-      .then((res) => {
-        setEmployeesList(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   const handleSubmitStatus = async (event: any) => {
     event.preventDefault();
     axios
       .post(`http://localhost:3001/create/projects/${projectId}/stageProject`, {
         startDate,
         endDate,
+        periodExecution,
         stageId: stageProject,
-        employees: selectedEmployees,
       })
       .then((res) => {
         console.log(res);
@@ -102,49 +91,19 @@ function AddStageProject() {
                   />
                 </div>
               </div>
-
-              {/* Выбор ответственного сотрудника */}
               <div className={"input_div"}>
-                <label htmlFor="selectedEmployees">Ответственные:</label>
-                {/* Поиск сотрудников */}
-                <div className={"input_div"}>
+                <label htmlFor="periodExecution">Срок выполнения</label>
+                <div>
                   <input
-                    type="text"
+                    type="date"
                     className={"form_control"}
-                    placeholder="Поиск по ФИО"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e: any) => setPeriodExecution(e.target.value)}
+                    value={periodExecution}
+                    required
                   />
                 </div>
-                <select
-                  className={"form_control_employees"}
-                  multiple
-                  value={selectedEmployees}
-                  onChange={(e) =>
-                    setSelectedEmployees(
-                      Array.from(
-                        e.target.selectedOptions,
-                        (option) => option.value
-                      )
-                    )
-                  }
-                  required
-                >
-                  {employeesList
-                    .filter((employee) =>
-                      `${employee.lastName} ${employee.firstName} ${employee.middleName}`
-                        .toLowerCase()
-                        .includes(searchQuery.toLowerCase())
-                    )
-                    .map((employee) => (
-                      <option key={employee._id} value={employee._id}>
-                        {`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
-                      </option>
-                    ))}
-                </select>
               </div>
             </div>
-
             <div className={"action_buttons"}>
               <div className="buttons">
                 <div>

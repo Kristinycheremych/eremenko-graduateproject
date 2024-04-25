@@ -18,10 +18,10 @@ interface Project {
   description: string;
   startDate: string;
   endDate: string;
-  status: {
+  statusProjectId: {
     title: string;
   };
-  employees: Employee[];
+  supervisorId: Employee[];
 }
 
 interface StatusColors {
@@ -65,7 +65,7 @@ const ProjectsPage: React.FC = () => {
 
       if (filterStatus !== "") {
         filteredData = filteredData.filter(
-          (project) => project.status.title === filterStatus
+          (project) => project.statusProjectId.title === filterStatus
         );
       }
 
@@ -110,10 +110,10 @@ const ProjectsPage: React.FC = () => {
           >
             <option value="">Все</option>
             {Array.from(
-              new Set(data.map((project) => project.status.title))
-            ).map((status, index) => (
-              <option key={index} value={status}>
-                {status}
+              new Set(data.map((project) => project.statusProjectId.title))
+            ).map((statusProjectId, index) => (
+              <option key={index} value={statusProjectId}>
+                {statusProjectId}
               </option>
             ))}
           </select>
@@ -153,17 +153,17 @@ const ProjectsPage: React.FC = () => {
                   <td>
                     <p
                       style={{
-                        color: statusColors[project.status.title],
-                        backgroundColor: statusBackground[project.status.title],
+                        color: statusColors[project.statusProjectId.title],
+                        backgroundColor: statusBackground[project.statusProjectId.title],
                         borderRadius: "6px",
                       }}
                       className="statusProject"
                     >
-                      {project.status.title}
+                      {project.statusProjectId.title}
                     </p>
                   </td>
                   <td>
-                    {project.employees
+                    {project.supervisorId
                       .map((employee: any) => {
                         return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
                       })

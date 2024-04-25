@@ -5,8 +5,8 @@ const ProjectModal = require("../models/ProjectModel");
 // Получение проектов
 router.get("/get/projects", (req, res) => {
   ProjectModal.find()
-    .populate("status") // Популяция для получения данных о статусе
-    .populate("employees") // Популяция для получения данных о сотрудниках
+    .populate("statusProjectId")
+    .populate("supervisorId")
     .then((projects) => res.json(projects))
     .catch((err) => res.json(err));
 });
@@ -14,13 +14,13 @@ router.get("/get/projects", (req, res) => {
 router.get("/getProjects/:id", (req, res) => {
   const id = req.params.id;
   ProjectModal.findOne({ _id: id })
-    .populate("status")
+    .populate("statusProjectId")
     .populate({
-      path: "employees",
+      path: "supervisorId",
       populate: { path: "position" },
     })
     .populate({
-      path: "employees",
+      path: "supervisorId",
       populate: {
         path: "employeeStatus"
       }
@@ -31,15 +31,15 @@ router.get("/getProjects/:id", (req, res) => {
 
 // Добавление проектов
 router.post("/createProject", (req, res) => {
-  const { title, description, startDate, endDate, status, employees } =
+  const { title, description, startDate, endDate, statusProjectId, supervisorId } =
     req.body;
   const newProject = new ProjectModal({
     title,
     description,
     startDate,
     endDate,
-    status,
-    employees,
+    statusProjectId,
+    supervisorId,
   });
   newProject
     .save()
@@ -57,8 +57,8 @@ router.put("/updateProject/:id", (req, res) => {
       description: req.body.description,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
-      status: req.body.status,
-      employees: req.body.employees,
+      statusProjectId: req.body.statusProjectId,
+      supervisorId: req.body.supervisorId,
     },
     { new: true }
   )
@@ -80,10 +80,10 @@ router.delete("/deleteEmployee/:projectId/:employeeId", (req, res) => {
 
   ProjectModal.findByIdAndUpdate(
     projectId,
-    { $pull: { employees: employeeId } }, // Удаляем сотрудника из массива employees
+    { $pull: { supervisorId: employeeId } }, // Удаляем сотрудника из массива employees
     { new: true }
   )
-    .populate("employees") // Подставьте имя поля для связи с таблицей сотрудников
+    .populate("supervisorId") // Подставьте имя поля для связи с таблицей сотрудников
     .then((project) => res.json(project))
     .catch((err) => res.json(err));
 });
