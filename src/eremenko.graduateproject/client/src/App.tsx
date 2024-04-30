@@ -29,11 +29,11 @@ function App() {
             {/* Сотрудники */}
             <Route path="/employeesPage" element={<EmployeesPage />}></Route>
             <Route
-              path="/createEmployees"
+              path="/employeesPage/createEmployees"
               element={<CreateEmployees />}
             ></Route>
             <Route
-              path="/updateEmployees/:id"
+              path="/employeesPage/updateEmployees/:id"
               element={<UpdateEmployees />}
             ></Route>
             {/* Проекты */}
@@ -63,11 +63,11 @@ function App() {
             />
             {/* Этапы проекта*/}
             <Route
-              path="/projectsPage/projectDetails/:projectId/stages"
+              path="/projectsPage/stageDetails/:projectId/:stageId/stages"
               element={<StagesPage />}
             ></Route>
             <Route
-              path="/projectsPage/projects/:projectId/addStageProject"
+              path="projectsPage/stageDetails/:projectId/stages"
               element={<AddStageProject />}
             ></Route>
             <Route
@@ -76,7 +76,7 @@ function App() {
             ></Route>
             {/* Подробнее об этапе проекта */}
             <Route
-              path="/projectsPage/projectDetails/:projectId/stages/stageDetails/:stageId"
+              path="/projectsPage/stageDetails/:projectId"
               element={<StageDetailsProject />}
             />
             {/* Статус задачи */}

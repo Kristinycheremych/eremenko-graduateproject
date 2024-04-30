@@ -7,12 +7,12 @@ const projectSchema = new mongoose.Schema({
   endDate: Date,
   statusProjectId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "project_statuses", // ссылка на модель статусов проектов
+    ref: "project_statuses", 
   },
   supervisorId: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users", // ссылка на модель сотрудников
+      ref: "users", 
     },
   ],
 });

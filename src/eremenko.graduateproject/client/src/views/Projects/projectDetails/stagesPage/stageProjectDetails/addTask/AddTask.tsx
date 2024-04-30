@@ -72,7 +72,7 @@ const AddTaskPage: React.FC = () => {
         title,
         description,
         stageProjectId: stageId,
-        employees: selectedEmployees,
+        employeeId: selectedEmployees,
       };
       await axios.post(
         `http://localhost:3001/tasks/${selectedStatus}`,
@@ -148,14 +148,14 @@ const AddTaskPage: React.FC = () => {
                   required
                 >
                   {employeesList
-                    .filter((employee) =>
-                      `${employee.lastName} ${employee.firstName} ${employee.middleName}`
+                    .filter((creatorId) =>
+                      `${creatorId.lastName} ${creatorId.firstName} ${creatorId.middleName}`
                         .toLowerCase()
                         .includes(searchQuery.toLowerCase())
                     )
-                    .map((employee) => (
-                      <option key={employee._id} value={employee._id}>
-                        {`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
+                    .map((creatorId) => (
+                      <option key={creatorId._id} value={creatorId._id}>
+                        {`${creatorId.lastName} ${creatorId.firstName} ${creatorId.middleName}`}
                       </option>
                     ))}
                 </select>

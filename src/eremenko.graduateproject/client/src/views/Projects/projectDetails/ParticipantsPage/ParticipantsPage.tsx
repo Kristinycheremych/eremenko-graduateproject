@@ -9,21 +9,41 @@ interface Employee {
   lastName: string;
   firstName: string;
   middleName: string;
-  position: {
-    _id: string;
-    title: string;
-  };
-  employeeStatus: {
-    _id: string;
-    title: string;
-  };
+  gender: String
+  serviceNumber: number;
+  position: Position; 
+  employeeStatus: EmployeeStatus;
+}
+
+interface Position {
+  _id: string;
+  title: string;
+}
+
+interface EmployeeStatus {
+  _id: string;
+  title: string;
+}
+
+interface ProjectStatus {
+  _id: string;
+  title: string;
 }
 
 interface Project {
   _id: string;
   title: string;
   description: string;
+  startDate: string;
+  endDate: string;
+  statusProjectId: ProjectStatus;
   supervisorId: Employee[];
+}
+
+interface EmployeeProject {
+  _id: string;
+  employeeId: Employee[];
+  projectId: Project;
 }
 
 interface EmployeeStatusColors {
@@ -32,7 +52,7 @@ interface EmployeeStatusColors {
 
 function ParticipantsPage() {
   const { projectId } = useParams<{ projectId: string }>();
-  const [project, setProject] = useState<Project | null>(null);
+  const [project, setProject] = useState<EmployeeProject | null>(null);
   const [searchQuery, setSearchQuery] = useState(""); //Состояние для строки поиска
   const [selectedPosition, setSelectedPosition] = useState<string>(""); // Состояние для выбранной должности
 
@@ -48,7 +68,7 @@ function ParticipantsPage() {
 
   useEffect(() => {
     axios
-      .get<Project>(`http://localhost:3001/getProjects/${projectId}`)
+      .get<EmployeeProject>(`http://localhost:3001/employeeProject/${projectId}`)
       .then((response) => {
         setProject(response.data);
       })
@@ -68,7 +88,7 @@ function ParticipantsPage() {
         // Обновляем список сотрудников после удаления
         setProject((prevProject) => {
           if (prevProject) {
-            const updatedEmployees = prevProject.supervisorId.filter(
+            const updatedEmployees = prevProject.projectId.supervisorId.filter(
               (employee) => employee._id !== employeeId
             );
             return { ...prevProject, supervisorId: updatedEmployees };
@@ -82,7 +102,7 @@ function ParticipantsPage() {
   };
 
   //Реализация логики поиска
-  const filteredEmployees = project.supervisorId.filter((employee) =>
+  const filteredEmployees = project.employeeId.filter((employee) =>
     `${employee.lastName} ${employee.firstName} ${employee.middleName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
@@ -133,6 +153,8 @@ function ParticipantsPage() {
                 <th>Фамилия</th>
                 <th>Имя</th>
                 <th>Отчество</th>
+                <th>Пол</th>
+                <th>Табельный номер</th>
                 <th>Должность</th>
                 <th>Статус</th>
                 <th></th>
@@ -145,6 +167,8 @@ function ParticipantsPage() {
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
+                  <td>{user.gender}</td>
+                  <td>{user.serviceNumber}</td>
                   <td>{user.position ? user.position.title : "Нет данных"}</td>
                   <td>
                     <p

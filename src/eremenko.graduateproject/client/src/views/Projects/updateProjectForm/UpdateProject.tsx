@@ -8,11 +8,11 @@ interface Project {
   description: string;
   startDate: string;
   endDate: string;
-  statusProjectId: {
+  status: {
     _id: string;
     title: string;
   };
-  supervisorId: {
+  employees: {
     _id: string;
     lastName: string;
     firstName: string;
@@ -26,18 +26,18 @@ function UpdateProject() {
   const [description, setDescription] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
-  const [statusProjectId, setStatusProjectId] = useState<string>("");
-  const [supervisorList, setSupervisorList] = useState<any[]>([]);
-  const [selectedSupervisors, setSelectedSupervisors] = useState<string[]>([]);
-  const [statusProjectIdList, setStatusProjectIdList] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [statusId, setStatusId] = useState<string>("");
+  const [employeeIds, setEmployeeIds] = useState<string[]>([]); // Массив выбранных сотрудников
+  const [statusList, setStatusList] = useState<any[]>([]);
+  const [employeesList, setEmployeesList] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>(""); // Запрос для поиска сотрудников
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get<Project>(
-          `http://localhost:3001/getProjects/${id}`
+          `http://localhost:3001/employeeProject/${id}`
         );
         const projectData = response.data;
         setTitle(projectData.title);
@@ -46,8 +46,8 @@ function UpdateProject() {
           new Date(projectData.startDate).toISOString().split("T")[0]
         );
         setEndDate(new Date(projectData.endDate).toISOString().split("T")[0]);
-        setStatusProjectId(projectData.statusProjectId._id);
-        setSelectedSupervisors(projectData.supervisorId.map((employee) => employee._id)); // Устанавливаем значения employeeIds
+        setStatusId(projectData.status._id);
+        setEmployeeIds(projectData.employees.map((employee) => employee._id)); // Устанавливаем значения employeeIds
       } catch (err) {
         console.log(err);
       }
@@ -58,21 +58,21 @@ function UpdateProject() {
     axios
       .get("http://localhost:3001/get/projectStatuses")
       .then((res) => {
-        setStatusProjectIdList(res.data);
+        setStatusList(res.data);
       })
       .catch((err) => console.log(err));
 
     axios
       .get("http://localhost:3001/get/employees")
       .then((res) => {
-        setSupervisorList(res.data);
+        setEmployeesList(res.data);
       })
       .catch((err) => console.log(err));
   }, [id]);
 
   // Фильтрация списка сотрудников по введенному запросу
-  const filteredSupervisors = supervisorList.filter((supervisor) =>
-    `${supervisor.lastName} ${supervisor.firstName} ${supervisor.middleName}`
+  const filteredEmployees = employeesList.filter((employee) =>
+    `${employee.lastName} ${employee.firstName} ${employee.middleName}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
@@ -85,8 +85,8 @@ function UpdateProject() {
         description,
         startDate,
         endDate,
-        statusProjectId,
-        supervisorId: selectedSupervisors, 
+        status: statusId,
+        employees: employeeIds, // Используйте массив выбранных сотрудников для отправки на сервер
       })
       .then((res) => {
         console.log(res);
@@ -157,11 +157,11 @@ function UpdateProject() {
                 <div>
                   <select
                     className="form_control"
-                    value={statusProjectId}
-                    onChange={(e) => setStatusProjectId(e.target.value)}
+                    value={statusId}
+                    onChange={(e) => setStatusId(e.target.value)}
                   >
                     <option value={""}>Выберите статус:</option>
-                    {statusProjectIdList.map((statusItem) => {
+                    {statusList.map((statusItem) => {
                       return (
                         <option key={statusItem._id} value={statusItem._id}>
                           {statusItem.title}
@@ -173,7 +173,7 @@ function UpdateProject() {
               </div>
 
               <div className={"input_div"}>
-                <label htmlFor="status">Куратор</label>
+                <label htmlFor="status">Ответственные</label>
                 {/* Поиск сотрудников */}
                 <div className={"input_div"}>
                   <input
@@ -188,20 +188,20 @@ function UpdateProject() {
                   <select
                     className="form_control_employees"
                     multiple // Разрешить множественный выбор
-                    value={selectedSupervisors}
-                    onChange={(e: any) =>
-                      setSelectedSupervisors(
+                    value={employeeIds}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      setEmployeeIds(
                         Array.from(
                           e.target.selectedOptions,
-                          (option: HTMLOptionElement) => option.value
+                          (option) => option.value
                         )
                       )
                     }
                   >
-                    {filteredSupervisors.map((supervisorItem) => {
+                    {filteredEmployees.map((employeeItem) => {
                       return (
-                        <option key={supervisorItem._id} value={supervisorItem._id}>
-                          {`${supervisorItem.lastName} ${supervisorItem.firstName} ${supervisorItem.middleName}`}
+                        <option key={employeeItem._id} value={employeeItem._id}>
+                          {`${employeeItem.lastName} ${employeeItem.firstName} ${employeeItem.middleName}`}
                         </option>
                       );
                     })}
@@ -214,11 +214,11 @@ function UpdateProject() {
               <div className="buttons">
                 <div>
                   <Link to={"/projectsPage"}>
-                    <button type="button" className={"button_add_cancel"}>Отменить</button>
+                    <button className={"button_add_cancel"}>Отменить</button>
                   </Link>
                 </div>
                 <div>
-                  <button type="submit" className={"button_add"}>Изменить</button>
+                  <button className={"button_add"}>Изменить</button>
                 </div>
               </div>
             </div>

@@ -113,7 +113,7 @@ function EmployeesPage() {
           </div>
 
           <div className={"containet_btn_add"}>
-            <Link to="/createEmployees">
+            <Link to="/employeesPage/createEmployees">
               <button className={"btn_add"}>Добавить</button>
             </Link>
           </div>
@@ -163,7 +163,7 @@ function EmployeesPage() {
                   </td>
                   <td className="td-icon">
                     <div className={"icon_edit"}>
-                      <Link to={`/updateEmployees/${user._id}`}>
+                      <Link to={`/employeesPage/updateEmployees/${user._id}`}>
                         <FiEdit />
                       </Link>
                     </div>

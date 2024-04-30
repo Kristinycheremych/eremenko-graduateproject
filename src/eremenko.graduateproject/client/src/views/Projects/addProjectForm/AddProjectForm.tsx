@@ -1,195 +1,268 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-const AddProjectForm = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [statusProjectId, setStatusProjectId] = useState("");
-  const [statusProjectIdList, setStatusProjectIdList] = useState<any[]>([]);
-  const [selectedSupervisors, setSelectedSupervisors] = useState<string[]>([]);
-  const [supervisorIdList, setSupervisorIdList] = useState<any[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
+interface Employee {
+  _id: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+}
+
+interface ProjectStatus {
+  _id: string;
+  title: string;
+}
+
+interface ProjectFormData {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  statusProjectId: string;
+  supervisorId: string;
+  employeeId: string[];
+}
+
+const AddProjectWithEmployee: React.FC = () => {
+  const [projectData, setProjectData] = useState<ProjectFormData>({
+    title: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    statusProjectId: "",
+    supervisorId: "",
+    employeeId: [],
+  });
+
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [projectStatuses, setProjectStatuses] = useState<ProjectStatus[]>([]);
+  const [supervisorSearchQuery, setSupervisorSearchQuery] = useState<string>("");
+  const [employeeSearchQuery, setEmployeeSearchQuery] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/get/projectStatuses")
-      .then((res) => {
-        setStatusProjectIdList(res.data);
-      })
-      .catch((err) => console.log(err));
+    fetchEmployees();
+    fetchProjectStatuses();
   }, []);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/get/employees")
-      .then((res) => {
-        setSupervisorIdList(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  const handleSubmitProjects = async (event: any) => {
-    event.preventDefault();
-    axios
-      .post("http://localhost:3001/createProject", {
-        title,
-        description,
-        startDate,
-        endDate,
-        statusProjectId,
-        supervisorId: selectedSupervisors, // Массив выбранных сотрудников для отправки на сервер
-      })
-      .then((res) => {
-        console.log(res);
-        navigate("/projectsPage");
-      })
-      .catch((error) => console.log(error));
+  const fetchEmployees = async () => {
+    try {
+      const response = await axios.get<Employee[]>(
+        "http://localhost:3001/get/employees"
+      );
+      setEmployees(response.data);
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
   };
 
-  return (
-    <>
-      <div className={"pade"}>
-        <div className={"wrapper"}>
-          <form onSubmit={handleSubmitProjects}>
-            <div className="title-add">
-              <h3>Добавление проекта</h3>
-            </div>
-            <div className="container-data-form">
-              <div className={"input_div"}>
-                <label htmlFor="title">Название</label>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Введите название"
-                    className={"form_control"}
-                    onChange={(e: any) => setTitle(e.target.value)}
-                    value={title}
-                    required
-                  />
-                </div>
-              </div>
-              <div className={"input_div"}>
-                <label htmlFor="description">Описание</label>
-                <div>
-                  <textarea
-                    placeholder="Ввведите описание"
-                    className={"form_control"}
-                    onChange={(e: any) => setDescription(e.target.value)}
-                    value={description}
-                    required
-                  />
-                </div>
-              </div>
-              <div className={"input_div"}>
-                <label htmlFor="startDate">Дата начала</label>
-                <div>
-                  <input
-                    type="date"
-                    className={"form_control"}
-                    onChange={(e: any) => setStartDate(e.target.value)}
-                    value={startDate}
-                    required
-                  />
-                </div>
-              </div>
-              <div className={"input_div"}>
-                <label htmlFor="endDate">Планируемая дата окончания</label>
-                <div>
-                  <input
-                    type="date"
-                    className={"form_control"}
-                    onChange={(e: any) => setEndDate(e.target.value)}
-                    value={endDate}
-                    required
-                  />
-                </div>
-              </div>
-              <div className={"input_div"}>
-                <label htmlFor="status">Статус проекта:</label>
-                <div>
-                  <select
-                    className={"form_control"}
-                    value={statusProjectId}
-                    onChange={(e) => setStatusProjectId(e.target.value)}
-                    required
-                  >
-                    <option value="">Выберете статус:</option>
-                    {statusProjectIdList.map((projectStatuses) => {
-                      return (
-                        <option
-                          key={projectStatuses._id}
-                          value={projectStatuses._id}
-                        >
-                          {projectStatuses.title}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-              </div>
+  const fetchProjectStatuses = async () => {
+    try {
+      const response = await axios.get<ProjectStatus[]>(
+        "http://localhost:3001/get/projectStatuses"
+      );
+      setProjectStatuses(response.data);
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
+  };
 
-              {/* Выбор ответственного сотрудника */}
-              <div className={"input_div"}>
-                <label htmlFor="selectedEmployees">Ответственные:</label>
-                {/* Поиск сотрудников */}
-                <div className={"input_div"}>
-                  <input
-                    type="text"
-                    className={"form_control"}
-                    placeholder="Поиск по ФИО"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setProjectData({ ...projectData, [name]: value });
+  };
+
+  const handleEmployeeIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOptions = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+
+    const selectedEmployeeIds = selectedOptions.map((id) => String(id));
+    setProjectData({ ...projectData, employeeId: selectedEmployeeIds });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/addProjectWithEmployee",
+        projectData
+      );
+      navigate("/projectsPage");
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
+  };
+
+  const filteredSupervisors = employees.filter((employee) =>
+    `${employee.lastName} ${employee.firstName} ${employee.middleName}`
+      .toLowerCase()
+      .includes(supervisorSearchQuery.toLowerCase())
+  );
+
+  const filteredEmployees = employees.filter((employee) =>
+    `${employee.lastName} ${employee.firstName} ${employee.middleName}`
+      .toLowerCase()
+      .includes(employeeSearchQuery.toLowerCase())
+  );
+
+
+  return (
+    <div className="pade">
+      <div className="wrapper">
+        <form onSubmit={handleSubmit}>
+          <div className="title-add">
+            <h3>Добавление проекта</h3>
+          </div>
+          <div className="container-data-form">
+            <div className="input_div">
+              <label htmlFor="title">Название</label>
+              <div>
+                <input
+                  type="text"
+                  name="title"
+                  value={projectData.title}
+                  onChange={handleChange}
+                  placeholder="Введите название"
+                  className={"form_control"}
+                  required
+                />
+              </div>
+            </div>
+            <div className="input_div">
+              <label htmlFor="description">Описание</label>
+              <div>
+                <input
+                  type="text"
+                  name="description"
+                  value={projectData.description}
+                  onChange={handleChange}
+                  placeholder="Введите описание"
+                  className={"form_control"}
+                  required
+                />
+              </div>
+            </div>
+            <div className="input_div">
+              <label htmlFor="startDate">Дата начала</label>
+              <div>
+                <input
+                  type="date"
+                  name="startDate"
+                  value={projectData.startDate}
+                  onChange={handleChange}
+                  className={"form_control"}
+                  required
+                />
+              </div>
+            </div>
+            <div className="input_div">
+              <label htmlFor="endDate">Планируемая дата окончания</label>
+              <div>
+                <input
+                  type="date"
+                  name="endDate"
+                  value={projectData.endDate}
+                  onChange={handleChange}
+                  className={"form_control"}
+                  required
+                />
+              </div>
+            </div>
+            <div className="input_div">
+              <label htmlFor="status">Статус проекта</label>
+              <div>
                 <select
-                  className={"form_control_employees"}
-                  multiple
-                  value={selectedSupervisors}
-                  onChange={(e) =>
-                    setSelectedSupervisors(
-                      Array.from(
-                        e.target.selectedOptions,
-                        (option) => option.value
-                      )
-                    )
-                  }
+                  name="statusProjectId"
+                  value={projectData.statusProjectId}
+                  onChange={handleChange}
+                  className={"form_control"}
                   required
                 >
-                  {supervisorIdList
-                    .filter((employee) =>
-                      `${employee.lastName} ${employee.firstName} ${employee.middleName}`
-                        .toLowerCase()
-                        .includes(searchQuery.toLowerCase())
-                    )
-                    .map((employee) => (
-                      <option key={employee._id} value={employee._id}>
-                        {`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
-                      </option>
-                    ))}
+                  <option value="">Выберите статус проекта</option>
+                  {projectStatuses.map((status) => (
+                    <option key={status._id} value={status._id}>
+                      {status.title}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
-            <div className={"action_buttons"}>
-              <div className="buttons">
-                <div>
-                  <Link to={"/projectsPage"}>
-                    <button className={"button_add_cancel"}>Отменить</button>
-                  </Link>
-                </div>
-                <div>
-                  <button className={"button_add"}>Добавить</button>
-                </div>
+            <div className="input_div">
+              <label htmlFor="selectedEmployees">Куратор</label>
+              <div className={"input_div"}>
+                <input
+                  type="text"
+                  className={"form_control"}
+                  placeholder="Поиск по ФИО"
+                  value={supervisorSearchQuery}
+                  onChange={(e) => setSupervisorSearchQuery(e.target.value)}
+                />
+              </div>
+              <select
+                name="supervisorId"
+                className={"form_control_employees"}
+                value={projectData.supervisorId}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Выберите куратора проекта</option>
+                {filteredSupervisors.map((employee) => (
+                  <option key={employee._id} value={employee._id}>
+                    {employee.lastName} {employee.firstName}{" "}
+                    {employee.middleName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input_div">
+              <label htmlFor="selectedEmployees">Участники</label>
+              <div className={"input_div"}>
+                <input
+                  type="text"
+                  className={"form_control"}
+                  placeholder="Поиск по ФИО"
+                  value={employeeSearchQuery}
+                  onChange={(e) => setEmployeeSearchQuery(e.target.value)}
+                />
+              </div>
+              <select
+                name="employeeId"
+                value={projectData.employeeId}
+                className={"form_control_employees"}
+                onChange={handleEmployeeIdChange}
+                multiple
+                required
+              >
+                {filteredEmployees.map((employee) => (
+                  <option key={employee._id} value={employee._id}>
+                    {employee.lastName} {employee.firstName}{" "}
+                    {employee.middleName}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className={"action_buttons"}>
+            <div className="buttons">
+              <div>
+                <Link to={"/projectsPage"}>
+                  <button className={"button_add_cancel"}>Отменить</button>
+                </Link>
+              </div>
+              <div>
+                <button className={"button_add"}>Добавить</button>
               </div>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
-    </>
+    </div>
   );
 };
 
-export default AddProjectForm;
+export default AddProjectWithEmployee;

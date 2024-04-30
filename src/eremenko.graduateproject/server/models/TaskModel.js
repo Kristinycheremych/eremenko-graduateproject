@@ -9,12 +9,16 @@ const TaskSchema = new mongoose.Schema({
   },
   taskStatusId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "task_statuses", // Ссылка на модель статуса задачи
+    ref: "task_statuses",
   },
-  employees: [
+  creatorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users", 
+  },
+  employeeId: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users", // Ссылка на модель пользователей
+      ref: "users", 
     },
   ],
 });

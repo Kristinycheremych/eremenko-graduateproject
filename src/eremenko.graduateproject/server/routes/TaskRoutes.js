@@ -7,42 +7,40 @@ router.get("/tasks/:taskStatusId", async (req, res) => {
   try {
     const tasks = await TaskModel.find({
       taskStatusId: req.params.taskStatusId,
-    }).populate("employees");
+    }).populate("employeeId");
     res.json(tasks);
   } catch (error) {
     console.error(
       "Ошибка при получении задач для конкретного статуса задачи:",
       error
     );
-    res
-      .status(500)
-      .json({
-        error:
-          "Ошибка сервера при получении задач для конкретного статуса задачи",
-      });
+    res.status(500).json({
+      error:
+        "Ошибка сервера при получении задач для конкретного статуса задачи",
+    });
   }
 });
 
 // Создание новой задачи для конкретного статуса задачи
 router.post("/tasks/:taskStatusId", async (req, res) => {
   try {
-    const { title, description, stageProjectId, employees } = req.body;
+    const { title, description, stageProjectId, creatorId, employeeId } =
+      req.body;
     const newTask = new TaskModel({
       title,
       description,
       stageProjectId,
       taskStatusId: req.params.taskStatusId,
-      employees,
+      creatorId,
+      employeeId,
     });
     const savedTask = await newTask.save();
     res.status(201).json(savedTask);
   } catch (error) {
     console.error("Ошибка при создании задачи для конкретного статуса:", error);
-    res
-      .status(500)
-      .json({
-        error: "Ошибка сервера при создании задачи для конкретного статуса",
-      });
+    res.status(500).json({
+      error: "Ошибка сервера при создании задачи для конкретного статуса",
+    });
   }
 });
 
@@ -67,11 +65,9 @@ router.put("/tasks/:taskId", async (req, res) => {
       "Ошибка при изменении задачи для конкретного статуса:",
       error
     );
-    res
-      .status(500)
-      .json({
-        error: "Ошибка сервера при изменении задачи для конкретного статуса",
-      });
+    res.status(500).json({
+      error: "Ошибка сервера при изменении задачи для конкретного статуса",
+    });
   }
 });
 
@@ -83,11 +79,9 @@ router.delete("/tasks/:taskId", async (req, res) => {
     res.json(deletedTask);
   } catch (error) {
     console.error("Ошибка при удалении задачи для конкретного статуса:", error);
-    res
-      .status(500)
-      .json({
-        error: "Ошибка сервера при удалении задачи для конкретного статуса",
-      });
+    res.status(500).json({
+      error: "Ошибка сервера при удалении задачи для конкретного статуса",
+    });
   }
 });
 

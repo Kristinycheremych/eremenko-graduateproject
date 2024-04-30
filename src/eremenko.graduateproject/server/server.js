@@ -7,11 +7,13 @@ const projectStatusesRoutes = require("./routes/ProjectStatusesRoutes");
 const employeeStatusRoutes = require("./routes/EmployeeStatusRoutes");
 const projectRouter = require("./routes/ProjectRoutes");
 const positionRoutes = require("./routes/PositionRoutes");
-const stageProjectRoutes = require("./routes/StageProjectRoutes");
+// const stageProjectRoutes = require("./routes/StageProjectRoutes");
 const stageRoutes = require("./routes/StageRoutes");
 const taskRoutes = require("./routes/TaskRoutes");
 const divisionsRoutes = require("./routes/DivisionsRoutes");
 const employeeProjectRoutes = require("./routes/EmployeeProjectRoutes");
+const taskStatusProjectStageRoutes = require("./routes/TaskStatusProjectStageRoutes")
+const executorTaskRoutes = require("./routes/ExecutorTaskRoutes");
 
 const app = express();
 
@@ -32,13 +34,16 @@ app.use("/", divisionsRoutes);
 app.use("/", employeeProjectRoutes);
 app.use("/", employeesRoutes);
 app.use("/", employeeStatusRoutes);
+app.use("/", executorTaskRoutes);
 app.use("/", positionRoutes);
 app.use("/", projectRouter);
 app.use("/", projectStatusesRoutes);
-app.use("/", stageProjectRoutes);
+// app.use("/", stageProjectRoutes);
 app.use("/", stageRoutes);
 app.use("/", taskRoutes);
 app.use("/", taskStatusesRoutes);
+app.use("/", taskStatusProjectStageRoutes);
+
 
 // Слушаем порт 3001
 app.listen(3001, () => {
