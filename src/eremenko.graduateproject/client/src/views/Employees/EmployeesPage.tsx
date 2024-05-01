@@ -17,7 +17,11 @@ interface User {
   employeeStatus: {
     title: string;
   };
-  gender: String
+  gender: String;
+  divisions: {
+    code: number;
+    title: string;
+  };
 }
 
 interface EmployeeStatusColors {
@@ -127,10 +131,10 @@ function EmployeesPage() {
                 <th>Фамилия</th>
                 <th>Имя</th>
                 <th>Отчество</th>
-                <th>Пол</th>
                 <th>Табельный номер</th>
                 <th>Должность</th>
                 <th>Статус</th>
+                <th>Подразделения</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -142,7 +146,6 @@ function EmployeesPage() {
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
-                  <td>{user.gender}</td>
                   <td>{user.serviceNumber}</td>
                   <td>{user.position ? user.position.title : "Нет данных"}</td>
                   <td>
@@ -154,12 +157,14 @@ function EmployeesPage() {
                         borderRadius: "6px",
                         width: "100px",
                       }}
-                      
                     >
                       {user.employeeStatus
                         ? user.employeeStatus.title
                         : "Нет данных"}
                     </p>
+                  </td>
+                  <td>
+                    {user.divisions ? user.divisions.title : "Нет данных"}
                   </td>
                   <td className="td-icon">
                     <div className={"icon_edit"}>

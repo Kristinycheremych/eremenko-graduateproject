@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const PositionModal = require("../models/PositionModal");
 
-// Получение статуса проекта
+// Получение должности
 router.get("/get/position", (req, res) => {
   PositionModal.find()
     .then((positions) => res.json(positions))

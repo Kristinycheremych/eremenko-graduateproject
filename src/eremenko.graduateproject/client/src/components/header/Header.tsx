@@ -34,7 +34,6 @@ interface EmployeeProject {
 function Header() {
   const { projectId } = useParams<{
     projectId: string;
-    stageId: string;
   }>();
   const location = useLocation();
   const [project, setProject] = useState<EmployeeProject | null>(null);

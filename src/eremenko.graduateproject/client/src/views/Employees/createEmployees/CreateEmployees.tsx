@@ -10,7 +10,9 @@ function CreateEmployees() {
   const [gender, setGender] = useState("");
   const [serviceNumber, setServiceNumber] = useState("");
   const [position, setPosition] = useState("");
+  const [divisions, setDivisions] = useState("");
   const [dataPosition, setDataPosition] = useState<any[]>([]);
+  const [dataDivisions, setDataDivisions] = useState<any[]>([]);
   const [employeeStatus, setEmployeeStatus] = useState("");
   const [dataEmployeeStatus, setDataEmployeeStatus] = useState<any[]>([]);
   const navigate = useNavigate();
@@ -33,6 +35,15 @@ function CreateEmployees() {
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/get/divisions")
+      .then((res) => {
+        setDataDivisions(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   const handleSubmitPosition = async (event: any) => {
     event.preventDefault();
     axios
@@ -44,6 +55,7 @@ function CreateEmployees() {
         gender,
         position,
         employeeStatus,
+        divisions
       })
       .then((res) => {
         console.log(res);
@@ -149,6 +161,7 @@ function CreateEmployees() {
                   </select>
                 </div>
               </div>
+              
               <div className={"input_div"}>
                 <label htmlFor="status">Статус</label>
                 <div>
@@ -166,6 +179,26 @@ function CreateEmployees() {
                           value={employeeStatus._id}
                         >
                           {employeeStatus.title}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className={"input_div"}>
+                <label htmlFor="divisions">Подразделения</label>
+                <div>
+                  <select
+                    className={"form_control"}
+                    value={divisions}
+                    onChange={(e) => setDivisions(e.target.value)}
+                    required
+                  >
+                    <option value="">Выберете подразделение:</option>
+                    {dataDivisions.map((divisions) => {
+                      return (
+                        <option key={divisions._id} value={divisions._id}>
+                          {divisions.title}
                         </option>
                       );
                     })}

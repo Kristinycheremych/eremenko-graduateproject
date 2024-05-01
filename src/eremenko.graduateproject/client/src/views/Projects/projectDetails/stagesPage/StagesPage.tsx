@@ -41,8 +41,7 @@ interface ProjectFormData {
 
 const StagesPage: React.FC = () => {
   const [projectForm, setProjectForm] = useState<ProjectFormData[]>([]);
-  const { stageId } = useParams<{ stageId: string }>();
-  const { projectId } = useParams<{ projectId: string }>();
+  const { projectId, stageId } = useParams<{ stageId: string;projectId: string }>();
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -57,13 +56,14 @@ const StagesPage: React.FC = () => {
         `http://localhost:3001/get/taskStatusProjectStage`
       );
       const filteredData = response.data.filter(
-        (project) => project.stageProjectId.projectId._id === stageId
+        (stage) => stage.stageProjectId.projectId._id === stageId
       );
       setProjectForm(filteredData);
     } catch (error) {
       console.error("Ошибка:", error);
     }
   };
+  console.log(stageId)
 
   // Удаление
   const handleDelete = (id: string) => {
@@ -145,7 +145,7 @@ const StagesPage: React.FC = () => {
                     ).toLocaleDateString()}
                   </td>
                   <td className="link_table_progect td-icon">
-                    <Link to={`/projectsPage/projectDetails/${project._id}`}>
+                    <Link to={`/projectsPage/stageDetails/${projectId}/${stageId}/${project.stageProjectId.stageId._id}`}>
                       Подробнее...
                     </Link>
                   </td>

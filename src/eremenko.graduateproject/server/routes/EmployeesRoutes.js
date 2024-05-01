@@ -5,6 +5,7 @@ const UserModel = require("../models/EmployeesModel");
 // Получение сотрудников
 router.get("/get/employees", (req, res) => {
   UserModel.find()
+    .populate("divisions")
     .populate("position")
     .populate("employeeStatus")
     .then((employees) => res.json(employees))
@@ -14,6 +15,7 @@ router.get("/get/employees", (req, res) => {
 router.get("/get/employees/:id", (req, res) => {
   const id = req.params.id;
   UserModel.findById({ _id: id })
+    .populate("divisions")
     .populate("position")
     .populate("employeeStatus")
     .then((post) => res.json(post))
@@ -22,7 +24,16 @@ router.get("/get/employees/:id", (req, res) => {
 
 // Добавление сотрудника
 router.post("/create/employees", (req, res) => {
-  const { lastName, firstName, middleName, position, gender,serviceNumber,  employeeStatus } = req.body;
+  const {
+    lastName,
+    firstName,
+    middleName,
+    position,
+    gender,
+    serviceNumber,
+    employeeStatus,
+    divisions,
+  } = req.body;
   const newProject = new UserModel({
     lastName,
     firstName,
@@ -31,6 +42,7 @@ router.post("/create/employees", (req, res) => {
     gender,
     serviceNumber,
     employeeStatus,
+    divisions,
   });
   newProject
     .save()
@@ -51,6 +63,7 @@ router.put("/update/employees/:id", (req, res) => {
       gender: req.body.gender,
       serviceNumber: req.body.serviceNumber,
       employeeStatus: req.body.employeeStatus,
+      divisions: req.body.divisions,
     },
     { new: true }
   )

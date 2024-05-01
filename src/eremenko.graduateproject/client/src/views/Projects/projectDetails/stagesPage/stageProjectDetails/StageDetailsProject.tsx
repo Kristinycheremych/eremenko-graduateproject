@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Header from "../../../../../components/header/Header";
+import "./style.css";
 
 interface TaskStatus {
   _id: string;
@@ -38,27 +39,32 @@ interface StageFormData {
 }
 
 const StageDetailsPage: React.FC = () => {
-  const { stageId } = useParams<{ stageId: string }>();
+  const { stageProjectId } = useParams<{ stageProjectId: string }>();
   const [stage, setStage] = useState<StageFormData | null>(null);
 
   useEffect(() => {
-    if (stageId) {
-      fetchStageDetails(stageId);
+    if (stageProjectId) {
+      fetchStageDetails(stageProjectId);
     }
-  }, [stageId]);
+  }, [stageProjectId]);
 
-  const fetchStageDetails = async (stageId: string) => {
+  const fetchStageDetails = async (stageProjectId: string) => {
     try {
-      const response = await axios.get<StageFormData[]>(`http://localhost:3001/get/taskStatusProjectStage/${stageId}`);
-      if (response.data.length > 0) {
-        setStage(response.data[0]);
-      } else {
-
+      const response = await axios.get<StageFormData[]>(
+        `http://localhost:3001/get/taskStatusProjectStage`
+      );
+      const filteredData = response.data.find(
+        (project) => project.stageProjectId.stageId._id === stageProjectId
+      );
+      if (filteredData) {
+        setStage(filteredData);
       }
     } catch (error) {
-      console.error("Error fetching stage details:", error);
+      console.error("Ошибка:", error);
     }
   };
+
+  console.log(stageProjectId)
 
   if (!stage) {
     return <p>Loading...</p>;
@@ -67,11 +73,46 @@ const StageDetailsPage: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="stage-details-container">
-        <h2>{stage.stageProjectId.stageId.title}</h2>
-        <p>{stage.stageProjectId.stageId.description}</p>
-        <p>Start Date: {new Date(stage.stageProjectId.startDate).toLocaleDateString()}</p>
-        <p>End Date: {new Date(stage.stageProjectId.endDate).toLocaleDateString()}</p>
+
+      <div className="container">
+        <div className={"container_search_filter"}>
+          <div className={"div_input_search"}>
+            <input type="text" className={"input_search"} placeholder="Поиск" />
+          </div>
+          <div className={"div_filter"}>
+            <select className={"filter"}>
+              <option value="">Все</option>
+            </select>
+          </div>
+
+          <div className={"containet_btn_add"}></div>
+        </div>
+
+        <div>
+          <div className="detailStage">
+            <h3>Подробности об этапе:</h3>
+            <p>
+              {stage.stageProjectId.stageId.title
+                ? stage.stageProjectId.stageId.title
+                : "Нет данных"}
+            </p>
+          </div>
+        </div>
+        <div>
+          <p>
+            <h5>Описание: </h5>
+            {stage.stageProjectId.stageId.description}
+          </p>
+        </div>
+        <div className="stages">
+            {stage.taskStatusesId.map((status) => (
+                <div key={status._id} className={"stage"}>
+                  <div className="titleStatusStage">
+                    <p>{status.title}</p>
+                  </div>
+                 </div>
+              ))}
+          </div>
       </div>
     </>
   );

@@ -18,6 +18,11 @@ interface Employee {
     _id: string;
     title: string;
   };
+  divisions: {
+    _id: string;
+    code: number;
+    title: string;
+  };
 }
 
 function UpdateEmployees() {
@@ -29,6 +34,8 @@ function UpdateEmployees() {
   const [serviceNumber, setServiceNumber] = useState<number>();
   const [positionId, setPositionId] = useState<string>();
   const [positionList, setPositionList] = useState<any[]>([]);
+  const [divisions, setDivisions] = useState<string>();
+  const [divisionsList, setDivisionsList] = useState<any[]>([]);
   const [employeeStatusId, setEmployeeStatusId] = useState<string>();
   const [employeeStatusList, setEmployeeStatusList] = useState<any[]>([]);
 
@@ -44,6 +51,7 @@ function UpdateEmployees() {
         setGender(response.data.gender);
         setServiceNumber(response.data.serviceNumber);
         setPositionId(response.data.position._id);
+        setDivisions(response.data.divisions._id);
         setEmployeeStatusId(response.data.employeeStatus._id);
       } catch (err) {
         console.log(err);
@@ -64,6 +72,13 @@ function UpdateEmployees() {
         setEmployeeStatusList(res.data);
       })
       .catch((err) => console.log(err));
+
+    axios
+      .get("http://localhost:3001/get/divisions")
+      .then((res) => {
+        setDivisionsList(res.data);
+      })
+      .catch((err) => console.log(err));
   }, [id]);
 
   const navigate = useNavigate();
@@ -78,6 +93,7 @@ function UpdateEmployees() {
         gender,
         serviceNumber,
         position: positionId,
+        divisions: divisions,
         employeeStatus: employeeStatusId,
       })
       .then((res) => {
@@ -194,6 +210,28 @@ function UpdateEmployees() {
                           value={employeeStatus._id}
                         >
                           {employeeStatus.title}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className={"input_div"}>
+                <label htmlFor="divisions">Подразделения</label>
+                <div>
+                  <select
+                    className="form_control"
+                    value={divisions}
+                    onChange={(e: any) => setDivisions(e.target.value)}
+                  >
+                    <option value={""}>Выберите подразделение:</option>
+                    {divisionsList.map((divisionsItem) => {
+                      return (
+                        <option
+                          key={divisionsItem._id}
+                          value={divisionsItem._id}
+                        >
+                          {divisionsItem.title}
                         </option>
                       );
                     })}

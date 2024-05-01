@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const DivisionsModal = require("../models/DivisionsModal");
 
-// Получение статуса проекта
+// Получение подразделения
 router.get("/get/divisions", (req, res) => {
   DivisionsModal.find()
     .then((divisions) => res.json(divisions))

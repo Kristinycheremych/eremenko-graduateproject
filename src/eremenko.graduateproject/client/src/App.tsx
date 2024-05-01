@@ -76,7 +76,7 @@ function App() {
             ></Route>
             {/* Подробнее об этапе проекта */}
             <Route
-              path="/projectsPage/stageDetails/:projectId"
+              path="/projectsPage/stageDetails/:projectId/:stageId/:stageProjectId"
               element={<StageDetailsProject />}
             />
             {/* Статус задачи */}
