@@ -5,6 +5,7 @@ import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
 import Header from "../../../../components/header/Header";
+import { HiEllipsisHorizontal } from "react-icons/hi2";
 
 interface TaskStatuses {
   _id: string;
@@ -47,6 +48,7 @@ const StagesPage: React.FC = () => {
     projectId: string;
   }>();
   const [searchQuery, setSearchQuery] = useState("");
+  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
 
   useEffect(() => {
     if (stageId) {
@@ -71,12 +73,14 @@ const StagesPage: React.FC = () => {
 
   // Удаление
   const handleDelete = (id: string) => {
-    axios
-      .delete(`http://localhost:3001/taskStatusProjectStage/${id}`)
-      .then(() => {
-        setProjectForm(projectForm.filter((project) => project._id !== id));
-      })
-      .catch((err) => console.log(err));
+    if (window.confirm(`Вы уверены, что хотите удалить этот этап проекта`)) {
+      axios
+        .delete(`http://localhost:3001/taskStatusProjectStage/${id}`)
+        .then(() => {
+          setProjectForm(projectForm.filter((project) => project._id !== id));
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   // Поиск
@@ -88,6 +92,10 @@ const StagesPage: React.FC = () => {
     const stageTitle = project.stageProjectId.stageId.title.toLowerCase();
     return stageTitle.includes(searchQuery.toLowerCase());
   });
+
+  const togglePopover = (id: string) => {
+    setOpenPopoverId(openPopoverId === id ? null : id);
+  };
 
   return (
     <>
@@ -125,11 +133,10 @@ const StagesPage: React.FC = () => {
             <thead>
               <tr>
                 <th>Этап</th>
+                {/* <th>Описание</th> */}
                 <th>Дата начала</th>
                 <th>Дата завершения</th>
                 <th>Срок окончания</th>
-                <th></th>
-                <th></th>
                 <th></th>
               </tr>
             </thead>
@@ -138,6 +145,9 @@ const StagesPage: React.FC = () => {
                 return (
                   <tr key={project._id}>
                     <td>{project.stageProjectId.stageId.title}</td>
+                    {/* <td>
+                      <p className="description">{project.stageProjectId.stageId.description}</p>
+                    </td> */}
                     <td>
                       {new Date(
                         project.stageProjectId.startDate
@@ -153,27 +163,38 @@ const StagesPage: React.FC = () => {
                         project.stageProjectId.periodExecution
                       ).toLocaleDateString()}
                     </td>
-                    <td className="link_table_progect td-icon">
-                      <Link
-                        to={`/projectsPage/stageDetails/${projectId}/${stageId}/${project.stageProjectId.stageId._id}`}
-                      >
-                        Подробнее...
-                      </Link>
-                    </td>
-                    <td>
+                    {/* <td>
                       <Link
                         to={`/projectsPage/updateProject/${project._id}`}
                         className={"icon_edit"}
                       >
                         <FiEdit />
                       </Link>
-                    </td>
-                    <td className="td-icon">
-                      <div className={"icon_delete"}>
-                        <AiOutlineDelete
-                          onClick={() => handleDelete(project._id)}
-                        />
-                      </div>
+                    </td> */}
+                    <td>
+                      <HiEllipsisHorizontal
+                        className="HiEllipsisHorizontal"
+                        onClick={() => togglePopover(project._id)}
+                      />
+                      {openPopoverId === project._id && (
+                        <div className="popover-content">
+                          <div className="div-popover-content">
+                            <div className="div_edit">
+                              <Link
+                                to={`/projectsPage/stageDetails/${projectId}/${stageId}/${project.stageProjectId.stageId._id}`}
+                              >
+                                <p>Подробнее</p>
+                              </Link>
+                            </div>
+                            <div
+                              onClick={() => handleDelete(project._id)}
+                              className="div_delete"
+                            >
+                              <p>Удалить</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 );

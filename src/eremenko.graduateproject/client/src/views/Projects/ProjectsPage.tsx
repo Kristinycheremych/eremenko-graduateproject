@@ -5,6 +5,7 @@ import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
 import EmployeeAvatar from "../../components/employeeAvatar/EmployeeAvatar";
+import { HiEllipsisHorizontal } from "react-icons/hi2";
 
 interface Employee {
   _id: string;
@@ -47,6 +48,7 @@ const ProjectsPage: React.FC = () => {
   const [filteredProjects, setFilteredProjects] = useState<EmployeeProject[]>(
     []
   );
+  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchEmployeeProjects();
@@ -64,19 +66,19 @@ const ProjectsPage: React.FC = () => {
   };
 
   const statusColors: StatusColors = {
-    "Новый": "#445371",
+    Новый: "#445371",
     "В ожидании": "#F29100",
     "В работе": "#0055FF",
-    "Выполнено": "#019F3C",
-    'Отменено': "#D91528",
+    Выполнено: "#019F3C",
+    Отменено: "#D91528",
   };
 
   const statusBackground: StatusColors = {
-    "Новый": "#D0D4DC",
+    Новый: "#D0D4DC",
     "В ожидании": "#FCE3BF",
     "В работе": "#BFD4FF",
-    "Выполнено": "#C0E7CE",
-    "Отменено": "#F6C5C9",
+    Выполнено: "#C0E7CE",
+    Отменено: "#F6C5C9",
   };
 
   useEffect(() => {
@@ -95,14 +97,20 @@ const ProjectsPage: React.FC = () => {
   }, [employeeProjects, filterStatus, searchQuery]);
 
   const handleDelete = (id: string) => {
-    axios
-      .delete(`http://localhost:3001/employeeProject/${id}`)
-      .then(() => {
-        setEmployeeProjects(
-          employeeProjects.filter((project) => project._id !== id)
-        );
-      })
-      .catch((err) => console.log(err));
+    if (window.confirm("Вы уверены, что хотите удалить этот проект?")) {
+      axios
+        .delete(`http://localhost:3001/employeeProject/${id}`)
+        .then(() => {
+          setEmployeeProjects(
+            employeeProjects.filter((project) => project._id !== id)
+          );
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const togglePopover = (id: string) => {
+    setOpenPopoverId(openPopoverId === id ? null : id);
   };
 
   return (
@@ -164,8 +172,6 @@ const ProjectsPage: React.FC = () => {
                 <th>Куратор</th>
                 <th>Участники</th>
                 <th></th>
-                <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -203,7 +209,11 @@ const ProjectsPage: React.FC = () => {
                     <td>
                       {project.projectId.supervisorId
                         .map((employee) => {
-                          return `${employee.lastName} ${employee.firstName.charAt(0)}. ${employee.middleName.charAt(0)}.`;
+                          return `${
+                            employee.lastName
+                          } ${employee.firstName.charAt(
+                            0
+                          )}. ${employee.middleName.charAt(0)}.`;
                         })
                         .join(", ")}
                     </td>
@@ -215,26 +225,43 @@ const ProjectsPage: React.FC = () => {
                         />
                       ))}
                     </td>
-
-                    <td className="link_table_progect td-icon">
+                    {/* <td className="link_table_progect td-icon">
                       <Link to={`/projectsPage/projectDetails/${project._id}`}>
                         Подробнее...
                       </Link>
-                    </td>
-                    <td>
+                    </td> */}
+                    {/* <td>
                       <Link
                         to={`/projectsPage/updateProject/${project._id}`}
                         className={"icon_edit"}
                       >
                         <FiEdit />
                       </Link>
-                    </td>
-                    <td className="td-icon">
-                      <div className={"icon_delete"}>
-                        <AiOutlineDelete
-                          onClick={() => handleDelete(project._id)}
-                        />
-                      </div>
+                    </td> */}
+                    <td>
+                      <HiEllipsisHorizontal
+                        className="HiEllipsisHorizontal"
+                        onClick={() => togglePopover(project._id)}
+                      />
+                      {openPopoverId === project._id && (
+                        <div className="popover-content">
+                          <div className="div-popover-content">
+                            <div className="div_edit">
+                              <Link
+                                to={`/projectsPage/projectDetails/${project._id}`}
+                              >
+                                <p>Подробнее</p>
+                              </Link>
+                            </div>
+                            <div
+                              onClick={() => handleDelete(project._id)}
+                              className="div_delete"
+                            >
+                              <p>Удалить</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 );

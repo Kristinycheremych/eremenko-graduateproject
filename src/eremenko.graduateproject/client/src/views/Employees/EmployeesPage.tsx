@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { AiOutlineDelete } from "react-icons/ai";
-import { FiEdit } from "react-icons/fi";
 import { MdArrowBackIos } from "react-icons/md";
+import { HiEllipsisHorizontal } from "react-icons/hi2";
 import "./employees.css";
 
 interface User {
@@ -34,15 +33,16 @@ function EmployeesPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
   const [filteredEmployees, setFilteredEmployees] = useState<User[]>([]);
+  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
 
   const statusColors: EmployeeStatusColors = {
-    "Активный": "#019F3C",
-    "Неактивный": "#D91528",
+    Активный: "#019F3C",
+    Неактивный: "#D91528",
   };
 
   const statusBackground: EmployeeStatusColors = {
-    "Активный": "#C0E7CE",
-    "Неактивный": "#F6C5C9",
+    Активный: "#C0E7CE",
+    Неактивный: "#F6C5C9",
   };
 
   useEffect(() => {
@@ -78,6 +78,7 @@ function EmployeesPage() {
   }, [data, filter, searchQuery]);
 
   const handleDelete = (id: string) => {
+    if (window.confirm(`Вы уверены, что хотите удалить этого сотрудника?`)) {
     axios
       .delete(`http://localhost:3001/delete/employees/${id}`)
       .then((res) => {
@@ -86,6 +87,11 @@ function EmployeesPage() {
         setData(data.filter((user) => user._id !== id));
       })
       .catch((err) => console.log(err));
+    }
+  };
+
+  const togglePopover = (id: string) => {
+    setOpenPopoverId(openPopoverId === id ? null : id);
   };
 
   return (
@@ -140,7 +146,6 @@ function EmployeesPage() {
                 <th>Подразделения</th>
                 <th>Статус</th>
                 <th></th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -170,17 +175,30 @@ function EmployeesPage() {
                         : "Нет данных"}
                     </p>
                   </td>
-                  <td className="td-icon">
-                    <div className={"icon_edit"}>
-                      <Link to={`/employeesPage/updateEmployees/${user._id}`}>
-                        <FiEdit />
-                      </Link>
-                    </div>
-                  </td>
-                  <td className="td-icon">
-                    <div className={"icon_delete"}>
-                      <AiOutlineDelete onClick={() => handleDelete(user._id)} />
-                    </div>
+                  <td>
+                    <HiEllipsisHorizontal
+                      className="HiEllipsisHorizontal"
+                      onClick={() => togglePopover(user._id)}
+                    />
+                    {openPopoverId === user._id && (
+                      <div className="popover-content">
+                        <div className="div-popover-content">
+                          <div
+                            onClick={() => handleDelete(user._id)}
+                            className="div_delete"
+                          >
+                            <p>Удалить</p>
+                          </div>
+                          <div className="div_edit">
+                            <Link
+                              to={`/employeesPage/updateEmployees/${user._id}`}
+                            >
+                              <p>Редактировать</p>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}

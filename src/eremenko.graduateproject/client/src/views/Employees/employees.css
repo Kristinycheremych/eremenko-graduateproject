@@ -18,7 +18,7 @@ a {
   padding: 13px 0 0 10px;
 }
 
-.divArrowBackIos{
+.divArrowBackIos {
   padding: 18px 10px 0 20px;
 }
 
@@ -136,6 +136,50 @@ table p {
 
 .statusProject {
   white-space: nowrap;
+}
+/* Стили для кнопки подробнее */
+.HiEllipsisHorizontal {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.popover-content {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: -150px;
+}
+.div_edit {
+  width: 213px;
+  height: 40px;
+  cursor: pointer;
+  margin: 0 auto;
+  padding-top: 8px;
+  color: #9BA4B4;
+}
+.div_edit p{
+  color: #9BA4B4;
+}
+.div_edit:hover {
+  background: rgba(25, 111, 173, 0.05);
+}
+
+.div_delete {
+  width: 213px;
+  height: 40px;
+  cursor: pointer;
+  margin: 0 auto;
+  padding-top: 8px;
+  color: #9BA4B4;
+}
+
+.div_delete:hover {
+  background: rgba(25, 111, 173, 0.05);
+}
+
+.div-popover-content{
+  padding: 8px;
 }
 
 @media screen and (max-width: 1183px) {

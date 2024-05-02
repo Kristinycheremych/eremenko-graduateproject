@@ -26,10 +26,11 @@ function Sidebar({ children }: any) {
       return newState;
     });
   };
- 
+
   const renderSections = () => {
     return menuItems.map((item, index) => (
       <div key={index}>
+        <div className="sub_link">
           <NavLink
             to={item.path}
             className={isOpen ? "link open" : "link "}
@@ -46,9 +47,9 @@ function Sidebar({ children }: any) {
             <div
               style={{ display: isOpen ? "block" : "none" }}
               className={isMenuOpen[index] ? "arrow rotate" : "arrow"}
-            >
-            </div>
+            ></div>
           </NavLink>
+        </div>
       </div>
     ));
   };
@@ -56,16 +57,21 @@ function Sidebar({ children }: any) {
   return (
     <>
       <div className="container_sidebar">
-        <div style={{ width: isOpen ? "260px" : "50px" }} className="sidebar">
+        <div style={{ width: isOpen ? "285px" : "50px" }} className="sidebar">
           <div className="top_section">
             <Link to="/">
-              <h1
+              <p
                 style={{ display: isOpen ? "block" : "none" }}
                 className="logo"
               >
-                Logo
-              </h1>
+                Управление проектами
+              </p>
             </Link>
+            <div className="profile">
+              <p style={{ display: isOpen ? "block" : "none" }}>
+                Еременко Кристина
+              </p>
+            </div>
             <div
               style={{ marginLeft: isOpen ? "150px" : "0px" }}
               className="burger_menu"

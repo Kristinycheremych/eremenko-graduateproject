@@ -11,9 +11,7 @@ main {
 }
 
 .sidebar {
-  border: 1px solid #d9d9d9;
   height: 100vh;
-  width: 340px;
   transition: all 0.3s;
   box-shadow: 4px 0px 8px 0px rgba(37, 39, 51, 0.25);
   position: sticky;
@@ -22,13 +20,25 @@ main {
 
 .top_section {
   display: flex;
-  align-items: center;
   padding: 20px 15px;
+  height: 124px;
+  color: #fff;
+  background: #196FAD;
 }
 
 .logo {
-  font-size: 25px;
-  color: black;
+  font-size: 16px;
+  width: 80px;
+  color: #fff;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.profile{
+  position: absolute;
+  padding-top: 50px;
+  font-weight: 800;
+  font-size: 14px;
 }
 
 .burger_menu {
@@ -44,6 +54,10 @@ main {
   gap: 15px;
   transition: all 0.5s;
   cursor: pointer;
+}
+
+.sub_link{
+  padding-top: 12px;
 }
 
 .link_text {
