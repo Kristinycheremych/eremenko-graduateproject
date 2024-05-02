@@ -55,18 +55,15 @@ function EmployeesPage() {
   }, []);
 
   useEffect(() => {
-    // Функция для фильтрации сотрудников по выбранной должности и поиску по имени, фамилии и отчеству
     const filterEmployees = () => {
       let filteredData = data;
 
-      // Фильтрация по должности
       if (filter !== "") {
         filteredData = filteredData.filter(
           (user) => user.position && user.position.title === filter
         );
       }
 
-      // Поиск по имени, фамилии и отчеству
       if (searchQuery !== "") {
         filteredData = filteredData.filter((user) => {
           const fullName = `${user.lastName} ${user.firstName} ${user.middleName}`;
