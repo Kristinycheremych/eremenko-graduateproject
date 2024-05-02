@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "../../../../../components/header/Header";
 import "./style.css";
 
@@ -39,7 +39,7 @@ interface StageFormData {
 }
 
 const StageDetailsPage: React.FC = () => {
-  const { stageProjectId } = useParams<{ stageProjectId: string }>();
+  const { projectId, stageId,stageProjectId } = useParams<{ stageProjectId: string, projectId: string, stageId: string }>();
   const [stage, setStage] = useState<StageFormData | null>(null);
 
   useEffect(() => {
@@ -73,7 +73,6 @@ const StageDetailsPage: React.FC = () => {
   return (
     <>
       <Header />
-
       <div className="container">
         <div className={"container_search_filter"}>
           <div className={"div_input_search"}>
@@ -84,8 +83,15 @@ const StageDetailsPage: React.FC = () => {
               <option value="">Все</option>
             </select>
           </div>
-
-          <div className={"containet_btn_add"}></div>
+          <div className={"containet_btn_add"}>
+            <Link
+              to={`/projectsPage/stageDetails/${projectId}/${stageId}/${stageProjectId}/addTask`}
+            >
+              <button className={"btn_add"}>
+                Добавить задачу
+              </button>
+            </Link>
+          </div>
         </div>
 
         <div>
@@ -98,6 +104,7 @@ const StageDetailsPage: React.FC = () => {
             </p>
           </div>
         </div>
+
         <div>
           <p>
             <h5>Описание: </h5>

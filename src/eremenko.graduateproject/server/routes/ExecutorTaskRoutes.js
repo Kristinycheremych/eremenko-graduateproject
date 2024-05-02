@@ -8,14 +8,7 @@ const TaskModel = require("../models/TaskModel");
 router.get("/get/executorTask", async (req, res) => {
   try {
     const ExecutorTask = await ExecutorTaskModel.find()
-      .populate({
-        path: "employeeId",
-        populate: { path: "position" },
-      })
-      .populate({
-        path: "employeeId",
-        populate: { path: "employeeStatus" },
-      })
+      .populate("employeeId")
       .populate({
         path: "taskId",
         populate: { path: "creatorId" },
@@ -38,14 +31,7 @@ router.get("/get/executorTask", async (req, res) => {
 router.get("/executorTask/:id", async (req, res) => {
   try {
     const ExecutorTask = await ExecutorTaskModel.findById(req.params.id)
-      .populate({
-        path: "employeeId",
-        populate: { path: "position" },
-      })
-      .populate({
-        path: "employeeId",
-        populate: { path: "employeeStatus" },
-      })
+      .populate("employeeId")
       .populate({
         path: "taskId",
         populate: { path: "creatorId" },
@@ -74,13 +60,24 @@ router.get("/executorTask/:id", async (req, res) => {
 
 router.post("/addExecutorTask", async (req, res) => {
   try {
-    const { title, description, creatorId, taskStatusId,stageProjectId, employeeId } = req.body;
+    const {
+      title,
+      description,
+      creatorId,
+      taskStatusId,
+      projectId,
+      stageProjectId,
+      startDate,
+      endDate,
+      employeeId,
+    } = req.body;
 
     // Создаем запись проекта
     const newExecutorTask = new TaskModel({
       title,
       description,
       taskStatusId,
+      projectId,
       stageProjectId,
       creatorId,
     });
@@ -91,6 +88,8 @@ router.post("/addExecutorTask", async (req, res) => {
     // Создаем запись в промежуточной таблице
     const ExecutorTask = new ExecutorTaskModel({
       employeeId,
+      startDate,
+      endDate,
       taskId: newExecutorTask._id,
     });
 

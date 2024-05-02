@@ -16,7 +16,6 @@ import StagesPage from "./views/projects/projectDetails/stagesPage/StagesPage";
 import AddStageProject from "./views/projects/projectDetails/stagesPage/addStageProject/AddStageProject";
 import UpdateStageProject from "./views/projects/projectDetails/stagesPage/updateStageProject/UpdateStageProject";
 import StageDetailsProject from "./views/projects/projectDetails/stagesPage/stageProjectDetails/StageDetailsProject";
-import AddTaskStatusPage from "./views/projects/projectDetails/stagesPage/stageProjectDetails/addTaskStatus/AddTaskStatusPage";
 import AddTask from "./views/projects/projectDetails/stagesPage/stageProjectDetails/addTask/AddTask";
 function App() {
   return (
@@ -58,7 +57,7 @@ function App() {
             ></Route>
             {/* Задачи */}
             <Route
-              path="/projectsPage/projects/:projectId/stageDetails/:stageId/addTask"
+              path="/projectsPage/stageDetails/:projectId/:stageId/:stageProjectId/addTask"
               element={<AddTask />}
             />
             {/* Этапы проекта*/}
@@ -78,11 +77,6 @@ function App() {
             <Route
               path="/projectsPage/stageDetails/:projectId/:stageId/:stageProjectId"
               element={<StageDetailsProject />}
-            />
-            {/* Статус задачи */}
-            <Route
-              path="/projectsPage/projects/:projectId/stageDetails/:stageId/addTaskStatus"
-              element={<AddTaskStatusPage />}
             />
           </Routes>
         </Sidebar>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FiEdit } from "react-icons/fi";
+import { MdArrowBackIos } from "react-icons/md";
 import "./employees.css";
 
 interface User {
@@ -92,6 +93,12 @@ function EmployeesPage() {
 
   return (
     <>
+      <div className="header">
+        <div className="divArrowBackIos">
+          <MdArrowBackIos className="MdArrowBackIos" />
+        </div>
+        <p>Сотрудники</p>
+      </div>
       <div className={"container"}>
         <div className={"container_search_filter"}>
           <div className={"div_input_search"}>
@@ -133,8 +140,8 @@ function EmployeesPage() {
                 <th>Отчество</th>
                 <th>Табельный номер</th>
                 <th>Должность</th>
-                <th>Статус</th>
                 <th>Подразделения</th>
+                <th>Статус</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -149,6 +156,9 @@ function EmployeesPage() {
                   <td>{user.serviceNumber}</td>
                   <td>{user.position ? user.position.title : "Нет данных"}</td>
                   <td>
+                    {user.divisions ? user.divisions.title : "Нет данных"}
+                  </td>
+                  <td>
                     <p
                       style={{
                         color: statusColors[user.employeeStatus.title],
@@ -162,9 +172,6 @@ function EmployeesPage() {
                         ? user.employeeStatus.title
                         : "Нет данных"}
                     </p>
-                  </td>
-                  <td>
-                    {user.divisions ? user.divisions.title : "Нет данных"}
                   </td>
                   <td className="td-icon">
                     <div className={"icon_edit"}>

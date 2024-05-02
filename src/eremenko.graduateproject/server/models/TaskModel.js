@@ -14,13 +14,7 @@ const TaskSchema = new mongoose.Schema({
   creatorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users", 
-  },
-  employeeId: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "users", 
-    },
-  ],
+  }
 });
 
 const TaskModel = mongoose.model("Task", TaskSchema);
