@@ -41,7 +41,6 @@ a {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  /* строки текста отображались вертикально */
   overflow: hidden;
 }
 
