@@ -120,9 +120,9 @@ function Header() {
           </li> */}
         </ul>
       </div>
-      <div className="div_title">
+      {/* <div className="div_title">
         <p>{project ? project.projectId.title : "Загрузка..."}</p>
-      </div>
+      </div> */}
     </div>
   );
 }

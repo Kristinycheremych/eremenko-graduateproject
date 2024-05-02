@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
+import EmployeeAvatar from "../../components/employeeAvatar/EmployeeAvatar";
 
 interface Employee {
   _id: string;
@@ -63,19 +64,19 @@ const ProjectsPage: React.FC = () => {
   };
 
   const statusColors: StatusColors = {
-    Новый: "#445371",
+    "Новый": "#445371",
     "В ожидании": "#F29100",
     "В работе": "#0055FF",
-    Выполнено: "#019F3C",
-    Отменено: "#D91528",
+    "Выполнено": "#019F3C",
+    'Отменено': "#D91528",
   };
 
   const statusBackground: StatusColors = {
-    Новый: "#D0D4DC",
+    "Новый": "#D0D4DC",
     "В ожидании": "#FCE3BF",
     "В работе": "#BFD4FF",
-    Выполнено: "#C0E7CE",
-    Отменено: "#F6C5C9",
+    "Выполнено": "#C0E7CE",
+    "Отменено": "#F6C5C9",
   };
 
   useEffect(() => {
@@ -160,7 +161,7 @@ const ProjectsPage: React.FC = () => {
                 <th>Дата начала</th>
                 <th>Дата окончания</th>
                 <th>Статус</th>
-                <th>Кураторы</th>
+                <th>Куратор</th>
                 <th>Участники</th>
                 <th></th>
                 <th></th>
@@ -202,16 +203,17 @@ const ProjectsPage: React.FC = () => {
                     <td>
                       {project.projectId.supervisorId
                         .map((employee) => {
-                          return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
+                          return `${employee.lastName} ${employee.firstName.charAt(0)}. ${employee.middleName.charAt(0)}.`;
                         })
                         .join(", ")}
                     </td>
                     <td>
-                      {project.employeeId
-                        .map((employee) => {
-                          return `${employee.lastName} ${employee.firstName} ${employee.middleName}`;
-                        })
-                        .join(", ")}
+                      {project.employeeId.map((employee) => (
+                        <EmployeeAvatar
+                          key={employee._id}
+                          employee={employee}
+                        />
+                      ))}
                     </td>
 
                     <td className="link_table_progect td-icon">

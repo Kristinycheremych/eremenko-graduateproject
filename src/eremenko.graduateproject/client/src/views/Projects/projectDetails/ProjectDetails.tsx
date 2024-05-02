@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./projectDetailsStyle.css";
 import Header from "../../../components/header/Header";
+import { MdArrowBackIos } from "react-icons/md";
 
 interface Employee {
   _id: string;
@@ -38,7 +39,9 @@ function ProjectDetails() {
 
   useEffect(() => {
     axios
-      .get<EmployeeProject>(`http://localhost:3001/employeeProject/${projectId}`)
+      .get<EmployeeProject>(
+        `http://localhost:3001/employeeProject/${projectId}`
+      )
       .then((response) => {
         setProject(response.data);
       })
@@ -53,6 +56,12 @@ function ProjectDetails() {
 
   return (
     <>
+      <div className="header">
+        <div className="divArrowBackIos">
+          <MdArrowBackIos className="MdArrowBackIos" />
+        </div>
+        <p>Подробности о проекте - {project.projectId.title}</p>
+      </div>
       <Header />
       <div className="container">
         <div className="div_description">

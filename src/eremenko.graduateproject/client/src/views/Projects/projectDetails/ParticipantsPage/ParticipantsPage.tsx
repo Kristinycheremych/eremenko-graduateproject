@@ -3,15 +3,16 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { AiOutlineDelete } from "react-icons/ai";
 import Header from "../../../../components/header/Header";
+import { MdArrowBackIos } from "react-icons/md";
 
 interface Employee {
   _id: string;
   lastName: string;
   firstName: string;
   middleName: string;
-  gender: String
+  gender: String;
   serviceNumber: number;
-  position: Position; 
+  position: Position;
   employeeStatus: EmployeeStatus;
 }
 
@@ -68,7 +69,9 @@ function ParticipantsPage() {
 
   useEffect(() => {
     axios
-      .get<EmployeeProject>(`http://localhost:3001/employeeProject/${projectId}`)
+      .get<EmployeeProject>(
+        `http://localhost:3001/employeeProject/${projectId}`
+      )
       .then((response) => {
         setProject(response.data);
       })
@@ -119,6 +122,12 @@ function ParticipantsPage() {
 
   return (
     <>
+      <div className="header">
+        <div className="divArrowBackIos">
+          <MdArrowBackIos className="MdArrowBackIos" />
+        </div>
+        <p>Участники проекта - {project.projectId.title}</p>
+      </div>
       <Header />
       <div className="container">
         <div className={"container_search_filter"}>
@@ -127,7 +136,7 @@ function ParticipantsPage() {
               type="text"
               className={"input_search"}
               placeholder="Поиск"
-              value={searchQuery} 
+              value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
@@ -153,7 +162,6 @@ function ParticipantsPage() {
                 <th>Фамилия</th>
                 <th>Имя</th>
                 <th>Отчество</th>
-                <th>Пол</th>
                 <th>Табельный номер</th>
                 <th>Должность</th>
                 <th>Статус</th>
@@ -167,7 +175,6 @@ function ParticipantsPage() {
                   <td>{user.lastName}</td>
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
-                  <td>{user.gender}</td>
                   <td>{user.serviceNumber}</td>
                   <td>{user.position ? user.position.title : "Нет данных"}</td>
                   <td>

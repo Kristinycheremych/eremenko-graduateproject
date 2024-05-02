@@ -36,13 +36,13 @@ function EmployeesPage() {
   const [filteredEmployees, setFilteredEmployees] = useState<User[]>([]);
 
   const statusColors: EmployeeStatusColors = {
-    Активный: "#019F3C",
-    Неактивный: "#D91528",
+    "Активный": "#019F3C",
+    "Неактивный": "#D91528",
   };
 
   const statusBackground: EmployeeStatusColors = {
-    Активный: "#C0E7CE",
-    Неактивный: "#F6C5C9",
+    "Активный": "#C0E7CE",
+    "Неактивный": "#F6C5C9",
   };
 
   useEffect(() => {

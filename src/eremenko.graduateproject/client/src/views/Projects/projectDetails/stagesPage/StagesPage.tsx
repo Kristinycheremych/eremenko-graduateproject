@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
+import { MdArrowBackIos } from "react-icons/md";
 import Header from "../../../../components/header/Header";
 
 interface TaskStatuses {
@@ -41,7 +42,10 @@ interface ProjectFormData {
 
 const StagesPage: React.FC = () => {
   const [projectForm, setProjectForm] = useState<ProjectFormData[]>([]);
-  const { projectId, stageId } = useParams<{ stageId: string;projectId: string }>();
+  const { projectId, stageId } = useParams<{
+    stageId: string;
+    projectId: string;
+  }>();
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const StagesPage: React.FC = () => {
       console.error("Ошибка:", error);
     }
   };
-  console.log(stageId)
+  console.log(stageId);
 
   // Удаление
   const handleDelete = (id: string) => {
@@ -87,88 +91,96 @@ const StagesPage: React.FC = () => {
 
   return (
     <>
-      <Header />
-      <div className={"container_search_filter"}>
-        <div className={"div_input_search"}>
-          <input
-            type="text"
-            className={"input_search"}
-            placeholder="Поиск"
-            value={searchQuery}
-            onChange={handleSearch}
-          />
+      <div className="header">
+        <div className="divArrowBackIos">
+          <MdArrowBackIos className="MdArrowBackIos" />
         </div>
-
-        <div className={"containet_btn_add"}>
-          <Link to={`/projectsPage/stageDetails/${projectId}/stages`}>
-            <button className={"btn_add"}>Добавить</button>
-          </Link>
-        </div>
+        <p>
+          {filteredProjects.length > 0
+            ? `Этапы проекта - ${filteredProjects[0].stageProjectId.projectId.title}`
+            : "Название проекта не найдено"}
+        </p>
       </div>
-      <div className="table_user_settings">
-        <table>
-          <thead>
-            <tr>
-              <th>Этап</th>
-              <th>Описание</th>
-              <th>Дата начала</th>
-              <th>Дата завершения</th>
-              <th>Срок окончания</th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProjects.map((project) => {
-              return (
-                <tr key={project._id}>
-                  <td>{project.stageProjectId.stageId.title}</td>
-                  <td>
-                    <p className="description">
-                      {project.stageProjectId.stageId.description}
-                    </p>
-                  </td>
-                  <td>
-                    {new Date(
-                      project.stageProjectId.startDate
-                    ).toLocaleDateString()}
-                  </td>
-                  <td>
-                    {new Date(
-                      project.stageProjectId.endDate
-                    ).toLocaleDateString()}
-                  </td>
-                  <td>
-                    {new Date(
-                      project.stageProjectId.periodExecution
-                    ).toLocaleDateString()}
-                  </td>
-                  <td className="link_table_progect td-icon">
-                    <Link to={`/projectsPage/stageDetails/${projectId}/${stageId}/${project.stageProjectId.stageId._id}`}>
-                      Подробнее...
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={`/projectsPage/updateProject/${project._id}`}
-                      className={"icon_edit"}
-                    >
-                      <FiEdit />
-                    </Link>
-                  </td>
-                  <td className="td-icon">
-                    <div className={"icon_delete"}>
-                      <AiOutlineDelete
-                        onClick={() => handleDelete(project._id)}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+      <Header />
+      <div className="container">
+        <div className={"container_search_filter"}>
+          <div className={"div_input_search"}>
+            <input
+              type="text"
+              className={"input_search"}
+              placeholder="Поиск"
+              value={searchQuery}
+              onChange={handleSearch}
+            />
+          </div>
+
+          <div className={"containet_btn_add"}>
+            <Link to={`/projectsPage/stageDetails/${projectId}/stages`}>
+              <button className={"btn_add"}>Добавить</button>
+            </Link>
+          </div>
+        </div>
+        <div className="table_user_settings">
+          <table>
+            <thead>
+              <tr>
+                <th>Этап</th>
+                <th>Дата начала</th>
+                <th>Дата завершения</th>
+                <th>Срок окончания</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredProjects.map((project) => {
+                return (
+                  <tr key={project._id}>
+                    <td>{project.stageProjectId.stageId.title}</td>
+                    <td>
+                      {new Date(
+                        project.stageProjectId.startDate
+                      ).toLocaleDateString()}
+                    </td>
+                    <td>
+                      {new Date(
+                        project.stageProjectId.endDate
+                      ).toLocaleDateString()}
+                    </td>
+                    <td>
+                      {new Date(
+                        project.stageProjectId.periodExecution
+                      ).toLocaleDateString()}
+                    </td>
+                    <td className="link_table_progect td-icon">
+                      <Link
+                        to={`/projectsPage/stageDetails/${projectId}/${stageId}/${project.stageProjectId.stageId._id}`}
+                      >
+                        Подробнее...
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`/projectsPage/updateProject/${project._id}`}
+                        className={"icon_edit"}
+                      >
+                        <FiEdit />
+                      </Link>
+                    </td>
+                    <td className="td-icon">
+                      <div className={"icon_delete"}>
+                        <AiOutlineDelete
+                          onClick={() => handleDelete(project._id)}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
