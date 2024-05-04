@@ -108,10 +108,12 @@ function UpdateEmployees() {
         <div className={"wrapper"}>
           <form onSubmit={handleUpdate}>
             <div className="title-add">
-              <h3>Изменение пользователя</h3>
+              <h3>Изменение сотрудника</h3>
             </div>
-
             <div className="container-data-form">
+              <div className="personal_information">
+                <p>Личная информация</p>
+              </div>
               <div className={"input_div"}>
                 <label htmlFor="lastName">Фамилия</label>
                 <div>
@@ -136,7 +138,6 @@ function UpdateEmployees() {
                   />
                 </div>
               </div>
-
               <div className={"input_div"}>
                 <label htmlFor="middleName">Отчество</label>
                 <div>
@@ -150,34 +151,37 @@ function UpdateEmployees() {
                 </div>
               </div>
               <div className={"input_div"}>
-                <label htmlFor="gender">Пол</label>
-                <div>
-                  <select
-                    className="form_control"
-                    value={gender}
-                    onChange={(e: any) => setGender(e.target.value)}
-                  >
-                    <option value="">Выберите пол</option>
-                    <option value="Мужской">Мужской</option>
-                    <option value="Женский">Женский</option>
-                  </select>
+                <label>Пол</label>
+                <div className="div_input_radio">
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      checked={gender === "Мужской"}
+                      value="Мужской"
+                      onChange={(e: any) => setGender(e.target.value)}
+                    />
+                    Мужской
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      checked={gender === "Женский"}
+                      value="Женский"
+                      onChange={(e: any) => setGender(e.target.value)}
+                    />
+                    Женский
+                  </label>
                 </div>
               </div>
-              <div className={"input_div"}>
-                <label htmlFor="middleName">Табельный намер</label>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Введите табельный номер"
-                    className={"form_control"}
-                    onChange={(e: any) => setServiceNumber(e.target.value)}
-                    value={serviceNumber}
-                  />
-                </div>
+              <hr className="dividing_strip" />
+              <div className="personal_information">
+                <p>Рабочая информация</p>
               </div>
               <div className={"input_div"}>
                 <label htmlFor="position">Должность</label>
-                <div>
+                <div className="select">
                   <select
                     className="form_control"
                     value={positionId}
@@ -195,30 +199,8 @@ function UpdateEmployees() {
                 </div>
               </div>
               <div className={"input_div"}>
-                <label htmlFor="status">Статус</label>
-                <div>
-                  <select
-                    className="form_control"
-                    value={employeeStatusId}
-                    onChange={(e: any) => setEmployeeStatusId(e.target.value)}
-                  >
-                    <option value={""}>Выберите статус:</option>
-                    {employeeStatusList.map((employeeStatus) => {
-                      return (
-                        <option
-                          key={employeeStatus._id}
-                          value={employeeStatus._id}
-                        >
-                          {employeeStatus.title}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-              </div>
-              <div className={"input_div"}>
                 <label htmlFor="divisions">Подразделения</label>
-                <div>
+                <div className="select">
                   <select
                     className="form_control"
                     value={divisions}
@@ -236,6 +218,35 @@ function UpdateEmployees() {
                       );
                     })}
                   </select>
+                </div>
+              </div>
+              <div className={"input_div"}>
+                <label htmlFor="middleName">Табельный намер</label>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="Введите табельный номер"
+                    className={"form_control"}
+                    onChange={(e: any) => setServiceNumber(e.target.value)}
+                    value={serviceNumber}
+                  />
+                </div>
+              </div>
+              <div className={"input_div"}>
+                <label>Статус</label>
+                <div className="div_input_radio">
+                  {employeeStatusList.map((status) => (
+                    <label key={status._id}>
+                      <input
+                        type="radio"
+                        name="employeeStatus"
+                        value={status._id}
+                        checked={employeeStatusId === status._id}
+                        onChange={() => setEmployeeStatusId(status._id)}
+                      />
+                      {status.title}
+                    </label>
+                  ))}
                 </div>
               </div>
             </div>

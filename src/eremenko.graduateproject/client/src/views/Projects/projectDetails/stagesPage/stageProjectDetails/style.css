@@ -128,15 +128,11 @@
 
 .task {
   padding-top: 20px;
+  
 }
 
-.taskContent {
-  background: #fff;
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15),
-    0px 10px 13px 0px rgba(17, 38, 146, 0.05);
-}
-
-.structure {
+.task_content{
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15), 0px 10px 13px 0px rgba(17, 38, 146, 0.05);
   padding: 24px 20px 24px 20px;
 }
 
@@ -150,6 +146,7 @@
   line-height: 24px;
   padding-bottom: 12px;
   width: 100%;
+
 }
 
 .BsThreeDots {
@@ -166,6 +163,7 @@
   font-size: 16px;
   font-weight: 400;
 }
+
 
 /* Стили для боковой панели */
 .info-task {

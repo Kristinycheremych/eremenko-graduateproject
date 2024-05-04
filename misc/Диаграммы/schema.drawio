@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2024-05-01T18:40:56.818Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="_BHwSs8Oi9cDptA1XLV6" version="23.1.5" type="device" pages="4">
+<mxfile host="Electron" modified="2024-05-04T11:36:03.084Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.1.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="O2xS3AirgvNX3auGWENv" version="23.1.5" type="device" pages="4">
   <diagram id="ndYmJMOJfeZ1T6GgCP4Y" name="ER-диаграмма">
-    <mxGraphModel dx="396" dy="1287" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1390" dy="1915" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -579,7 +579,7 @@
             <mxRectangle width="150" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="vEuq7vbJhC5Y_U8bAZYt-271" value="Задача" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#fff2cc;swimlaneLine=1;strokeColor=#d6b656;" parent="1" vertex="1">
+        <mxCell id="vEuq7vbJhC5Y_U8bAZYt-271" value="Задача" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;labelBackgroundColor=none;fillColor=#d5e8d4;swimlaneLine=1;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="2162.45" y="150" width="180" height="215.00000000000068" as="geometry">
             <mxRectangle x="1740" y="40" width="70" height="30" as="alternateBounds" />
           </mxGeometry>
@@ -787,7 +787,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="8bgW-jmKs7F5TGkqRRF1-32" value="ИсполнительЗадачи" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+        <mxCell id="8bgW-jmKs7F5TGkqRRF1-32" value="ИсполнительЗадачи" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
           <mxGeometry x="1930" y="240" width="180" height="150" as="geometry" />
         </mxCell>
         <mxCell id="8bgW-jmKs7F5TGkqRRF1-33" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;html=1;" parent="8bgW-jmKs7F5TGkqRRF1-32" vertex="1">

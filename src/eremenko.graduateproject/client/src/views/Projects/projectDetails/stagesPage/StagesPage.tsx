@@ -69,7 +69,6 @@ const StagesPage: React.FC = () => {
       console.error("Ошибка:", error);
     }
   };
-  console.log(stageId);
 
   // Удаление
   const handleDelete = (id: string) => {
@@ -96,6 +95,17 @@ const StagesPage: React.FC = () => {
   const togglePopover = (id: string) => {
     setOpenPopoverId(openPopoverId === id ? null : id);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (!event.target.closest(".HiEllipsisHorizontal"))
+        setOpenPopoverId(null); 
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -145,9 +155,6 @@ const StagesPage: React.FC = () => {
                 return (
                   <tr key={project._id}>
                     <td>{project.stageProjectId.stageId.title}</td>
-                    {/* <td>
-                      <p className="description">{project.stageProjectId.stageId.description}</p>
-                    </td> */}
                     <td>
                       {new Date(
                         project.stageProjectId.startDate

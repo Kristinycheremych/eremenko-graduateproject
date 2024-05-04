@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
-import EmployeeAvatar from "../../components/employeeAvatar/EmployeeAvatar";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
+import "./style.css";
 
 interface Employee {
   _id: string;
@@ -113,6 +111,17 @@ const ProjectsPage: React.FC = () => {
     setOpenPopoverId(openPopoverId === id ? null : id);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (!event.target.closest(".HiEllipsisHorizontal"))
+        setOpenPopoverId(null);
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <div className="header">
@@ -218,26 +227,33 @@ const ProjectsPage: React.FC = () => {
                         .join(", ")}
                     </td>
                     <td>
-                      {project.employeeId.map((employee) => (
-                        <EmployeeAvatar
-                          key={employee._id}
-                          employee={employee}
-                        />
-                      ))}
+                      <div className="avatar-container">
+                        {project.employeeId.length > 0 ? (
+                          project.employeeId
+                            .slice(0, 3)
+                            .map((employee: Employee, index) => (
+                              <div key={index} className="avatar">
+                                <div className="avatar-letter">
+                                  {employee.firstName.charAt(0)}
+                                  {employee.middleName
+                                    ? employee.middleName.charAt(0)
+                                    : ""}
+                                </div>
+                              </div>
+                            ))
+                        ) : (
+                          <span>Нет данных</span>
+                        )}
+                        {project.employeeId.length > 3 && (
+                          <span>
+                            <div className="avatar">
+                              {" "}
+                              <span>+{project.employeeId.length - 3}</span>
+                            </div>
+                          </span>
+                        )}
+                      </div>
                     </td>
-                    {/* <td className="link_table_progect td-icon">
-                      <Link to={`/projectsPage/projectDetails/${project._id}`}>
-                        Подробнее...
-                      </Link>
-                    </td> */}
-                    {/* <td>
-                      <Link
-                        to={`/projectsPage/updateProject/${project._id}`}
-                        className={"icon_edit"}
-                      >
-                        <FiEdit />
-                      </Link>
-                    </td> */}
                     <td>
                       <HiEllipsisHorizontal
                         className="HiEllipsisHorizontal"

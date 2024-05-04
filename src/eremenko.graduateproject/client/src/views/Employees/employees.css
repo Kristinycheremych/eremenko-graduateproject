@@ -87,6 +87,7 @@ table {
   padding: 0;
   border-collapse: collapse;
   border-spacing: 0;
+  position: relative;
 }
 
 table th {
@@ -146,9 +147,8 @@ table p {
 .popover-content {
   position: absolute;
   background: #fff;
-  border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-left: -150px;
+  right: 0;
 }
 .div_edit {
   width: 213px;
@@ -156,10 +156,10 @@ table p {
   cursor: pointer;
   margin: 0 auto;
   padding-top: 8px;
-  color: #9BA4B4;
+  color: #9ba4b4;
 }
-.div_edit p{
-  color: #9BA4B4;
+.div_edit p {
+  color: #9ba4b4;
 }
 .div_edit:hover {
   background: rgba(25, 111, 173, 0.05);
@@ -171,14 +171,14 @@ table p {
   cursor: pointer;
   margin: 0 auto;
   padding-top: 8px;
-  color: #9BA4B4;
+  color: #9ba4b4;
 }
 
 .div_delete:hover {
   background: rgba(25, 111, 173, 0.05);
 }
 
-.div-popover-content{
+.div-popover-content {
   padding: 8px;
 }
 
@@ -227,12 +227,23 @@ table p {
 }
 
 .wrapper {
-  width: 470px;
+  width: 600px;
   height: max-content;
   border-radius: 12px;
   background: #fff;
   box-shadow: 0px 32px 32px 0px rgba(68, 83, 113, 0.05),
     0px 0px 32px 0px rgba(68, 83, 113, 0.1);
+}
+
+.personal_information {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.dividing_strip {
+  background: #d0d4dc;
+  margin: 8px 0 8px 0;
+  opacity: 0.33;
 }
 
 .input_div {
@@ -246,6 +257,19 @@ table p {
   margin-top: 8px;
 }
 
+.div_input_radio {
+  display: flex;
+  gap: 15px;
+}
+
+input[type="radio"] {
+  margin: 0 9px 0 0;
+  accent-color: #196fad;
+  -ms-transform: scale(1.8); 
+  -webkit-transform: scale(1.8);
+  transform: scale(1.8);
+}
+
 .title-add {
   padding: 24px 20px 24px 20px;
 }
@@ -256,8 +280,7 @@ table p {
 
 label {
   font-size: 16px;
-  color: #000;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 input {
@@ -281,8 +304,10 @@ input {
   width: 100%;
   height: 46px;
   border-radius: 8px;
+  padding: 12px;
   border: 1px solid #cacaca;
   background: #fff;
+  appearance: none;
 }
 
 .action_buttons {
@@ -325,3 +350,24 @@ input {
   background: #196fad;
   color: #fff;
 }
+
+/* стили для select */
+
+.select {
+  position: relative;
+}
+
+.select:after {
+  content: "";
+  display: block;
+  border-style: solid;
+  border-width: 6px 5px 0 5px;
+  border-color: #000 transparent transparent transparent;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  z-index: 1;
+  margin-top: -3px;
+}
+

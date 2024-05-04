@@ -58,6 +58,7 @@ router.get("/executorTask/:id", async (req, res) => {
   }
 });
 
+
 router.post("/addExecutorTask", async (req, res) => {
   try {
     const {
@@ -65,7 +66,6 @@ router.post("/addExecutorTask", async (req, res) => {
       description,
       creatorId,
       taskStatusId,
-      projectId,
       stageProjectId,
       startDate,
       endDate,
@@ -77,7 +77,6 @@ router.post("/addExecutorTask", async (req, res) => {
       title,
       description,
       taskStatusId,
-      projectId,
       stageProjectId,
       creatorId,
     });
@@ -105,6 +104,8 @@ router.post("/addExecutorTask", async (req, res) => {
     res.status(500).json({ message: "Ошибка сервера" });
   }
 });
+
+
 
 // Редактирование связи сотрудника и проекта по уникальному идентификатору
 router.put("/update/executorTask/:id", async (req, res) => {

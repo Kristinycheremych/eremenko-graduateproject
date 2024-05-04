@@ -79,20 +79,31 @@ function EmployeesPage() {
 
   const handleDelete = (id: string) => {
     if (window.confirm(`Вы уверены, что хотите удалить этого сотрудника?`)) {
-    axios
-      .delete(`http://localhost:3001/delete/employees/${id}`)
-      .then((res) => {
-        console.log(res);
-        // Обновляем данные после удаления сотрудника
-        setData(data.filter((user) => user._id !== id));
-      })
-      .catch((err) => console.log(err));
+      axios
+        .delete(`http://localhost:3001/delete/employees/${id}`)
+        .then((res) => {
+          console.log(res);
+          // Обновляем данные после удаления сотрудника
+          setData(data.filter((user) => user._id !== id));
+        })
+        .catch((err) => console.log(err));
     }
   };
 
   const togglePopover = (id: string) => {
     setOpenPopoverId(openPopoverId === id ? null : id);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (!event.target.closest(".HiEllipsisHorizontal"))
+        setOpenPopoverId(null); 
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -132,7 +143,6 @@ function EmployeesPage() {
             </Link>
           </div>
         </div>
-
         <div className="table_user">
           <table>
             <thead>

@@ -15,9 +15,26 @@
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0) inset;
 }
 
+/* Аватарка */
 .table_user_settings {
   padding-top: 30px;
   margin: 0 auto;
 }
 
+.avatar-container {
+  display: flex;
+  align-items: center;
+}
 
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #fff;
+  margin-right: -10px;
+}

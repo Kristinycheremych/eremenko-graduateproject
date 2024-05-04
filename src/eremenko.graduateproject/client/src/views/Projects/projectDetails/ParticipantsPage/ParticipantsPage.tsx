@@ -60,7 +60,6 @@ function ParticipantsPage() {
   const [selectedPosition, setSelectedPosition] = useState<string>("");
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
 
-
   const statusColors: EmployeeStatusColors = {
     "Активный": "#019F3C",
     "Неактивный": "#D91528",
@@ -84,35 +83,25 @@ function ParticipantsPage() {
       });
   }, [projectId]);
 
-  if (!project) {
-    return <p>Загрузка...</p>;
-  }
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      if (!event.target.closest(".HiEllipsisHorizontal"))
+        setOpenPopoverId(null); 
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
   
   const togglePopover = (id: string) => {
     setOpenPopoverId(openPopoverId === id ? null : id);
   };
 
-  const handleDeleteEmployee = (employeeId: string) => {
-    if (window.confirm(`Вы уверены, что хотите удалить этого сотрудника?`)) {
-    axios
-      .delete(`http://localhost:3001/deleteEmployee/${projectId}/${employeeId}`)
-      .then((response) => {
-        // Обновляем список сотрудников после удаления
-        setProject((prevProject) => {
-          if (prevProject) {
-            const updatedEmployees = prevProject.projectId.supervisorId.filter(
-              (employee) => employee._id !== employeeId
-            );
-            return { ...prevProject, supervisorId: updatedEmployees };
-          }
-          return prevProject;
-        });
-      })
-      .catch((error) => {
-        console.error("Ошибка при удалении сотрудника:", error);
-      });
-    }
-  };
+  
+  if (!project) {
+    return <p>Загрузка...</p>;
+  }
 
   //Реализация логики поиска
   const filteredEmployees = project.employeeId.filter((employee) =>
@@ -213,7 +202,7 @@ function ParticipantsPage() {
                       <div className="popover-content">
                         <div className="div-popover-content">
                           <div
-                            onClick={() => handleDeleteEmployee(user._id)}
+                           
                             className="div_delete"
                           >
                             <p>Удалить</p>
