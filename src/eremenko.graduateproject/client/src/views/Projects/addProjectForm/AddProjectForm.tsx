@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 interface Employee {
   _id: string;
@@ -37,8 +38,7 @@ const AddProjectWithEmployee: React.FC = () => {
 
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [projectStatuses, setProjectStatuses] = useState<ProjectStatus[]>([]);
-  const [supervisorSearchQuery, setSupervisorSearchQuery] = useState<string>("");
-  const [employeeSearchQuery, setEmployeeSearchQuery] = useState<string>("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,19 +68,25 @@ const AddProjectWithEmployee: React.FC = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setProjectData({ ...projectData, [name]: value });
   };
 
-  const handleEmployeeIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
+  const handleSupervisorChange = (selectedOption: any) => {
+    if (selectedOption) {
+      const supervisorId = selectedOption.value;
+      setProjectData({ ...projectData, supervisorId });
+    }
+  };
 
-    const selectedEmployeeIds = selectedOptions.map((id) => String(id));
-    setProjectData({ ...projectData, employeeId: selectedEmployeeIds });
+  const handleEmployeeIdChange = (selectedOptions: any) => {
+    if (selectedOptions) {
+      const employeeIds = selectedOptions.map((option: any) => option.value);
+      setProjectData({ ...projectData, employeeId: employeeIds });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -96,19 +102,6 @@ const AddProjectWithEmployee: React.FC = () => {
       console.error("Ошибка:", error);
     }
   };
-
-  const filteredSupervisors = employees.filter((employee) =>
-    `${employee.lastName} ${employee.firstName} ${employee.middleName}`
-      .toLowerCase()
-      .includes(supervisorSearchQuery.toLowerCase())
-  );
-
-  const filteredEmployees = employees.filter((employee) =>
-    `${employee.lastName} ${employee.firstName} ${employee.middleName}`
-      .toLowerCase()
-      .includes(employeeSearchQuery.toLowerCase())
-  );
-
 
   return (
     <div className="pade">
@@ -146,6 +139,7 @@ const AddProjectWithEmployee: React.FC = () => {
                 />
               </div>
             </div>
+           
             <div className="input_div">
               <label htmlFor="startDate">Дата начала</label>
               <div>
@@ -193,57 +187,35 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="selectedEmployees">Куратор</label>
-              <div className={"input_div"}>
-                <input
-                  type="text"
-                  className={"form_control"}
-                  placeholder="Поиск по ФИО"
-                  value={supervisorSearchQuery}
-                  onChange={(e) => setSupervisorSearchQuery(e.target.value)}
-                />
-              </div>
-              <select
-                name="supervisorId"
-                className={"form_control_employees"}
-                value={projectData.supervisorId}
-                onChange={handleChange}
+              <Select
+                // Опции для выбора, сформированные из отфильтрованного списка сотрудников
+                options={employees.map((employee) => ({
+                  value: employee._id,
+                  label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
+                }))}
+                // Функция обратного вызова, вызываемая при изменении выбранного куратора
+                onChange={handleSupervisorChange}
+                // Возможность очистить выбранное значение
+                isClearable
+                // Возможность поиска куратора по имени
+                isSearchable
                 required
-              >
-                <option value="">Выберите куратора проекта</option>
-                {filteredSupervisors.map((employee) => (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.lastName} {employee.firstName}{" "}
-                    {employee.middleName}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
             <div className="input_div">
               <label htmlFor="selectedEmployees">Участники</label>
-              <div className={"input_div"}>
-                <input
-                  type="text"
-                  className={"form_control"}
-                  placeholder="Поиск по ФИО"
-                  value={employeeSearchQuery}
-                  onChange={(e) => setEmployeeSearchQuery(e.target.value)}
-                />
-              </div>
-              <select
-                name="employeeId"
-                value={projectData.employeeId}
-                className={"form_control_employees"}
+              <Select
+                // Опции для выбора, сформированные из списка всех сотрудников
+                options={employees.map((employee) => ({
+                  value: employee._id,
+                  label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
+                }))}
+                // Функция обратного вызова, вызываемая при изменении выбранных участников
                 onChange={handleEmployeeIdChange}
-                multiple
+                // Возможность выбора нескольких участников одновременно
+                isMulti
                 required
-              >
-                {filteredEmployees.map((employee) => (
-                  <option key={employee._id} value={employee._id}>
-                    {employee.lastName} {employee.firstName}{" "}
-                    {employee.middleName}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
           </div>
 

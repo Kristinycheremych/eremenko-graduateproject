@@ -4,22 +4,17 @@ const ProjectModel = require("../models/ProjectModel");
 const ExecutorTaskModel = require("../models/ExecutorTaskModel");
 const TaskModel = require("../models/TaskModel");
 
-// Роут для получения всех связей сотрудников и проектов
 router.get("/get/executorTask", async (req, res) => {
   try {
     const ExecutorTask = await ExecutorTaskModel.find()
-      .populate("employeeId")
+      .populate("employeeId") // Заполнение информации о сотрудниках
       .populate({
         path: "taskId",
-        populate: { path: "creatorId" },
-      })
-      .populate({
-        path: "taskId",
-        populate: { path: "stageProjectId" },
-      })
-      .populate({
-        path: "taskId",
-        populate: { path: "taskStatusId" },
+        populate: [
+          { path: "creatorId" },
+          { path: "stageProjectId" },
+          { path: "taskStatusId" },
+        ],
       });
     res.json(ExecutorTask);
   } catch (err) {
@@ -31,18 +26,14 @@ router.get("/get/executorTask", async (req, res) => {
 router.get("/executorTask/:id", async (req, res) => {
   try {
     const ExecutorTask = await ExecutorTaskModel.findById(req.params.id)
-      .populate("employeeId")
+      .populate("employeeId") // Заполнение информации о сотрудниках
       .populate({
         path: "taskId",
-        populate: { path: "creatorId" },
-      })
-      .populate({
-        path: "taskId",
-        populate: { path: "stageProjectId" },
-      })
-      .populate({
-        path: "taskId",
-        populate: { path: "taskStatusId" },
+        populate: [
+          { path: "creatorId" },
+          { path: "stageProjectId" },
+          { path: "taskStatusId" },
+        ],
       });
     if (!ExecutorTask) {
       return res
@@ -72,8 +63,19 @@ router.post("/addExecutorTask", async (req, res) => {
       employeeId,
     } = req.body;
 
-    // Создаем запись проекта
-    const newExecutorTask = new TaskModel({
+    // Создаем запись в промежуточной таблице ExecutorTaskModel
+    const newExecutorTask = new ExecutorTaskModel({
+      employeeId,
+      startDate,
+      endDate,
+      taskId: null, // Временно оставляем taskId пустым, так как он будет заполнен после создания задачи
+    });
+
+    // Сохраняем запись в промежуточной таблице ExecutorTaskModel
+    const savedExecutorTask = await newExecutorTask.save();
+
+    // Создаем запись задачи в модели TaskModel
+    const newTask = new TaskModel({
       title,
       description,
       taskStatusId,
@@ -81,19 +83,12 @@ router.post("/addExecutorTask", async (req, res) => {
       creatorId,
     });
 
-    // Сохраняем запись проекта
-    await newExecutorTask.save();
+    // Устанавливаем связь задачи с промежуточной таблицей ExecutorTaskModel
+    savedExecutorTask.taskId = newTask._id;
+    await savedExecutorTask.save();
 
-    // Создаем запись в промежуточной таблице
-    const ExecutorTask = new ExecutorTaskModel({
-      employeeId,
-      startDate,
-      endDate,
-      taskId: newExecutorTask._id,
-    });
-
-    // Сохраняем запись в промежуточной таблице
-    await ExecutorTask.save();
+    // Сохраняем запись задачи
+    await newTask.save();
 
     res.status(201).json({
       message:
@@ -106,8 +101,6 @@ router.post("/addExecutorTask", async (req, res) => {
 });
 
 
-
-// Редактирование связи сотрудника и проекта по уникальному идентификатору
 router.put("/update/executorTask/:id", async (req, res) => {
   const projectId = req.params.id;
   const {
@@ -126,7 +119,6 @@ router.put("/update/executorTask/:id", async (req, res) => {
     if (!existingProject) {
       return res.status(404).json({ message: "Проект не найден" });
     }
-
     // Обновляем данные проекта
     existingProject.title = title;
     existingProject.description = description;
@@ -148,24 +140,26 @@ router.put("/update/executorTask/:id", async (req, res) => {
   }
 });
 
-// Удаление связи сотрудника и проекта по уникальному идентификатору
-router.delete("/executorTask/:id", async (req, res) => {
+router.delete("/delete/executorTask/:id", async (req, res) => {
+  const executorTaskId = req.params.id;
+
   try {
-    const deletedEmployeeProject = await ExecutorTaskModel.findByIdAndDelete(
-      req.params.id
-    );
-    if (!deletedEmployeeProject) {
-      return res
-        .status(404)
-        .json({ message: "Связь сотрудника и проекта не найдена" });
+    // Попытка найти и удалить задачу в промежуточной таблице ExecutorTaskModel
+    const deletedExecutorTask = await ExecutorTaskModel.findByIdAndDelete(executorTaskId);
+    
+    if (!deletedExecutorTask) {
+      return res.status(404).json({ message: "Задача не найдена" });
     }
-    res.json({ message: "Связь сотрудника и проекта успешно удалена" });
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .json({ message: "Ошибка при удалении связи сотрудника и проекта" });
+
+    // Теперь нужно удалить связанную с этой задачей запись в модели TaskModel
+    await TaskModel.findByIdAndDelete(deletedExecutorTask.taskId);
+
+    res.status(200).json({ message: "Задача успешно удалена" });
+  } catch (error) {
+    console.error("Ошибка:", error);
+    res.status(500).json({ message: "Ошибка сервера при удалении задачи" });
   }
 });
+
 
 module.exports = router;

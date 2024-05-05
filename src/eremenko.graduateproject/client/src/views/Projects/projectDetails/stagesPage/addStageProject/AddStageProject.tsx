@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Select from "react-select";
 
 interface TaskStatuses {
   _id: string;
@@ -90,16 +91,11 @@ const AddProjectWithEmployee: React.FC = () => {
     setProjectData({ ...projectData, [name]: value });
   };
 
-  const handleEmployeeIdChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selectedOptions = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-
-    const selectedTaskStatuses = selectedOptions.map((id) => String(id));
-    setProjectData({ ...projectData, taskStatusesId: selectedTaskStatuses });
+  const handleEmployeeIdChange = (selectedOptions: any) => {
+    if (selectedOptions) {
+      const selectedTaskStatuses = selectedOptions.map((option: any) => option.value);
+      setProjectData({ ...projectData, taskStatusesId: selectedTaskStatuses });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -208,21 +204,17 @@ const AddProjectWithEmployee: React.FC = () => {
               </div>
             </div>
             <div className="input_div">
-              <label htmlFor="taskStatusesId">Статус задачи</label>
-              <select
-                name="taskStatusesId"
-                value={projectData.taskStatusesId}
-                className={"form_control_employees"}
+              <label htmlFor="selectedEmployees">Статусы задач</label>
+              <Select
+                options={taskStatuses.map((taskStatuses) => ({
+                  value: taskStatuses._id,
+                  label: `${taskStatuses.title}`,
+                }))}
                 onChange={handleEmployeeIdChange}
-                multiple
+                // Возможность выбора нескольких участников одновременно
+                isMulti
                 required
-              >
-                {taskStatuses.map((taskStatuses) => (
-                  <option key={taskStatuses._id} value={taskStatuses._id}>
-                    {taskStatuses.title}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
           </div>
 

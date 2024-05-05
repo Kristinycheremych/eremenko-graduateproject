@@ -155,13 +155,22 @@
 }
 
 .div-task-description {
-  padding-bottom: 16px;
+  padding-bottom: 10px;
 }
 
 .description-task {
   color: var(--neutral-500, #445371);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
+}
+
+.date_task{
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.date_task p{
+  font-size: 15px;
 }
 
 

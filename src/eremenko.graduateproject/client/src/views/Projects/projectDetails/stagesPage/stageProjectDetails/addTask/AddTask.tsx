@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 interface Employee {
   _id: string;
@@ -28,7 +29,7 @@ const AddTaskPage: React.FC = () => {
   const [creatorId, setCreatorId] = useState("");
   const [employees, setEmployees] = useState<string[]>([]);
   const [allEmployees, setAllEmployees] = useState<Employee[]>([]);
-  const [taskStatuses, setTaskStatuses] = useState<TaskStatus[]>([]); 
+  const [taskStatuses, setTaskStatuses] = useState<TaskStatus[]>([]);
 
   useEffect(() => {
     fetchEmployees();
@@ -57,26 +58,33 @@ const AddTaskPage: React.FC = () => {
     }
   };
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    await axios.post(`http://localhost:3001/addExecutorTask`, {
-      title,
-      description,
-      startDate,
-      endDate,
-      stageProjectId,
-      creatorId,
-      taskStatusId: taskStatuses[0]._id, // Передаем ID первого статуса задачи
-      employeeId: employees, // передаем массив идентификаторов сотрудников как employeeId
-    });
-    navigate(
-      `/projectsPage/stageDetails/${projectId}/${stageId}/${stageProjectId}`
-    );
-  } catch (error) {
-    console.error("Ошибка при добавлении задачи:", error);
-  }
-};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post(`http://localhost:3001/addExecutorTask`, {
+        title,
+        description,
+        startDate,
+        endDate,
+        stageProjectId,
+        creatorId,
+        taskStatusId: taskStatuses[0]._id, // Передаем ID первого статуса задачи
+        employeeId: employees, // передаем массив идентификаторов сотрудников как employeeId
+      });
+      navigate(
+        `/projectsPage/stageDetails/${projectId}/${stageId}/${stageProjectId}`
+      );
+    } catch (error) {
+      console.error("Ошибка при добавлении задачи:", error);
+    }
+  };
+
+  const handleEmployeeIdChange = (selectedOptions: any) => {
+    if (selectedOptions) {
+      const employeeIds = selectedOptions.map((option: any) => option.value);
+      setEmployees(employeeIds);
+    }
+  };
 
   const handleCancel = () => {
     navigate(-1);
@@ -139,43 +147,31 @@ const AddTaskPage: React.FC = () => {
               <div className="input_div">
                 <label>Создатель</label>
                 <div>
-                  <select
-                    value={creatorId}
-                    onChange={(e) => setCreatorId(e.target.value)}
-                    className={"form_control"}
-                  >
-                    <option value="">Выберите создателя</option>
-                    {allEmployees.map((employee) => (
-                      <option key={employee._id} value={employee._id}>
-                        {employee.firstName}
-                      </option>
-                    ))}
-                  </select>
+                  <Select
+                    options={allEmployees.map((employee) => ({
+                      value: employee._id,
+                      label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
+                    }))}
+                    onChange={(selectedOption: any) =>
+                      setCreatorId(selectedOption.value)
+                    }
+                    isClearable
+                    isSearchable
+                    required
+                  />
                 </div>
               </div>
               <div className="input_div">
-                <label>Исполнители</label>
-                <div>
-                  <select
-                    multiple
-                    value={employees}
-                    onChange={(e) =>
-                      setEmployees(
-                        Array.from(
-                          e.target.selectedOptions,
-                          (option) => option.value
-                        )
-                      )
-                    }
-                    className={"form_control"}
-                  >
-                    {allEmployees.map((employee) => (
-                      <option key={employee._id} value={employee._id}>
-                        {employee.firstName}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <label htmlFor="selectedEmployees">Исполнители</label>
+                <Select
+                  options={allEmployees.map((employee) => ({
+                    value: employee._id,
+                    label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
+                  }))}
+                  onChange={handleEmployeeIdChange}
+                  isMulti
+                  required
+                />
               </div>
             </div>
             <div className={"action_buttons"}>
