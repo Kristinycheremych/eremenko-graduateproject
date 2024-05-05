@@ -75,6 +75,13 @@ const AddProjectWithEmployee: React.FC = () => {
     setProjectData({ ...projectData, [name]: value });
   };
 
+  const handleStatusChange = (selectedOption: any) => {
+    if (selectedOption) {
+      const statusProjectId = selectedOption.value;
+      setProjectData({ ...projectData, statusProjectId });
+    }
+  };
+
   const handleSupervisorChange = (selectedOption: any) => {
     if (selectedOption) {
       const supervisorId = selectedOption.value;
@@ -168,23 +175,22 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="status">Статус проекта</label>
-              <div>
-                <select
-                  name="statusProjectId"
-                  value={projectData.statusProjectId}
-                  onChange={handleChange}
-                  className={"form_control"}
-                  required
-                >
-                  <option value="">Выберите статус проекта</option>
-                  {projectStatuses.map((status) => (
-                    <option key={status._id} value={status._id}>
-                      {status.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                // Опции для выбора, сформированные из отфильтрованного списка сотрудников
+                options={projectStatuses.map((status) => ({
+                  value: status._id,
+                  label: `${status.title}`,
+                }))}
+                // Функция обратного вызова, вызываемая при изменении выбранного куратора
+                onChange={handleStatusChange}
+                // Возможность очистить выбранное значение
+                isClearable
+                // Возможность поиска куратора по имени
+                isSearchable
+                required
+              />
             </div>
+            
             <div className="input_div">
               <label htmlFor="selectedEmployees">Куратор</label>
               <Select

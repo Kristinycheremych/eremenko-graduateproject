@@ -181,7 +181,7 @@ function UpdateEmployees() {
               </div>
               <div className={"input_div"}>
                 <label htmlFor="position">Должность</label>
-                <div className="select">
+                <div>
                   <select
                     className="form_control"
                     value={positionId}
@@ -200,7 +200,7 @@ function UpdateEmployees() {
               </div>
               <div className={"input_div"}>
                 <label htmlFor="divisions">Подразделения</label>
-                <div className="select">
+                <div>
                   <select
                     className="form_control"
                     value={divisions}

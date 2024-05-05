@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 
 function CreateEmployees() {
@@ -63,6 +64,18 @@ function CreateEmployees() {
       })
       .catch((error) => console.log(error));
   };
+
+  const handlePositionChange = (selectedOption: any) => {
+    if (selectedOption) {
+      setPosition(selectedOption.value);
+    }
+  };
+  const handlesetDivisionsChange = (selectedOption: any) => {
+    if (selectedOption) {
+      setDivisions(selectedOption.value);
+    }
+  };
+  
 
   return (
     <>
@@ -146,44 +159,33 @@ function CreateEmployees() {
               </div>
               <div className={"input_div"}>
                 <label htmlFor="position">Должность</label>
-                <div className="select">
-                  <select
-                    className={"form_control"}
-                    value={position}
-                    onChange={(e) => setPosition(e.target.value)}
-                    required
-                  >
-                    <option value="">Выберете должность:</option>
-                    {dataPosition.map((position) => {
-                      return (
-                        <option key={position._id} value={position._id}>
-                          {position.title}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
+                <Select
+                  options={dataPosition.map((position) => ({
+                    value: position._id,
+                    label: position.title,
+                  }))}
+                  onChange={handlePositionChange}
+                  isClearable
+                  isSearchable
+                  required
+                />
               </div>
               <div className={"input_div"}>
-                <label htmlFor="divisions">Подразделения</label>
-                <div className="select">
-                  <select
-                    className={"form_control"}
-                    value={divisions}
-                    onChange={(e) => setDivisions(e.target.value)}
-                    required
-                  >
-                    <option value="">Выберете подразделение:</option>
-                    {dataDivisions.map((divisions) => {
-                      return (
-                        <option key={divisions._id} value={divisions._id}>
-                          {divisions.title}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
+                <label htmlFor="position">Подразделение</label>
+                <Select
+                  options={dataDivisions.map((divisions) => ({
+                    value: divisions._id,
+                    label: divisions.title,
+                  }))}
+                  onChange={handlesetDivisionsChange}
+                  // Возможность очистить выбранное значение
+                  isClearable
+                  // Возможность поиска куратора по имени
+                  isSearchable
+                  required
+                />
               </div>
+
               <div className={"input_div"}>
                 <label htmlFor="serviceNumber">Табельный номер</label>
                 <div>
@@ -214,7 +216,6 @@ function CreateEmployees() {
                   ))}
                 </div>
               </div>
-              
             </div>
 
             <div className={"action_buttons"}>
