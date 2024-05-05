@@ -161,5 +161,40 @@ router.delete("/delete/executorTask/:id", async (req, res) => {
   }
 });
 
+// Функция для проверки возможности изменения статуса задачи
+function isStatusTransitionAllowed(currentStatus, newStatus) {
+  return currentStatus !== newStatus;
+}
+
+router.put("/update/task/:id", async (req, res) => {
+  const taskId = req.params.id;
+  const { taskStatusId } = req.body;
+
+  try {
+    // Проверяем существование задачи по ID
+    const existingTask = await ExecutorTaskModel.findById(taskId).populate('taskId');
+    if (!existingTask) {
+      return res.status(404).json({ message: "Задача не найдена" });
+    }
+
+    // Проверяем, можно ли изменить статус задачи на новый статус
+    const isAllowed = isStatusTransitionAllowed(existingTask.taskId.taskStatusId, taskStatusId);
+
+    if (!isAllowed) {
+      return res.status(400).json({ message: "Невозможно переместить задачу в данный статус" });
+    }
+    
+    // Обновляем статус задачи
+    existingTask.taskId.taskStatusId = taskStatusId;
+
+    // Сохраняем обновленную задачу
+    await existingTask.taskId.save();
+
+    res.json({ message: "Статус задачи успешно обновлен" });
+  } catch (error) {
+    console.error("Ошибка:", error);
+    res.status(500).json({ message: "Ошибка сервера" });
+  }
+});
 
 module.exports = router;

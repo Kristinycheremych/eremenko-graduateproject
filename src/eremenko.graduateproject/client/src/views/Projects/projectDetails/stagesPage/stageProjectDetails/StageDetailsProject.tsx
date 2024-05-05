@@ -119,18 +119,35 @@ const StageDetailsPage: React.FC = () => {
   };
 
   const deleteTask = async () => {
-    try {
-      if (selectedTask) {
-        await axios.delete(
-          `http://localhost:3001/delete/executorTask/${selectedTask._id}`
-        );
-        // После удаления задачи обновляем список задач
-        fetchTasks();
-        // Закрываем боковую панель
-        closeSidebar();
+    if (window.confirm("Вы уверены, что хотите удалить эту задачу?")) {
+      try {
+        if (selectedTask) {
+          await axios.delete(
+            `http://localhost:3001/delete/executorTask/${selectedTask._id}`
+          );
+          // После удаления задачи обновляем список задач
+          fetchTasks();
+          // Закрываем боковую панель
+          closeSidebar();
+        }
+      } catch (error) {
+        console.error("Ошибка при удалении задачи:", error);
       }
+    }
+  };
+
+  const moveTask = async (taskId: string, newStatusId: string) => {
+    try {
+      await axios.put(`http://localhost:3001/update/task/${taskId}`, {
+        taskStatusId: newStatusId,
+      });
+
+      // После перемещения задачи обновляем список задач
+      fetchTasks();
+      // Закрываем боковую панель
+      closeSidebar();
     } catch (error) {
-      console.error("Ошибка при удалении задачи:", error);
+      console.error("Ошибка при перемещении задачи:", error);
     }
   };
 
@@ -195,14 +212,26 @@ const StageDetailsPage: React.FC = () => {
                 <p>
                   <h5>Переместить задачу:</h5>
                 </p>
-                <select className="selectTask">
+                <select
+                  className="selectTask"
+                  onChange={(e) =>
+                    selectedTask && moveTask(selectedTask._id, e.target.value)
+                  }
+                >
                   <option value="" className="selectTask">
                     Выберите статус
                   </option>
+                  {stage.taskStatusesId.map((status) => (
+                    <option key={status._id} value={status._id}>
+                      {status.title}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="containetDeletedTask">
-                <button className="deletedTask" onClick={deleteTask}>Удалить задачу</button>
+                <button className="deletedTask" onClick={deleteTask}>
+                  Удалить задачу
+                </button>
               </div>
             </div>
           )}
