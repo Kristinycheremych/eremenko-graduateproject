@@ -128,11 +128,11 @@
 
 .task {
   padding-top: 20px;
-  
 }
 
-.task_content{
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15), 0px 10px 13px 0px rgba(17, 38, 146, 0.05);
+.task_content {
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15),
+    0px 10px 13px 0px rgba(17, 38, 146, 0.05);
   padding: 24px 20px 24px 20px;
 }
 
@@ -146,7 +146,6 @@
   line-height: 24px;
   padding-bottom: 12px;
   width: 100%;
-
 }
 
 .BsThreeDots {
@@ -164,28 +163,34 @@
   font-weight: 400;
 }
 
-.date_task{
+.date_task {
   display: flex;
   padding-bottom: 10px;
 }
 
-.date_task p{
+.date_task p {
   font-size: 15px;
 }
 
-
 /* Стили для боковой панели */
-.info-task {
-  font-size: 25px;
-  padding-bottom: 30px;
+
+.sidebar_heading {
+  display: flex;
+  padding: 24px 20px 24px 20px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.btn_add {
-  cursor: pointer;
+.icon_placeholder {
+  font-size: 24px;
+  height: 24px;
 }
 
+/* Стили для содержимого боковой панели */
 .lateral-panel {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   width: 0;
   position: fixed;
   top: 0;
@@ -194,43 +199,48 @@
   overflow-x: hidden;
   /* Скрытие горизонтальной прокрутки */
   transition: 0.5s;
-  padding-top: 60px;
   z-index: 1000;
   box-shadow: 4px 0px 8px 0px rgba(37, 39, 51, 0.25);
   border: 1px solid #d9d9d9;
 }
 
-/* Стили для контейнера с кнопкой закрытия */
-.lateral-panel .closebtn {
-  position: absolute;
-  top: 0;
-  font-size: 36px;
-  margin-top: 20px;
-  margin-left: 10px;
+.sidebar_content {
+  width: 100%;
+  padding: 8px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.sidebar_content_item h4 {
+  margin-bottom: 16px;
+}
+
+.sidebar_content_item ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+}
+
+.sidebar_footer{
+  padding: 24px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn_add {
   cursor: pointer;
 }
 
-/* Стили для содержимого боковой панели */
-.sidebar-content {
-  width: 100%;
-  padding: 16px;
-  text-align: left;
+/* Стили для контейнера с кнопкой закрытия */
+.lateral-panel .closebtn {
+  top: 0;
+  cursor: pointer;
 }
 
 /* Стили для анимации при открытии и закрытии боковой панели */
 .lateral-panel.open {
-  width: 350px;
-}
-
-/* Стили для кнопки открытия боковой панели */
-.openbtn {
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #f1f1f1;
-  border: none;
-  padding: 10px 15px;
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 1000;
+  width: 494px;
 }

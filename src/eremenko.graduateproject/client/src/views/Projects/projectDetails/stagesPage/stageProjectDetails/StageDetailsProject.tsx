@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../../../../../components/header/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import { BsThreeDots } from "react-icons/bs";
+import { MdOutlineClose } from "react-icons/md";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./style.css";
 
@@ -185,43 +186,74 @@ const StageDetailsPage: React.FC = () => {
       </div>
       <Header />
       <div className={`lateral-panel ${sidebarOpen ? "open" : ""}`}>
-        <IoIosCloseCircleOutline className="closebtn" onClick={closeSidebar} />
-        <div className="sidebar-content">
+        <div className="sidebar_heading">
+          <h2>Информация о задаче</h2>
+          <div className="icon_placeholder">
+            <MdOutlineClose className="closebtn" onClick={closeSidebar}/>
+          </div>
+        </div>
+        <div className="sidebar_content">
           {selectedTask && (
-            <div>
-              <p className="info-task">Информация о задаче</p>
-              <p>
-                <h5>Название:</h5>
-                {selectedTask.taskId.title}
-              </p>
-              <p>
-                <h5>Описание:</h5>
-                {selectedTask.taskId.description}
-              </p>
-              <p>
-                <h5>Дата начала:</h5>
-                {new Date(selectedTask.startDate).toLocaleDateString()}
-              </p>
-              <p>
-                <h5>Дата окончания:</h5>
-                {new Date(selectedTask.endDate).toLocaleDateString()}
-              </p>
-              <p>
-                <h5>Создатель:</h5>
-                <p>{`${selectedTask.taskId.creatorId.lastName} ${selectedTask.taskId.creatorId.firstName} ${selectedTask.taskId.creatorId.middleName}`}</p>
-              </p>
-              <p>
-                <h5>Участники:</h5>
-                {selectedTask.employeeId.map((employee, index) => (
-                  <p key={index}>
-                    {`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
-                  </p>
-                ))}
-              </p>
-
+            <>
+              <div className="sidebar_content_item">
+                <h4>Название:</h4>
+                <ul>
+                  <li>
+                    <p>{selectedTask.taskId.title}</p>
+                  </li>
+                </ul>
+              </div>
+              <div className="sidebar_content_item">
+                <h4>Описание:</h4>
+                <ul>
+                  <li>
+                    <p>{selectedTask.taskId.description}</p>
+                  </li>
+                </ul>
+              </div>
+              <div className="sidebar_content_item">
+                <h4>Дата начала:</h4>
+                <ul>
+                  <li>
+                    <p>
+                      {new Date(selectedTask.startDate).toLocaleDateString()}
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div className="sidebar_content_item">
+                <h4>Дата окончания:</h4>
+                <ul>
+                  <li>
+                    <p>{new Date(selectedTask.endDate).toLocaleDateString()}</p>
+                  </li>
+                </ul>
+              </div>
+              <div className="sidebar_content_item">
+                <h4>Создатель:</h4>
+                <ul>
+                  <li>
+                    <p>{`${selectedTask.taskId.creatorId.lastName} ${selectedTask.taskId.creatorId.firstName} ${selectedTask.taskId.creatorId.middleName}`}</p>
+                  </li>
+                </ul>
+              </div>
+              <div className="sidebar_content_item">
+                <h4>Участники:</h4>
+                <ul>
+                  <li>
+                    <p>
+                      {selectedTask.employeeId.map((employee, index) => (
+                        <p key={index}>
+                          {`${employee.lastName} ${employee.firstName} ${employee.middleName}`}
+                        </p>
+                      ))}
+                    </p>
+                  </li>
+                </ul>
+              </div>
               <div className="containerTaskActions">
                 <p>
-                  <h5>Переместить задачу:</h5>
+                  <h4>Переместить задачу:</h4>
                 </p>
                 <select
                   className="selectTask"
@@ -239,13 +271,15 @@ const StageDetailsPage: React.FC = () => {
                   ))}
                 </select>
               </div>
-              <div className="containetDeletedTask">
-                <button className="deletedTask" onClick={deleteTask}>
-                  Удалить задачу
-                </button>
-              </div>
-            </div>
+            </>
           )}
+        </div>
+        <div className="sidebar_footer">
+          <div className="containetDeletedTask">
+            <button className="deletedTask" onClick={deleteTask}>
+              Удалить задачу
+            </button>
+          </div>
         </div>
       </div>
 
@@ -272,13 +306,13 @@ const StageDetailsPage: React.FC = () => {
             <Link
               to={`/projectsPage/stageDetails/${projectId}/${stageId}/${stageProjectId}/addTask`}
             >
-              <button className={"btn_add"}>Добавить задачу</button>
+              <button className={"btn_add"}>+ Добавить задачу</button>
             </Link>
           </div>
         </div>
-        <div>
+        {/* <div>
           <p>Описание: {stage.stageProjectId.stageId.description}</p>
-        </div>
+        </div> */}
         <div className="stages">
           {stage.taskStatusesId.map((status) => {
             // Фильтруем задачи по текущему статусу
