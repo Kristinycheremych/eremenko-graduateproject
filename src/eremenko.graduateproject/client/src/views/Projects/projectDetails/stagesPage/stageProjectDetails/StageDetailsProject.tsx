@@ -79,6 +79,7 @@ const StageDetailsPage: React.FC = () => {
   const [tasks, setTasks] = useState<ExecutorTask[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<ExecutorTask | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string>("");
 
   useEffect(() => {
     if (stageProjectId) {
@@ -150,6 +151,16 @@ const StageDetailsPage: React.FC = () => {
       console.error("Ошибка при перемещении задачи:", error);
     }
   };
+
+  // Функция для обновления выбранного статуса
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedStatus(e.target.value);
+  };
+
+  // Фильтрация задач по выбранному статусу
+  const filteredTasks = selectedStatus
+    ? tasks.filter((task) => task.taskId.taskStatusId._id === selectedStatus)
+    : tasks;
 
   const openModal = (task: ExecutorTask) => {
     setSelectedTask(task);
@@ -244,8 +255,17 @@ const StageDetailsPage: React.FC = () => {
             <input type="text" className={"input_search"} placeholder="Поиск" />
           </div>
           <div className={"div_filter"}>
-            <select className={"filter"}>
+            <select
+              className={"filter"}
+              value={selectedStatus}
+              onChange={handleStatusChange}
+            >
               <option value="">Все</option>
+              {stage.taskStatusesId.map((status) => (
+                <option key={status._id} value={status._id}>
+                  {status.title}
+                </option>
+              ))}
             </select>
           </div>
           <div className={"containet_btn_add"}>
@@ -262,7 +282,7 @@ const StageDetailsPage: React.FC = () => {
         <div className="stages">
           {stage.taskStatusesId.map((status) => {
             // Фильтруем задачи по текущему статусу
-            const tasksForStatus = tasks.filter(
+            const tasksForStatus = filteredTasks.filter(
               (task) => task.taskId.taskStatusId._id === status._id
             );
 

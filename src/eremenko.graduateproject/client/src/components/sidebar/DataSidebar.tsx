@@ -17,5 +17,5 @@ export const menuItems = [
     path: "/employeesPage",
     title: "Сотрудники",
     icon: <SlPeople />,
-  }
+  },
 ];

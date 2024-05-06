@@ -23,7 +23,7 @@ main {
   padding: 20px 15px;
   height: 124px;
   color: #fff;
-  background: #196FAD;
+  background: #196fad;
 }
 
 .logo {
@@ -34,7 +34,7 @@ main {
   white-space: nowrap;
 }
 
-.profile{
+.profile {
   position: absolute;
   padding-top: 50px;
   font-weight: 800;
@@ -56,7 +56,7 @@ main {
   cursor: pointer;
 }
 
-.sub_link{
+.sub_link {
   padding-top: 12px;
 }
 
