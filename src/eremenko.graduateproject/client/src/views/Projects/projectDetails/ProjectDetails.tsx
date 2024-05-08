@@ -4,34 +4,7 @@ import axios from "axios";
 import "./projectDetailsStyle.css";
 import Header from "../../../components/header/Header";
 import { MdArrowBackIos } from "react-icons/md";
-
-interface Employee {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-}
-
-interface ProjectStatus {
-  _id: string;
-  title: string;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  statusProjectId: ProjectStatus;
-  supervisorId: Employee[];
-}
-
-interface EmployeeProject {
-  _id: string;
-  employeeId: Employee;
-  projectId: Project;
-}
+import { EmployeeProject } from '../ProjectInterfaces';
 
 function ProjectDetails() {
   const { projectId } = useParams<{ projectId: string }>();

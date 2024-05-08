@@ -16,11 +16,6 @@
 }
 
 /* Аватарка */
-.table_user_settings {
-  padding-top: 30px;
-  margin: 0 auto;
-}
-
 .avatar-container {
   display: flex;
   align-items: center;

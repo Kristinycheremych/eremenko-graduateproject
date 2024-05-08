@@ -64,41 +64,6 @@ main {
   white-space: nowrap;
 }
 
-.sublink {
-  display: flex;
-  color: black;
-  padding: 10px 15px;
-  transition: all 0.5s;
-  padding-left: 22px;
-  border-left: 1px solid #196fad;
-}
-
-.subSublink {
-  display: flex;
-  color: black;
-  padding: 10px 15px;
-  gap: 15px;
-  transition: all 0.5s;
-  padding-left: 40px;
-  border-left: 1px solid #196fad;
-}
-
-.subSublink:hover {
-  background: #196fad;
-  color: white;
-  transition: all 0.5s;
-}
-
-.sublink:hover {
-  background: #196fad;
-  color: white;
-  transition: all 0.5s;
-}
-
-.subnav {
-  padding-left: 23px;
-}
-
 .link:hover {
   background: #196fad;
   color: white;

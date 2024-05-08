@@ -75,7 +75,6 @@ function CreateEmployees() {
       setDivisions(selectedOption.value);
     }
   };
-  
 
   return (
     <>
@@ -91,7 +90,7 @@ function CreateEmployees() {
               </div>
               <div className={"input_div"}>
                 <label htmlFor="lastName">Фамилия</label>
-                <div>
+                <div className="container_input">
                   <input
                     type="text"
                     placeholder="Еременко"
@@ -104,7 +103,7 @@ function CreateEmployees() {
               </div>
               <div className={"input_div"}>
                 <label htmlFor="firstName">Имя</label>
-                <div>
+                <div className="container_input">
                   <input
                     type="text"
                     placeholder="Кристина"
@@ -117,7 +116,7 @@ function CreateEmployees() {
               </div>
               <div className={"input_div"}>
                 <label htmlFor="middleName">Отчество</label>
-                <div>
+                <div className="container_input">
                   <input
                     type="text"
                     placeholder="Юрьевна"
@@ -159,36 +158,42 @@ function CreateEmployees() {
               </div>
               <div className={"input_div"}>
                 <label htmlFor="position">Должность</label>
-                <Select
-                  options={dataPosition.map((position) => ({
-                    value: position._id,
-                    label: position.title,
-                  }))}
-                  onChange={handlePositionChange}
-                  isClearable
-                  isSearchable
-                  required
-                />
+                <div className="container_input">
+                  <Select
+                    options={dataPosition.map((position) => ({
+                      value: position._id,
+                      label: position.title,
+                    }))}
+                    onChange={handlePositionChange}
+                    isClearable
+                    className="select_input"
+                    placeholder="Выберите должность"
+                    isSearchable
+                    required
+                  />
+                </div>
               </div>
               <div className={"input_div"}>
                 <label htmlFor="position">Подразделение</label>
-                <Select
-                  options={dataDivisions.map((divisions) => ({
-                    value: divisions._id,
-                    label: divisions.title,
-                  }))}
-                  onChange={handlesetDivisionsChange}
-                  // Возможность очистить выбранное значение
-                  isClearable
-                  // Возможность поиска куратора по имени
-                  isSearchable
-                  required
-                />
+                <div className="container_input">
+                  <Select
+                    options={dataDivisions.map((divisions) => ({
+                      value: divisions._id,
+                      label: divisions.title,
+                    }))}
+                    onChange={handlesetDivisionsChange}
+                    // Возможность очистить выбранное значение
+                    isClearable
+                    // Возможность поиска куратора по имени
+                    isSearchable
+                    placeholder="Выберите подразделение"
+                    required
+                  />
+                </div>
               </div>
-
               <div className={"input_div"}>
                 <label htmlFor="serviceNumber">Табельный номер</label>
-                <div>
+                <div className="container_input">
                   <input
                     type="number"
                     placeholder="Введите табельный номер"
@@ -217,7 +222,6 @@ function CreateEmployees() {
                 </div>
               </div>
             </div>
-
             <div className={"action_buttons"}>
               <div className="buttons">
                 <div>

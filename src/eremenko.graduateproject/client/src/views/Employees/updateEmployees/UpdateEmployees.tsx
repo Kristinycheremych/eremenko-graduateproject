@@ -2,28 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-
-interface Employee {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-  gender: string;
-  serviceNumber: number;
-  position: {
-    _id: string;
-    title: string;
-  };
-  employeeStatus: {
-    _id: string;
-    title: string;
-  };
-  divisions: {
-    _id: string;
-    code: number;
-    title: string;
-  };
-}
+import { Employee } from "../UserInterfaces";
+import Select from "react-select";
 
 function UpdateEmployees() {
   const { id } = useParams();
@@ -38,6 +18,7 @@ function UpdateEmployees() {
   const [divisionsList, setDivisionsList] = useState<any[]>([]);
   const [employeeStatusId, setEmployeeStatusId] = useState<string>();
   const [employeeStatusList, setEmployeeStatusList] = useState<any[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,8 +62,6 @@ function UpdateEmployees() {
       .catch((err) => console.log(err));
   }, [id]);
 
-  const navigate = useNavigate();
-
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     axios
@@ -100,6 +79,12 @@ function UpdateEmployees() {
         navigate("/employeesPage");
       })
       .catch((err) => console.log(err));
+  };
+
+  const handlePositionChange = (selectedOption: any) => {
+    if (selectedOption) {
+      setPositionId(selectedOption.value);
+    }
   };
 
   return (

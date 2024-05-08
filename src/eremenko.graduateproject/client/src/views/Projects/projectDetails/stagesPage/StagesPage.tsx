@@ -1,48 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
-import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
 import { MdArrowBackIos } from "react-icons/md";
 import Header from "../../../../components/header/Header";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
-
-interface TaskStatuses {
-  _id: string;
-  title: string;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-}
-
-interface Stage {
-  _id: string;
-  title: string;
-  description: string;
-}
-
-interface StageProject {
-  _id: string;
-  periodExecution: string;
-  startDate: string;
-  endDate: string;
-  projectId: Project;
-  stageId: Stage;
-}
-
-interface ProjectFormData {
-  _id: string;
-  stageProjectId: StageProject;
-  taskStatusesId: TaskStatuses[];
-}
+import { TaskStatusesStageProject } from './StageProjectInterface';
 
 const StagesPage: React.FC = () => {
-  const [projectForm, setProjectForm] = useState<ProjectFormData[]>([]);
+  const [projectForm, setProjectForm] = useState<TaskStatusesStageProject[]>([]);
   const { projectId, stageId } = useParams<{
     stageId: string;
     projectId: string;
@@ -58,7 +23,7 @@ const StagesPage: React.FC = () => {
 
   const fetchProjectForm = async (stageId: string) => {
     try {
-      const response = await axios.get<ProjectFormData[]>(
+      const response = await axios.get<TaskStatusesStageProject[]>(
         `http://localhost:3001/get/taskStatusProjectStage`
       );
       const filteredData = response.data.filter(
@@ -170,14 +135,6 @@ const StagesPage: React.FC = () => {
                         project.stageProjectId.periodExecution
                       ).toLocaleDateString()}
                     </td>
-                    {/* <td>
-                      <Link
-                        to={`/projectsPage/updateProject/${project._id}`}
-                        className={"icon_edit"}
-                      >
-                        <FiEdit />
-                      </Link>
-                    </td> */}
                     <td>
                       <HiEllipsisHorizontal
                         className="HiEllipsisHorizontal"
@@ -188,7 +145,7 @@ const StagesPage: React.FC = () => {
                           <div className="div-popover-content">
                             <div className="div_edit">
                               <Link
-                                to={`/projectsPage/stageDetails/${projectId}/${stageId}/${project.stageProjectId._id}`}
+                                to={`/projectsPage/stageDetails/${projectId}/${stageId}/stages/${project.stageProjectId._id}`}
                               >
                                 <p>Подробнее</p>
                               </Link>

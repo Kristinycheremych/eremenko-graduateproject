@@ -2,31 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
-
-interface TaskStatuses {
-  _id: string;
-  title: string;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-}
-
-interface Stage {
-  _id: string;
-  title: string;
-}
-
-interface ProjectFormData {
-  _id: string;
-  periodExecution: string;
-  startDate: string;
-  endDate: string;
-  projectId: string;
-  stageId: string;
-  taskStatusesId: string[];
-}
+import {
+  ProjectFormData,
+  TaskStatuses,
+  Project,
+  Stage,
+} from "../StageProjectInterface";
 
 const AddProjectWithEmployee: React.FC = () => {
   const [projectData, setProjectData] = useState<ProjectFormData>({
@@ -93,7 +74,9 @@ const AddProjectWithEmployee: React.FC = () => {
 
   const handleEmployeeIdChange = (selectedOptions: any) => {
     if (selectedOptions) {
-      const selectedTaskStatuses = selectedOptions.map((option: any) => option.value);
+      const selectedTaskStatuses = selectedOptions.map(
+        (option: any) => option.value
+      );
       setProjectData({ ...projectData, taskStatusesId: selectedTaskStatuses });
     }
   };
@@ -107,7 +90,9 @@ const AddProjectWithEmployee: React.FC = () => {
       );
       console.log(response.data.message);
       // Переход на страницу с этапами проекта
-      navigate(`/projectsPage/stageDetails/${projectId}/${projectData.projectId}/stages`);
+      navigate(
+        `/projectsPage/stageDetails/${projectId}/${projectData.projectId}/stages`
+      );
     } catch (error) {
       console.error("Ошибка:", error);
     }
@@ -128,7 +113,7 @@ const AddProjectWithEmployee: React.FC = () => {
           <div className="container-data-form">
             <div className="input_div">
               <label htmlFor="status">Проект</label>
-              <div>
+              <div className="container_input">
                 <select
                   name="projectId"
                   value={projectData.projectId}
@@ -147,7 +132,7 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="stage">Этап</label>
-              <div>
+              <div className="container_input">
                 <select
                   name="stageId"
                   value={projectData.stageId}
@@ -166,7 +151,7 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="startDate">Дата начала</label>
-              <div>
+              <div className="container_input">
                 <input
                   type="date"
                   name="startDate"
@@ -179,7 +164,7 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="endDate">Дата завершения</label>
-              <div>
+              <div className="container_input">
                 <input
                   type="date"
                   name="endDate"
@@ -192,7 +177,7 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="periodExecution">Срок выполнения</label>
-              <div>
+              <div className="container_input">
                 <input
                   type="date"
                   name="periodExecution"
@@ -205,26 +190,26 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="selectedEmployees">Статусы задач</label>
-              <Select
-                options={taskStatuses.map((taskStatuses) => ({
-                  value: taskStatuses._id,
-                  label: `${taskStatuses.title}`,
-                }))}
-                onChange={handleEmployeeIdChange}
-                // Возможность выбора нескольких участников одновременно
-                isMulti
-                required
-              />
+              <div className="container_input">
+                <Select
+                  options={taskStatuses.map((taskStatuses) => ({
+                    value: taskStatuses._id,
+                    label: `${taskStatuses.title}`,
+                  }))}
+                  onChange={handleEmployeeIdChange}
+                  // Возможность выбора нескольких участников одновременно
+                  isMulti
+                  placeholder="Выберите статусы задачи"
+                  required
+                />
+              </div>
             </div>
           </div>
 
           <div className={"action_buttons"}>
             <div className="buttons">
               <div>
-                <button
-                  className={"button_add_cancel"}
-                  onClick={handleCancel}
-                >
+                <button className={"button_add_cancel"} onClick={handleCancel}>
                   Отменить
                 </button>
               </div>

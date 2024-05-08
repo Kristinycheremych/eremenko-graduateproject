@@ -2,34 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./styleHeader.css";
-
-interface Employee {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-}
-
-interface ProjectStatus {
-  _id: string;
-  title: string;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  statusProjectId: ProjectStatus;
-  supervisorId: Employee[];
-}
-
-interface EmployeeProject {
-  _id: string;
-  employeeId: Employee;
-  projectId: Project;
-}
+import {EmployeeProject} from '../../views/projects/ProjectInterfaces';
 
 function Header() {
   const { projectId } = useParams<{
@@ -64,7 +37,6 @@ function Header() {
   }
 
   return (
-    <div className="container">
       <div className="menu">
         <ul>
           <li
@@ -107,23 +79,8 @@ function Header() {
               Этапы
             </Link>
           </li>
-          {/* <li
-            className={
-              activeMenu === `/projectsPage/projectDetails/${projectId}/tasks`
-                ? "active"
-                : ""
-            }
-          >
-            <Link to={`/projectsPage/projectDetails/${projectId}/tasks`}>
-              Задачи
-            </Link>
-          </li> */}
         </ul>
       </div>
-      {/* <div className="div_title">
-        <p>{project ? project.projectId.title : "Загрузка..."}</p>
-      </div> */}
-    </div>
   );
 }
 

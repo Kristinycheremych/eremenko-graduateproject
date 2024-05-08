@@ -2,28 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
-
-interface Employee {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-}
-
-interface ProjectStatus {
-  _id: string;
-  title: string;
-}
-
-interface ProjectFormData {
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  statusProjectId: string;
-  supervisorId: string;
-  employeeId: string[];
-}
+import { ProjectFormData, Employee, ProjectStatus } from "../ProjectInterfaces";
 
 const AddProjectWithEmployee: React.FC = () => {
   const [projectData, setProjectData] = useState<ProjectFormData>({
@@ -120,7 +99,7 @@ const AddProjectWithEmployee: React.FC = () => {
           <div className="container-data-form">
             <div className="input_div">
               <label htmlFor="title">Название</label>
-              <div>
+              <div className="container_input">
                 <input
                   type="text"
                   name="title"
@@ -134,7 +113,7 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="description">Описание</label>
-              <div>
+              <div className="container_input">
                 <input
                   type="text"
                   name="description"
@@ -146,10 +125,10 @@ const AddProjectWithEmployee: React.FC = () => {
                 />
               </div>
             </div>
-           
+
             <div className="input_div">
               <label htmlFor="startDate">Дата начала</label>
-              <div>
+              <div className="container_input">
                 <input
                   type="date"
                   name="startDate"
@@ -162,7 +141,7 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="endDate">Планируемая дата окончания</label>
-              <div>
+              <div className="container_input">
                 <input
                   type="date"
                   name="endDate"
@@ -175,53 +154,61 @@ const AddProjectWithEmployee: React.FC = () => {
             </div>
             <div className="input_div">
               <label htmlFor="status">Статус проекта</label>
-              <Select
-                // Опции для выбора, сформированные из отфильтрованного списка сотрудников
-                options={projectStatuses.map((status) => ({
-                  value: status._id,
-                  label: `${status.title}`,
-                }))}
-                // Функция обратного вызова, вызываемая при изменении выбранного куратора
-                onChange={handleStatusChange}
-                // Возможность очистить выбранное значение
-                isClearable
-                // Возможность поиска куратора по имени
-                isSearchable
-                required
-              />
+              <div className="container_input">
+                <Select
+                  // Опции для выбора, сформированные из отфильтрованного списка сотрудников
+                  options={projectStatuses.map((status) => ({
+                    value: status._id,
+                    label: `${status.title}`,
+                  }))}
+                  // Функция обратного вызова, вызываемая при изменении выбранного куратора
+                  onChange={handleStatusChange}
+                  // Возможность очистить выбранное значение
+                  isClearable
+                  // Возможность поиска куратора по имени
+                  isSearchable
+                  placeholder="Выберите статус проекта"
+                  required
+                />
+              </div>
             </div>
-            
             <div className="input_div">
               <label htmlFor="selectedEmployees">Куратор</label>
-              <Select
-                // Опции для выбора, сформированные из отфильтрованного списка сотрудников
-                options={employees.map((employee) => ({
-                  value: employee._id,
-                  label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
-                }))}
-                // Функция обратного вызова, вызываемая при изменении выбранного куратора
-                onChange={handleSupervisorChange}
-                // Возможность очистить выбранное значение
-                isClearable
-                // Возможность поиска куратора по имени
-                isSearchable
-                required
-              />
+              <div className="container_input">
+                <Select
+                  // Опции для выбора, сформированные из отфильтрованного списка сотрудников
+                  options={employees.map((employee) => ({
+                    value: employee._id,
+                    label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
+                  }))}
+                  // Функция обратного вызова, вызываемая при изменении выбранного куратора
+                  onChange={handleSupervisorChange}
+                  // Возможность очистить выбранное значение
+                  isClearable
+                  // Возможность поиска куратора по имени
+                  isSearchable
+                  placeholder="Выберите куратора"
+                  required
+                />
+              </div>
             </div>
             <div className="input_div">
               <label htmlFor="selectedEmployees">Участники</label>
-              <Select
-                // Опции для выбора, сформированные из списка всех сотрудников
-                options={employees.map((employee) => ({
-                  value: employee._id,
-                  label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
-                }))}
-                // Функция обратного вызова, вызываемая при изменении выбранных участников
-                onChange={handleEmployeeIdChange}
-                // Возможность выбора нескольких участников одновременно
-                isMulti
-                required
-              />
+              <div className="container_input">
+                <Select
+                  // Опции для выбора, сформированные из списка всех сотрудников
+                  options={employees.map((employee) => ({
+                    value: employee._id,
+                    label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
+                  }))}
+                  // Функция обратного вызова, вызываемая при изменении выбранных участников
+                  onChange={handleEmployeeIdChange}
+                  // Возможность выбора нескольких участников одновременно
+                  isMulti
+                  placeholder="Выберите участников"
+                  required
+                />
+              </div>
             </div>
           </div>
 

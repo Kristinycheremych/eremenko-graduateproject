@@ -1,57 +1,18 @@
 import React, { useState } from "react";
+import { menuItems } from "./DataSidebar";
 import { Link, NavLink } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import "./sidebar_style.css";
-import { menuItems } from "./DataSidebar";
 
 function Sidebar({ children }: any) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(
-    new Array(menuItems.length).fill(false)
-  );
-
-  const activeStyle = {
-    background: "#196FAD",
-    color: "white",
-  };
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
-
-  const toggleMenu = (index: any) => {
-    setIsMenuOpen((prevState) => {
-      const newState = [...prevState];
-      newState[index] = !newState[index];
-      return newState;
-    });
-  };
-
-  const renderSections = () => {
-    return menuItems.map((item, index) => (
-      <div key={index}>
-        <div className="sub_link">
-          <NavLink
-            to={item.path}
-            className={isOpen ? "link open" : "link "}
-            onClick={() => toggleMenu(index)}
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            <div className="icon">{item.icon}</div>
-            <div
-              style={{ display: isOpen ? "block" : "none" }}
-              className="link_text"
-            >
-              {item.title}
-            </div>
-            <div
-              style={{ display: isOpen ? "block" : "none" }}
-              className={isMenuOpen[index] ? "arrow rotate" : "arrow"}
-            ></div>
-          </NavLink>
-        </div>
-      </div>
-    ));
+  const activeStyle = {
+    background: "#196FAD",
+    color: "white",
   };
 
   return (
@@ -79,12 +40,29 @@ function Sidebar({ children }: any) {
               <FiMenu onClick={toggle} />
             </div>
           </div>
-          <div>{renderSections()}</div>
+          <div className="sub_link"> 
+            {menuItems.map((item, index) => (
+              <NavLink
+                to={item.path}
+                key={index}
+                className="link"
+                aria-activedescendant="active"
+                style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              >
+                <div className="icon">{item.icon}</div>
+                <div
+                  style={{ display: isOpen ? "block" : "none" }}
+                  className="link_text"
+                >
+                  {item.title}
+                </div>
+              </NavLink>
+            ))}
+          </div>
         </div>
         <main>{children}</main>
       </div>
     </>
   );
 }
-
 export default Sidebar;

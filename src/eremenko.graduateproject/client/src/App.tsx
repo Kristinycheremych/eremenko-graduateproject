@@ -9,12 +9,10 @@ import CreateEmployees from "./views/employees/createEmployees/CreateEmployees";
 import UpdateEmployees from "./views/employees/updateEmployees/UpdateEmployees";
 import { menuItems } from "./components/sidebar/DataSidebar";
 import AddProjectForm from "./views/projects/addProjectForm/AddProjectForm";
-import UpdateProject from "./views/projects/updateProjectForm/UpdateProject";
 import ProjectDetails from "./views/projects/projectDetails/ProjectDetails";
 import ParticipantsPage from "./views/projects/projectDetails/participantsPage/ParticipantsPage";
 import StagesPage from "./views/projects/projectDetails/stagesPage/StagesPage";
 import AddStageProject from "./views/projects/projectDetails/stagesPage/addStageProject/AddStageProject";
-import UpdateStageProject from "./views/projects/projectDetails/stagesPage/updateStageProject/UpdateStageProject";
 import StageDetailsProject from "./views/projects/projectDetails/stagesPage/stageProjectDetails/StageDetailsProject";
 import AddTask from "./views/projects/projectDetails/stagesPage/stageProjectDetails/addTask/AddTask";
 function App() {
@@ -41,10 +39,6 @@ function App() {
               path="/projectsPage/addProjectForm"
               element={<AddProjectForm />}
             ></Route>
-            <Route
-              path="/projectsPage/updateProject/:id"
-              element={<UpdateProject />}
-            ></Route>
             {/* Подробнее о проекте */}
             <Route
               path="/projectsPage/projectDetails/:projectId"
@@ -69,13 +63,9 @@ function App() {
               path="projectsPage/stageDetails/:projectId/stages"
               element={<AddStageProject />}
             ></Route>
-            <Route
-              path="/projectsPage/projects/:projectId/addStageProject/:id"
-              element={<UpdateStageProject />}
-            ></Route>
             {/* Подробнее об этапе проекта */}
             <Route
-              path="/projectsPage/stageDetails/:projectId/:stageId/:stageProjectId"
+              path="/projectsPage/stageDetails/:projectId/:stageId/stages/:stageProjectId"
               element={<StageDetailsProject />}
             />
           </Routes>

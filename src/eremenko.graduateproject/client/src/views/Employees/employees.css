@@ -1,7 +1,3 @@
-a {
-  color: black;
-}
-
 .container {
   padding: 0 20px 0 20px;
 }
@@ -14,7 +10,7 @@ a {
 
 .header p {
   font-size: 20px;
-  color: #fff;
+  color: var(--white);
   padding: 13px 0 0 10px;
 }
 
@@ -23,7 +19,7 @@ a {
 }
 
 .MdArrowBackIos {
-  color: #fff;
+  color: var(--white);
   margin-left: 20px;
 }
 
@@ -138,6 +134,7 @@ table p {
 .statusProject {
   white-space: nowrap;
 }
+
 /* Стили для кнопки подробнее */
 .HiEllipsisHorizontal {
   font-size: 25px;
@@ -221,11 +218,8 @@ table p {
 
 .pade {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -258,11 +252,12 @@ table p {
   font-size: 14px;
 }
 
-.input_div div {
+.container_input{
   margin-top: 8px;
 }
 
 .div_input_radio {
+  margin-top: 8px;
   display: flex;
   gap: 15px;
 }
@@ -357,7 +352,6 @@ input {
 }
 
 /* стили для select */
-
 .select {
   position: relative;
 }

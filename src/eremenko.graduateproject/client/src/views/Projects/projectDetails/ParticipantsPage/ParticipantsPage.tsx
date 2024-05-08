@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { AiOutlineDelete } from "react-icons/ai";
 import Header from "../../../../components/header/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
-
 
 interface Employee {
   _id: string;
@@ -49,9 +47,6 @@ interface EmployeeProject {
   projectId: Project;
 }
 
-interface EmployeeStatusColors {
-  [employeeStatus: string]: string;
-}
 
 function ParticipantsPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -59,16 +54,6 @@ function ParticipantsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPosition, setSelectedPosition] = useState<string>("");
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-
-  const statusColors: EmployeeStatusColors = {
-    "Активный": "#019F3C",
-    "Неактивный": "#D91528",
-  };
-
-  const statusBackground: EmployeeStatusColors = {
-    "Активный": "#C0E7CE",
-    "Неактивный": "#F6C5C9",
-  };
 
   useEffect(() => {
     axios
@@ -86,19 +71,18 @@ function ParticipantsPage() {
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (!event.target.closest(".HiEllipsisHorizontal"))
-        setOpenPopoverId(null); 
+        setOpenPopoverId(null);
     };
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  
+
   const togglePopover = (id: string) => {
     setOpenPopoverId(openPopoverId === id ? null : id);
   };
 
-  
   if (!project) {
     return <p>Загрузка...</p>;
   }
@@ -177,20 +161,9 @@ function ParticipantsPage() {
                   <td>{user.serviceNumber}</td>
                   <td>{user.position ? user.position.title : "Нет данных"}</td>
                   <td>
-                    <p
-                      style={{
-                        color: statusColors[user.employeeStatus.title],
-                        backgroundColor:
-                          statusBackground[user.employeeStatus.title],
-                        borderRadius: "6px",
-                        width: "100px",
-                      }}
-                    >
-                      {" "}
-                      {user.employeeStatus
-                        ? user.employeeStatus.title
-                        : "Нет данных"}
-                    </p>
+                    {user.employeeStatus
+                      ? user.employeeStatus.title
+                      : "Нет данных"}
                   </td>
 
                   <td>
@@ -201,10 +174,7 @@ function ParticipantsPage() {
                     {openPopoverId === user._id && (
                       <div className="popover-content">
                         <div className="div-popover-content">
-                          <div
-                           
-                            className="div_delete"
-                          >
+                          <div className="div_delete">
                             <p>Удалить</p>
                           </div>
                         </div>

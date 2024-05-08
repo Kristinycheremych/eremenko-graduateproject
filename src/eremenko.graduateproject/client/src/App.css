@@ -15,10 +15,12 @@
   --table-border: #9ba4b4;
   --table-even: #fafafa;
   --border: #d9d9d9;
+  --neutral-500: #445371;
 }
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 .selected {

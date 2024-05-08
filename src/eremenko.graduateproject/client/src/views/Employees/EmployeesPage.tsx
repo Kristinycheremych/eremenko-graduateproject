@@ -4,46 +4,14 @@ import { Link } from "react-router-dom";
 import { MdArrowBackIos } from "react-icons/md";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import "./employees.css";
-
-interface User {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-  serviceNumber: number;
-  position: {
-    title: string;
-  };
-  employeeStatus: {
-    title: string;
-  };
-  gender: String;
-  divisions: {
-    code: number;
-    title: string;
-  };
-}
-
-interface EmployeeStatusColors {
-  [employeeStatus: string]: string;
-}
+import { Employee } from "./UserInterfaces";
 
 function EmployeesPage() {
-  const [data, setData] = useState<User[]>([]);
+  const [data, setData] = useState<Employee[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
-  const [filteredEmployees, setFilteredEmployees] = useState<User[]>([]);
+  const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-
-  const statusColors: EmployeeStatusColors = {
-    Активный: "#019F3C",
-    Неактивный: "#D91528",
-  };
-
-  const statusBackground: EmployeeStatusColors = {
-    Активный: "#C0E7CE",
-    Неактивный: "#F6C5C9",
-  };
 
   useEffect(() => {
     axios
@@ -97,7 +65,7 @@ function EmployeesPage() {
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (!event.target.closest(".HiEllipsisHorizontal"))
-        setOpenPopoverId(null); 
+        setOpenPopoverId(null);
     };
     document.addEventListener("click", handleClickOutside);
     return () => {
@@ -171,19 +139,9 @@ function EmployeesPage() {
                     {user.divisions ? user.divisions.title : "Нет данных"}
                   </td>
                   <td>
-                    <p
-                      style={{
-                        color: statusColors[user.employeeStatus.title],
-                        backgroundColor:
-                          statusBackground[user.employeeStatus.title],
-                        borderRadius: "6px",
-                        width: "100px",
-                      }}
-                    >
-                      {user.employeeStatus
-                        ? user.employeeStatus.title
-                        : "Нет данных"}
-                    </p>
+                    {user.employeeStatus
+                      ? user.employeeStatus.title
+                      : "Нет данных"}
                   </td>
                   <td>
                     <HiEllipsisHorizontal

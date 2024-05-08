@@ -2,18 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Select from "react-select";
-
-interface Employee {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-}
-
-interface TaskStatus {
-  _id: string;
-  title: string;
-}
+import { Employee, TaskStatus } from "../TaskInterface";
 
 const AddTaskPage: React.FC = () => {
   const { projectId, stageId, stageProjectId } = useParams<{
@@ -72,7 +61,7 @@ const AddTaskPage: React.FC = () => {
         employeeId: employees, // передаем массив идентификаторов сотрудников как employeeId
       });
       navigate(
-        `/projectsPage/stageDetails/${projectId}/${stageId}/${stageProjectId}`
+        `/projectsPage/stageDetails/${projectId}/${stageId}/stages/${stageProjectId}`
       );
     } catch (error) {
       console.error("Ошибка при добавлении задачи:", error);
@@ -101,7 +90,7 @@ const AddTaskPage: React.FC = () => {
             <div className="container-data-form">
               <div className="input_div">
                 <label>Название</label>
-                <div>
+                <div className="container_input">
                   <input
                     type="text"
                     value={title}
@@ -113,7 +102,7 @@ const AddTaskPage: React.FC = () => {
               </div>
               <div className="input_div">
                 <label>Описание</label>
-                <div>
+                <div className="container_input">
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -124,7 +113,7 @@ const AddTaskPage: React.FC = () => {
               </div>
               <div className="input_div">
                 <label>Дата начала</label>
-                <div>
+                <div className="container_input">
                   <input
                     type="date"
                     value={startDate}
@@ -135,7 +124,7 @@ const AddTaskPage: React.FC = () => {
               </div>
               <div className="input_div">
                 <label>Дата завершения</label>
-                <div>
+                <div className="container_input">
                   <input
                     type="date"
                     value={endDate}
@@ -146,7 +135,7 @@ const AddTaskPage: React.FC = () => {
               </div>
               <div className="input_div">
                 <label>Создатель</label>
-                <div>
+                <div className="container_input">
                   <Select
                     options={allEmployees.map((employee) => ({
                       value: employee._id,
@@ -157,21 +146,25 @@ const AddTaskPage: React.FC = () => {
                     }
                     isClearable
                     isSearchable
+                    placeholder="Выберите создателя"
                     required
                   />
                 </div>
               </div>
               <div className="input_div">
                 <label htmlFor="selectedEmployees">Исполнители</label>
-                <Select
-                  options={allEmployees.map((employee) => ({
-                    value: employee._id,
-                    label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
-                  }))}
-                  onChange={handleEmployeeIdChange}
-                  isMulti
-                  required
-                />
+                <div className="container_input">
+                  <Select
+                    options={allEmployees.map((employee) => ({
+                      value: employee._id,
+                      label: `${employee.lastName} ${employee.firstName} ${employee.middleName}`,
+                    }))}
+                    onChange={handleEmployeeIdChange}
+                    isMulti
+                    placeholder="Выберите исполнителей"
+                    required
+                  />
+                </div>
               </div>
             </div>
             <div className={"action_buttons"}>

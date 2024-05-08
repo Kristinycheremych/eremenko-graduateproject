@@ -5,70 +5,8 @@ import Header from "../../../../../components/header/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import { BsThreeDots } from "react-icons/bs";
 import { MdOutlineClose } from "react-icons/md";
-import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./style.css";
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-}
-
-interface Stage {
-  _id: string;
-  title: string;
-  description: string;
-}
-
-interface StageProject {
-  _id: string;
-  periodExecution: string;
-  startDate: string;
-  endDate: string;
-  projectId: Project;
-  stageId: Stage;
-}
-
-interface StageFormData {
-  _id: string;
-  stageProjectId: StageProject;
-  taskStatusesId: TaskStatus[];
-}
-
-interface TaskStatus {
-  _id: string;
-  title: string;
-}
-
-interface Employee {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-}
-
-interface StageProject {
-  _id: string;
-}
-
-interface Task {
-  _id: string;
-  title: string;
-  description: string;
-  taskStatusId: TaskStatus;
-  stageProjectId: StageProject;
-  creatorId: Employee;
-}
-
-interface ExecutorTask {
-  _id: string;
-  taskId: Task;
-  startDate: string;
-  endDate: string;
-  employeeId: Employee[];
-}
+import { TaskStatusesStageProject,ExecutorTask,Employee } from './TaskInterface';
 
 const StageDetailsPage: React.FC = () => {
   const { projectId, stageId, stageProjectId } = useParams<{
@@ -76,7 +14,7 @@ const StageDetailsPage: React.FC = () => {
     projectId: string;
     stageId: string;
   }>();
-  const [stage, setStage] = useState<StageFormData | null>(null);
+  const [stage, setStage] = useState<TaskStatusesStageProject | null>(null);
   const [tasks, setTasks] = useState<ExecutorTask[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<ExecutorTask | null>(null);
@@ -91,7 +29,7 @@ const StageDetailsPage: React.FC = () => {
 
   const fetchStageDetails = async (stageProjectId: string) => {
     try {
-      const response = await axios.get<StageFormData[]>(
+      const response = await axios.get<TaskStatusesStageProject[]>(
         `http://localhost:3001/get/taskStatusProjectStage`
       );
       const filteredData = response.data.find(
@@ -173,7 +111,7 @@ const StageDetailsPage: React.FC = () => {
   };
 
   if (!stage) {
-    return <p>Loading...</p>;
+    return <p>Загрузка...</p>;
   }
 
   return (
@@ -251,17 +189,17 @@ const StageDetailsPage: React.FC = () => {
                   </li>
                 </ul>
               </div>
-              <div className="containerTaskActions">
+              <div>
                 <p>
                   <h4>Переместить задачу:</h4>
                 </p>
                 <select
-                  className="selectTask"
+                  className="select_task"
                   onChange={(e) =>
                     selectedTask && moveTask(selectedTask._id, e.target.value)
                   }
                 >
-                  <option value="" className="selectTask">
+                  <option value="">
                     Выберите статус
                   </option>
                   {stage.taskStatusesId.map((status) => (
@@ -275,8 +213,8 @@ const StageDetailsPage: React.FC = () => {
           )}
         </div>
         <div className="sidebar_footer">
-          <div className="containetDeletedTask">
-            <button className="deletedTask" onClick={deleteTask}>
+          <div className="containet_deleted_task">
+            <button className="deleted_task" onClick={deleteTask}>
               Удалить задачу
             </button>
           </div>
@@ -310,41 +248,37 @@ const StageDetailsPage: React.FC = () => {
             </Link>
           </div>
         </div>
-        {/* <div>
-          <p>Описание: {stage.stageProjectId.stageId.description}</p>
-        </div> */}
         <div className="stages">
           {stage.taskStatusesId.map((status) => {
             // Фильтруем задачи по текущему статусу
             const tasksForStatus = filteredTasks.filter(
               (task) => task.taskId.taskStatusId._id === status._id
             );
-
             return (
               <div key={status._id} className={"stage"}>
-                <div className="titleStatusStage">
+                <div className="title_status_stage">
                   <p>{status.title}</p>
                 </div>
-                <div className="tasks">
+                <div className="container_task_content">
                   {tasksForStatus.map((executorTask) => (
-                    <div key={executorTask._id} className="task">
+                    <div key={executorTask._id} className="container_task">
                       <div className="task_content">
-                        <div className="heading">
-                          <p className="title-task">
+                        <div className="task_content_item">
+                          <h4 className="task_content_item_title">
                             {executorTask.taskId.title}
-                          </p>
-                          <div className="BsThreeDots">
+                          </h4>
+                          <div className="task_content_icon">
                             <BsThreeDots
                               onClick={() => openModal(executorTask)}
                             />
                           </div>
                         </div>
-                        <div className="div-task-description">
-                          <p className="description description-task">
+                        <div className="task_content_description">
+                          <p>
                             {executorTask.taskId.description}
                           </p>
                         </div>
-                        <div className="date_task">
+                        <div className="task_content_date">
                           <p>
                             {`${new Date(
                               executorTask.startDate
@@ -354,16 +288,6 @@ const StageDetailsPage: React.FC = () => {
                              ).toLocaleDateString()}`}
                           </p>
                         </div>
-                        {/* <div>
-                          <p>Создатель задачи:</p>
-                          <p>{`${
-                            executorTask.taskId.creatorId.lastName
-                          } ${executorTask.taskId.creatorId.firstName.charAt(
-                            0
-                          )}. ${executorTask.taskId.creatorId.middleName.charAt(
-                            0
-                          )}.`}</p>
-                        </div> */}
                         <div>
                           <div>
                             <div className="avatar-container">
