@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Header from "../../../../../components/header/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import { BsThreeDots } from "react-icons/bs";
 import { MdOutlineClose } from "react-icons/md";
 import "./style.css";
-import { TaskStatusesStageProject,ExecutorTask,Employee } from './TaskInterface';
+import {
+  TaskStatusesStageProject,
+  ExecutorTask,
+  Employee,
+} from "./TaskInterface";
+import AddTask from "../../../../../components/project/addStageProject/addTask/AddTask";
 
 const StageDetailsPage: React.FC = () => {
-  const { projectId, stageId, stageProjectId } = useParams<{
+  const { stageProjectId } = useParams<{
     stageProjectId: string;
-    projectId: string;
-    stageId: string;
   }>();
   const [stage, setStage] = useState<TaskStatusesStageProject | null>(null);
   const [tasks, setTasks] = useState<ExecutorTask[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [selectedTask, setSelectedTask] = useState<ExecutorTask | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Добавляем состояние для модального окна
 
   useEffect(() => {
     if (stageProjectId) {
@@ -109,6 +113,14 @@ const StageDetailsPage: React.FC = () => {
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
+  // для модального окна
+  const handleAdd = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   if (!stage) {
     return <p>Загрузка...</p>;
@@ -127,7 +139,7 @@ const StageDetailsPage: React.FC = () => {
         <div className="sidebar_heading">
           <h2>Информация о задаче</h2>
           <div className="icon_placeholder">
-            <MdOutlineClose className="closebtn" onClick={closeSidebar}/>
+            <MdOutlineClose className="closebtn" onClick={closeSidebar} />
           </div>
         </div>
         <div className="sidebar_content">
@@ -199,9 +211,7 @@ const StageDetailsPage: React.FC = () => {
                     selectedTask && moveTask(selectedTask._id, e.target.value)
                   }
                 >
-                  <option value="">
-                    Выберите статус
-                  </option>
+                  <option value="">Выберите статус</option>
                   {stage.taskStatusesId.map((status) => (
                     <option key={status._id} value={status._id}>
                       {status.title}
@@ -241,11 +251,9 @@ const StageDetailsPage: React.FC = () => {
             </select>
           </div>
           <div className={"containet_btn_add"}>
-            <Link
-              to={`/projectsPage/stageDetails/${projectId}/${stageId}/${stageProjectId}/addTask`}
-            >
-              <button className={"btn_add"}>+ Добавить задачу</button>
-            </Link>
+            <button className={"btn_add"} onClick={handleAdd}>
+              + Добавить задачу
+            </button>
           </div>
         </div>
         <div className="stages">
@@ -274,9 +282,7 @@ const StageDetailsPage: React.FC = () => {
                           </div>
                         </div>
                         <div className="task_content_description">
-                          <p>
-                            {executorTask.taskId.description}
-                          </p>
+                          <p>{executorTask.taskId.description}</p>
                         </div>
                         <div className="task_content_date">
                           <p>
@@ -329,6 +335,8 @@ const StageDetailsPage: React.FC = () => {
           })}
         </div>
       </div>
+      {/* Добавляем модальное окно */}
+      <AddTask isOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   );
 };

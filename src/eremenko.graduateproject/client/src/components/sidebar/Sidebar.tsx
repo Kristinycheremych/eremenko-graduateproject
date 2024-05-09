@@ -5,8 +5,8 @@ import { FiMenu } from "react-icons/fi";
 import "./sidebar_style.css";
 
 function Sidebar({ children }: any) {
-  const [isOpen, setIsOpen] = useState(true);
-
+  const [isOpen, setIsOpen] = useState(false);
+  
   const toggle = () => {
     setIsOpen(!isOpen);
   };

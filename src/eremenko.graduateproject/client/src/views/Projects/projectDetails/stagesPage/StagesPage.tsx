@@ -4,16 +4,20 @@ import { Link, useParams } from "react-router-dom";
 import { MdArrowBackIos } from "react-icons/md";
 import Header from "../../../../components/header/Header";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
-import { TaskStatusesStageProject } from './StageProjectInterface';
+import { TaskStatusesStageProject } from "./StageProjectInterface";
+import AddStageProject from "../../../../components/project/addStageProject/AddStageProject";
 
 const StagesPage: React.FC = () => {
-  const [projectForm, setProjectForm] = useState<TaskStatusesStageProject[]>([]);
+  const [projectForm, setProjectForm] = useState<TaskStatusesStageProject[]>(
+    []
+  );
   const { projectId, stageId } = useParams<{
     stageId: string;
     projectId: string;
   }>();
   const [searchQuery, setSearchQuery] = useState("");
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Добавляем состояние для модального окна
 
   useEffect(() => {
     if (stageId) {
@@ -64,13 +68,21 @@ const StagesPage: React.FC = () => {
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (!event.target.closest(".HiEllipsisHorizontal"))
-        setOpenPopoverId(null); 
+        setOpenPopoverId(null);
     };
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const handleAdd = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -98,9 +110,9 @@ const StagesPage: React.FC = () => {
           </div>
 
           <div className={"containet_btn_add"}>
-            <Link to={`/projectsPage/stageDetails/${projectId}/stages`}>
-              <button className={"btn_add"}>Добавить</button>
-            </Link>
+            <button className={"btn_add"} onClick={handleAdd}>
+              Добавить
+            </button>
           </div>
         </div>
         <div className="table_user_settings">
@@ -167,6 +179,8 @@ const StagesPage: React.FC = () => {
           </table>
         </div>
       </div>
+      {/* Добавляем модальное окно */}
+      <AddStageProject isOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   );
 };

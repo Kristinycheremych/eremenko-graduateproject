@@ -2,10 +2,9 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { Employee } from "../UserInterfaces";
-import Select from "react-select";
+import { Employee } from "../../../views/employees/UserInterfaces";
 
-function UpdateEmployees() {
+function UpdateEmployees({ isOpen, onClose, employeeId }: any)  {
   const { id } = useParams();
   const [lastName, setLastName] = useState<string>();
   const [firstName, setFirstName] = useState<string>();
@@ -18,6 +17,7 @@ function UpdateEmployees() {
   const [divisionsList, setDivisionsList] = useState<any[]>([]);
   const [employeeStatusId, setEmployeeStatusId] = useState<string>();
   const [employeeStatusList, setEmployeeStatusList] = useState<any[]>([]);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,12 +79,6 @@ function UpdateEmployees() {
         navigate("/employeesPage");
       })
       .catch((err) => console.log(err));
-  };
-
-  const handlePositionChange = (selectedOption: any) => {
-    if (selectedOption) {
-      setPositionId(selectedOption.value);
-    }
   };
 
   return (
@@ -164,6 +158,7 @@ function UpdateEmployees() {
               <div className="personal_information">
                 <p>Рабочая информация</p>
               </div>
+             
               <div className={"input_div"}>
                 <label htmlFor="position">Должность</label>
                 <div>

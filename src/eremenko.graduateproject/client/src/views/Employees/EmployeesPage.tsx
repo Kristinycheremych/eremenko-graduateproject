@@ -5,6 +5,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import "./employees.css";
 import { Employee } from "./UserInterfaces";
+import CreateEmployees from "../../components/employees/createEmployees/CreateEmployees";
 
 function EmployeesPage() {
   const [data, setData] = useState<Employee[]>([]);
@@ -12,6 +13,7 @@ function EmployeesPage() {
   const [filter, setFilter] = useState<string>("");
   const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Добавляем состояние для модального окна
 
   useEffect(() => {
     axios
@@ -25,23 +27,19 @@ function EmployeesPage() {
   useEffect(() => {
     const filterEmployees = () => {
       let filteredData = data;
-
       if (filter !== "") {
         filteredData = filteredData.filter(
           (user) => user.position && user.position.title === filter
         );
       }
-
       if (searchQuery !== "") {
         filteredData = filteredData.filter((user) => {
           const fullName = `${user.lastName} ${user.firstName} ${user.middleName}`;
           return fullName.toLowerCase().includes(searchQuery.toLowerCase());
         });
       }
-
       setFilteredEmployees(filteredData);
     };
-
     filterEmployees();
   }, [data, filter, searchQuery]);
 
@@ -72,6 +70,14 @@ function EmployeesPage() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const handleAddEmployee = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -106,9 +112,10 @@ function EmployeesPage() {
           </div>
 
           <div className={"containet_btn_add"}>
-            <Link to="/employeesPage/createEmployees">
-              <button className={"btn_add"}>Добавить</button>
-            </Link>
+            {/* Добавляем обработчик нажатия на кнопку "Добавить" */}
+            <button className={"btn_add"} onClick={handleAddEmployee}>
+              Добавить
+            </button>
           </div>
         </div>
         <div className="table_user">
@@ -174,6 +181,8 @@ function EmployeesPage() {
           </table>
         </div>
       </div>
+      {/* Добавляем модальное окно */}
+      <CreateEmployees isOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   );
 }

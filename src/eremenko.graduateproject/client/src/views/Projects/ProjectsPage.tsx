@@ -5,6 +5,7 @@ import { MdArrowBackIos } from "react-icons/md";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import "./style.css";
 import { Employee, EmployeeProject } from "./ProjectInterfaces";
+import AddProjectForm from "../../components/project/addProjectForm/AddProjectForm";
 
 const ProjectsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -16,6 +17,7 @@ const ProjectsPage: React.FC = () => {
     []
   );
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     fetchEmployeeProjects();
@@ -75,6 +77,14 @@ const ProjectsPage: React.FC = () => {
     };
   }, []);
 
+  const handleAdd = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <div className="header">
@@ -117,9 +127,9 @@ const ProjectsPage: React.FC = () => {
           </div>
 
           <div className={"containet_btn_add"}>
-            <Link to="./addProjectForm">
-              <button className={"btn_add"}>Добавить</button>
-            </Link>
+            <button className={"btn_add"} onClick={handleAdd}>
+              Добавить
+            </button>
           </div>
         </div>
         <div>
@@ -222,6 +232,7 @@ const ProjectsPage: React.FC = () => {
           </table>
         </div>
       </div>
+      <AddProjectForm isOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   );
 };
