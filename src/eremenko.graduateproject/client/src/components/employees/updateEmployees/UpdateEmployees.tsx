@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams, Link } from "react-router-dom";
 import { Employee } from "../../../views/employees/UserInterfaces";
-import {style} from '../../ui/StyleSelect';
+import { style } from "../../ui/StyleSelect";
 import Select from "react-select";
 
 const URL = process.env.REACT_APP_URL;
 
 function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
-  const { id } = useParams<{ id: string }>();
+  const id = employeeId;
   const [lastName, setLastName] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [middleName, setMiddleName] = useState<string>("");
@@ -28,8 +27,6 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
   const [divisionsList, setDivisionsList] = useState<any[]>([]);
   const [employeeStatusId, setEmployeeStatusId] = useState<string>("");
   const [employeeStatusList, setEmployeeStatusList] = useState<any[]>([]);
-  const navigate = useNavigate();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -96,167 +93,169 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
         employeeStatus: employeeStatusId,
       })
       .then((res) => {
-        navigate("/employeesPage");
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <>
-      <div className={"pade"}>
-        <div className={"wrapper"}>
-          <form onSubmit={handleUpdate}>
-            <div className="title-add">
-              <h3>Изменение сотрудника</h3>
-            </div>
-            <div className="container-data-form">
-              <div className="personal_information">
-                <p>Личная информация</p>
+      {isOpen && (
+        <div className={"pade"}>
+          <div className={"wrapper"}>
+            <form onSubmit={handleUpdate}>
+              <div className="title-add">
+                <h3>Изменение сотрудника</h3>
               </div>
-              <div className={"input_div"}>
-                <label htmlFor="lastName">Фамилия</label>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Еременко"
-                    className={"form_control"}
-                    onChange={(e: any) => setLastName(e.target.value)}
-                    value={lastName}
-                  />
+              <div className="container-data-form">
+                <div className="personal_information">
+                  <p>Личная информация</p>
                 </div>
-              </div>
-              <div className={"input_div"}>
-                <label htmlFor="firstName">Имя</label>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Кристина"
-                    className={"form_control"}
-                    onChange={(e: any) => setFirstName(e.target.value)}
-                    value={firstName}
-                  />
-                </div>
-              </div>
-              <div className={"input_div"}>
-                <label htmlFor="middleName">Отчество</label>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Юрьевна"
-                    className={"form_control"}
-                    onChange={(e: any) => setMiddleName(e.target.value)}
-                    value={middleName}
-                  />
-                </div>
-              </div>
-              <div className={"input_div"}>
-                <label>Пол</label>
-                <div className="div_input_radio">
-                  <label>
+                <div className={"input_div"}>
+                  <label htmlFor="lastName">Фамилия</label>
+                  <div>
                     <input
-                      type="radio"
-                      name="gender"
-                      checked={gender === "Мужской"}
-                      value="Мужской"
-                      onChange={(e: any) => setGender(e.target.value)}
+                      type="text"
+                      placeholder="Еременко"
+                      className={"form_control"}
+                      onChange={(e: any) => setLastName(e.target.value)}
+                      value={lastName}
                     />
-                    Мужской
-                  </label>
-                  <label>
+                  </div>
+                </div>
+                <div className={"input_div"}>
+                  <label htmlFor="firstName">Имя</label>
+                  <div>
                     <input
-                      type="radio"
-                      name="gender"
-                      checked={gender === "Женский"}
-                      value="Женский"
-                      onChange={(e: any) => setGender(e.target.value)}
+                      type="text"
+                      placeholder="Кристина"
+                      className={"form_control"}
+                      onChange={(e: any) => setFirstName(e.target.value)}
+                      value={firstName}
                     />
-                    Женский
-                  </label>
+                  </div>
                 </div>
-              </div>
-              <hr className="dividing_strip" />
-              <div className="personal_information">
-                <p>Рабочая информация</p>
-              </div>
-
-              <div className={"input_div"}>
-                <label htmlFor="position">Должность</label>
-                <div>
-                  <Select
-                    options={positionList.map((positionItem) => ({
-                      value: positionItem._id,
-                      label: positionItem.title,
-                    }))}
-                    onChange={(selectedOption: any) =>
-                      setPosition(selectedOption)
-                    }
-                    styles={style}
-                    value={position}
-                  />
+                <div className={"input_div"}>
+                  <label htmlFor="middleName">Отчество</label>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Юрьевна"
+                      className={"form_control"}
+                      onChange={(e: any) => setMiddleName(e.target.value)}
+                      value={middleName}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className={"input_div"}>
-                <label htmlFor="divisions">Подразделения</label>
-                <div>
-                  <Select
-                    options={divisionsList.map((divisionsItem) => ({
-                      value: divisionsItem._id,
-                      label: divisionsItem.title,
-                    }))}
-                    onChange={(selectedOption: any) =>
-                      setDivisions(selectedOption)
-                    }
-                    styles={style}
-                    value={divisions}
-                  />
-                </div>
-              </div>
-              <div className={"input_div"}>
-                <label htmlFor="middleName">Табельный номер</label>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="Введите табельный номер"
-                    className={"form_control"}
-                    onChange={(e: any) => setServiceNumber(e.target.value)}
-                    value={serviceNumber}
-                  />
-                </div>
-              </div>
-              <div className={"input_div"}>
-                <label>Статус</label>
-                <div className="div_input_radio">
-                  {employeeStatusList.map((status) => (
-                    <label key={status._id}>
+                <div className={"input_div"}>
+                  <label>Пол</label>
+                  <div className="div_input_radio">
+                    <label>
                       <input
                         type="radio"
-                        name="employeeStatus"
-                        value={status._id}
-                        checked={employeeStatusId === status._id}
-                        onChange={() => setEmployeeStatusId(status._id)}
+                        name="gender"
+                        checked={gender === "Мужской"}
+                        value="Мужской"
+                        onChange={(e: any) => setGender(e.target.value)}
                       />
-                      {status.title}
+                      Мужской
                     </label>
-                  ))}
+                    <label>
+                      <input
+                        type="radio"
+                        name="gender"
+                        checked={gender === "Женский"}
+                        value="Женский"
+                        onChange={(e: any) => setGender(e.target.value)}
+                      />
+                      Женский
+                    </label>
+                  </div>
                 </div>
-              </div>
-            </div>
+                <hr className="dividing_strip" />
+                <div className="personal_information">
+                  <p>Рабочая информация</p>
+                </div>
 
-            <div className={"action_buttons"}>
-              <div className="buttons">
-                <div>
-                  <Link to={"/employeesPage"}>
-                    <button className={"button_add_cancel"}>Отменить</button>
-                  </Link>
+                <div className={"input_div"}>
+                  <label htmlFor="position">Должность</label>
+                  <div>
+                    <Select
+                      options={positionList.map((positionItem) => ({
+                        value: positionItem._id,
+                        label: positionItem.title,
+                      }))}
+                      onChange={(selectedOption: any) =>
+                        setPosition(selectedOption)
+                      }
+                      styles={style}
+                      value={position}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <button className={"button_add"}>Изменить</button>
+                <div className={"input_div"}>
+                  <label htmlFor="divisions">Подразделения</label>
+                  <div>
+                    <Select
+                      options={divisionsList.map((divisionsItem) => ({
+                        value: divisionsItem._id,
+                        label: divisionsItem.title,
+                      }))}
+                      onChange={(selectedOption: any) =>
+                        setDivisions(selectedOption)
+                      }
+                      styles={style}
+                      value={divisions}
+                    />
+                  </div>
+                </div>
+                <div className={"input_div"}>
+                  <label htmlFor="middleName">Табельный номер</label>
+                  <div>
+                    <input
+                      type="number"
+                      placeholder="Введите табельный номер"
+                      className={"form_control"}
+                      onChange={(e: any) => setServiceNumber(e.target.value)}
+                      value={serviceNumber}
+                    />
+                  </div>
+                </div>
+                <div className={"input_div"}>
+                  <label>Статус</label>
+                  <div className="div_input_radio">
+                    {employeeStatusList.map((status) => (
+                      <label key={status._id}>
+                        <input
+                          type="radio"
+                          name="employeeStatus"
+                          value={status._id}
+                          checked={employeeStatusId === status._id}
+                          onChange={() => setEmployeeStatusId(status._id)}
+                        />
+                        {status.title}
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
+
+              <div className={"action_buttons"}>
+                <div className="buttons">
+                  <div>
+                    <button className={"button_add_cancel"} onClick={onClose}>
+                      Отменить
+                    </button>
+                  </div>
+                  <div>
+                    <button className={"button_add"}>Изменить</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

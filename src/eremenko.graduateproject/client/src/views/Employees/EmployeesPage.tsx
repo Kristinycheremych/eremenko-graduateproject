@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { MdArrowBackIos } from "react-icons/md";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
 import "./employees.css";
 import { Employee } from "./UserInterfaces";
 import CreateEmployees from "../../components/employees/createEmployees/CreateEmployees";
+import UpdateEmployees from "../../components/employees/updateEmployees/UpdateEmployees";
 
 const URL = process.env.REACT_APP_URL;
 
@@ -15,7 +15,9 @@ function EmployeesPage() {
   const [filter, setFilter] = useState<string>("");
   const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Добавляем состояние для модального окна
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<string>("");
 
   useEffect(() => {
     axios
@@ -74,13 +76,21 @@ function EmployeesPage() {
   }, []);
 
   const handleAddEmployee = () => {
-    setIsModalOpen(true);
+    setIsAddModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false);
   };
 
+  const handleEdit = (id: string) => {
+    setSelectedEmployeeId(id);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+  };
   return (
     <>
       <div className="header">
@@ -166,12 +176,14 @@ function EmployeesPage() {
                           >
                             <p>Удалить</p>
                           </div>
-                          <div className="div_edit">
-                            <Link
-                              to={`/employeesPage/updateEmployees/${user._id}`}
+
+                          <div>
+                            <div
+                              onClick={() => handleEdit(user._id)}
+                              className="div_edit"
                             >
                               <p>Редактировать</p>
-                            </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -183,8 +195,14 @@ function EmployeesPage() {
           </table>
         </div>
       </div>
-      {/* Добавляем модальное окно */}
-      <CreateEmployees isOpen={isModalOpen} onClose={handleCloseModal} />
+      {/* Модальное окно для добавления сотрудника */}
+      <CreateEmployees isOpen={isAddModalOpen} onClose={handleCloseAddModal} />
+      {/* Модальное окно для редактирования сотрудника */}
+      <UpdateEmployees
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        employeeId={selectedEmployeeId} 
+      />
     </>
   );
 }
