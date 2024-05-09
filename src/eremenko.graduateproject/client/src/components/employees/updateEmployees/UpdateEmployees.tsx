@@ -1,39 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { Employee } from "../../../views/employees/UserInterfaces";
+import {style} from '../../ui/StyleSelect';
+import Select from "react-select";
 
-function UpdateEmployees({ isOpen, onClose, employeeId }: any)  {
-  const { id } = useParams();
-  const [lastName, setLastName] = useState<string>();
-  const [firstName, setFirstName] = useState<string>();
-  const [middleName, setMiddleName] = useState<string>();
-  const [gender, setGender] = useState<string>();
-  const [serviceNumber, setServiceNumber] = useState<number>();
-  const [positionId, setPositionId] = useState<string>();
+const BASE_URL = "http://localhost:3001";
+
+function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
+  const { id } = useParams<{ id: string }>();
+  const [lastName, setLastName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [middleName, setMiddleName] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [serviceNumber, setServiceNumber] = useState<number | undefined>(
+    undefined
+  );
+  const [position, setPosition] = useState<{
+    value: string;
+    label: string;
+  } | null>(null);
   const [positionList, setPositionList] = useState<any[]>([]);
-  const [divisions, setDivisions] = useState<string>();
+  const [divisions, setDivisions] = useState<{
+    value: string;
+    label: string;
+  } | null>(null);
   const [divisionsList, setDivisionsList] = useState<any[]>([]);
-  const [employeeStatusId, setEmployeeStatusId] = useState<string>();
+  const [employeeStatusId, setEmployeeStatusId] = useState<string>("");
   const [employeeStatusList, setEmployeeStatusList] = useState<any[]>([]);
-  
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get<Employee>(
-          `http://localhost:3001/get/employees/${id}`
+          `${BASE_URL}/get/employees/${id}`
         );
-        setLastName(response.data.lastName);
-        setFirstName(response.data.firstName);
-        setMiddleName(response.data.middleName);
-        setGender(response.data.gender);
-        setServiceNumber(response.data.serviceNumber);
-        setPositionId(response.data.position._id);
-        setDivisions(response.data.divisions._id);
-        setEmployeeStatusId(response.data.employeeStatus._id);
+        const {
+          lastName,
+          firstName,
+          middleName,
+          gender,
+          serviceNumber,
+          position,
+          divisions,
+          employeeStatus,
+        } = response.data;
+        setLastName(lastName);
+        setFirstName(firstName);
+        setMiddleName(middleName);
+        setGender(gender);
+        setServiceNumber(serviceNumber);
+        setPosition({ value: position._id, label: position.title });
+        setDivisions({ value: divisions._id, label: divisions.title });
+        setEmployeeStatusId(employeeStatus._id);
       } catch (err) {
         console.log(err);
       }
@@ -41,21 +61,21 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any)  {
     fetchData();
 
     axios
-      .get("http://localhost:3001/get/position")
+      .get(`${BASE_URL}/get/position`)
       .then((res) => {
         setPositionList(res.data);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:3001/get/employeeStatus")
+      .get(`${BASE_URL}/get/employeeStatus`)
       .then((res) => {
         setEmployeeStatusList(res.data);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:3001/get/divisions")
+      .get(`${BASE_URL}/get/divisions`)
       .then((res) => {
         setDivisionsList(res.data);
       })
@@ -65,14 +85,14 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any)  {
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     axios
-      .put(`http://localhost:3001/update/employees/${id}`, {
+      .put(`${BASE_URL}/update/employees/${id}`, {
         lastName,
         firstName,
         middleName,
         gender,
         serviceNumber,
-        position: positionId,
-        divisions: divisions,
+        position: position?.value,
+        divisions: divisions?.value,
         employeeStatus: employeeStatusId,
       })
       .then((res) => {
@@ -158,50 +178,41 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any)  {
               <div className="personal_information">
                 <p>Рабочая информация</p>
               </div>
-             
+
               <div className={"input_div"}>
                 <label htmlFor="position">Должность</label>
                 <div>
-                  <select
-                    className="form_control"
-                    value={positionId}
-                    onChange={(e: any) => setPositionId(e.target.value)}
-                  >
-                    <option value={""}>Выберите должность:</option>
-                    {positionList.map((positionItem) => {
-                      return (
-                        <option key={positionItem._id} value={positionItem._id}>
-                          {positionItem.title}
-                        </option>
-                      );
-                    })}
-                  </select>
+                  <Select
+                    options={positionList.map((positionItem) => ({
+                      value: positionItem._id,
+                      label: positionItem.title,
+                    }))}
+                    onChange={(selectedOption: any) =>
+                      setPosition(selectedOption)
+                    }
+                    styles={style}
+                    value={position}
+                  />
                 </div>
               </div>
               <div className={"input_div"}>
                 <label htmlFor="divisions">Подразделения</label>
                 <div>
-                  <select
-                    className="form_control"
+                  <Select
+                    options={divisionsList.map((divisionsItem) => ({
+                      value: divisionsItem._id,
+                      label: divisionsItem.title,
+                    }))}
+                    onChange={(selectedOption: any) =>
+                      setDivisions(selectedOption)
+                    }
+                    styles={style}
                     value={divisions}
-                    onChange={(e: any) => setDivisions(e.target.value)}
-                  >
-                    <option value={""}>Выберите подразделение:</option>
-                    {divisionsList.map((divisionsItem) => {
-                      return (
-                        <option
-                          key={divisionsItem._id}
-                          value={divisionsItem._id}
-                        >
-                          {divisionsItem.title}
-                        </option>
-                      );
-                    })}
-                  </select>
+                  />
                 </div>
               </div>
               <div className={"input_div"}>
-                <label htmlFor="middleName">Табельный намер</label>
+                <label htmlFor="middleName">Табельный номер</label>
                 <div>
                   <input
                     type="number"
