@@ -4,6 +4,8 @@ import axios from "axios";
 import "./styleHeader.css";
 import {EmployeeProject} from '../../views/projects/ProjectInterfaces';
 
+const URL = process.env.REACT_APP_URL;
+
 function Header() {
   const { projectId } = useParams<{
     projectId: string;
@@ -16,7 +18,7 @@ function Header() {
     if (projectId) {
       axios
         .get<EmployeeProject>(
-          `http://localhost:3001/employeeProject/${projectId}`
+          `${URL}/employeeProject/${projectId}`
         )
         .then((response) => {
           setProject(response.data);

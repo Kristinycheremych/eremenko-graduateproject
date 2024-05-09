@@ -13,7 +13,10 @@ const divisionsRoutes = require("./routes/DivisionsRoutes");
 const employeeProjectRoutes = require("./routes/EmployeeProjectRoutes");
 const taskStatusProjectStageRoutes = require("./routes/TaskStatusProjectStageRoutes")
 const executorTaskRoutes = require("./routes/ExecutorTaskRoutes");
+const dotenv = require("dotenv");
 
+dotenv.config();
+const PORT = process.env.PORT
 const app = express();
 
 // Подключаем middleware для обработки CORS
@@ -44,6 +47,6 @@ app.use("/", taskStatusProjectStageRoutes);
 
 
 // Слушаем порт 3001
-app.listen(3001, () => {
+app.listen(`${PORT}`, () => {
   console.log("Сервер запущен");
 });

@@ -6,6 +6,8 @@ import Header from "../../../components/header/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import { EmployeeProject } from '../ProjectInterfaces';
 
+const URL = process.env.REACT_APP_URL;
+
 function ProjectDetails() {
   const { projectId } = useParams<{ projectId: string }>();
   const [project, setProject] = useState<EmployeeProject | null>(null);
@@ -13,7 +15,7 @@ function ProjectDetails() {
   useEffect(() => {
     axios
       .get<EmployeeProject>(
-        `http://localhost:3001/employeeProject/${projectId}`
+        `${URL}/employeeProject/${projectId}`
       )
       .then((response) => {
         setProject(response.data);

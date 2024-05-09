@@ -7,6 +7,8 @@ import { HiEllipsisHorizontal } from "react-icons/hi2";
 import { TaskStatusesStageProject } from "./StageProjectInterface";
 import AddStageProject from "../../../../components/project/addStageProject/AddStageProject";
 
+const URL = process.env.REACT_APP_URL;
+
 const StagesPage: React.FC = () => {
   const [projectForm, setProjectForm] = useState<TaskStatusesStageProject[]>(
     []
@@ -28,7 +30,7 @@ const StagesPage: React.FC = () => {
   const fetchProjectForm = async (stageId: string) => {
     try {
       const response = await axios.get<TaskStatusesStageProject[]>(
-        `http://localhost:3001/get/taskStatusProjectStage`
+        `${URL}/get/taskStatusProjectStage`
       );
       const filteredData = response.data.filter(
         (stage) => stage.stageProjectId.projectId._id === stageId
@@ -43,7 +45,7 @@ const StagesPage: React.FC = () => {
   const handleDelete = (id: string) => {
     if (window.confirm(`Вы уверены, что хотите удалить этот этап проекта`)) {
       axios
-        .delete(`http://localhost:3001/taskStatusProjectStage/${id}`)
+        .delete(`${URL}/taskStatusProjectStage/${id}`)
         .then(() => {
           setProjectForm(projectForm.filter((project) => project._id !== id));
         })

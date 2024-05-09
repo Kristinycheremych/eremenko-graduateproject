@@ -4,49 +4,9 @@ import { useParams } from "react-router-dom";
 import Header from "../../../../components/header/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
+import { EmployeeProject } from '../../ProjectInterfaces';
 
-interface Employee {
-  _id: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-  gender: String;
-  serviceNumber: number;
-  position: Position;
-  employeeStatus: EmployeeStatus;
-}
-
-interface Position {
-  _id: string;
-  title: string;
-}
-
-interface EmployeeStatus {
-  _id: string;
-  title: string;
-}
-
-interface ProjectStatus {
-  _id: string;
-  title: string;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  statusProjectId: ProjectStatus;
-  supervisorId: Employee[];
-}
-
-interface EmployeeProject {
-  _id: string;
-  employeeId: Employee[];
-  projectId: Project;
-}
-
+const URL = process.env.REACT_APP_URL;
 
 function ParticipantsPage() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -58,7 +18,7 @@ function ParticipantsPage() {
   useEffect(() => {
     axios
       .get<EmployeeProject>(
-        `http://localhost:3001/employeeProject/${projectId}`
+        `${URL}/employeeProject/${projectId}`
       )
       .then((response) => {
         setProject(response.data);

@@ -7,6 +7,8 @@ import "./employees.css";
 import { Employee } from "./UserInterfaces";
 import CreateEmployees from "../../components/employees/createEmployees/CreateEmployees";
 
+const URL = process.env.REACT_APP_URL;
+
 function EmployeesPage() {
   const [data, setData] = useState<Employee[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -17,7 +19,7 @@ function EmployeesPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/get/employees")
+      .get(`${URL}/get/employees`)
       .then((res) => {
         setData(res.data);
       })
@@ -46,7 +48,7 @@ function EmployeesPage() {
   const handleDelete = (id: string) => {
     if (window.confirm(`Вы уверены, что хотите удалить этого сотрудника?`)) {
       axios
-        .delete(`http://localhost:3001/delete/employees/${id}`)
+        .delete(`${URL}/delete/employees/${id}`)
         .then((res) => {
           console.log(res);
           // Обновляем данные после удаления сотрудника

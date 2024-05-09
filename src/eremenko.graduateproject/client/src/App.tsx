@@ -3,7 +3,6 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import EmployeesPage from "./views/employees/EmployeesPage";
 import ProjectsPage from "./views/projects/ProjectsPage";
-import MainPage from "./views/main/MainPage";
 import Sidebar from "./components/sidebar/Sidebar";
 import UpdateEmployees from "./components/employees/updateEmployees/UpdateEmployees";
 import { menuItems } from "./components/sidebar/DataSidebar";
@@ -11,14 +10,13 @@ import ProjectDetails from "./views/projects/projectDetails/ProjectDetails";
 import ParticipantsPage from "./views/projects/projectDetails/participantsPage/ParticipantsPage";
 import StagesPage from "./views/projects/projectDetails/stagesPage/StagesPage";
 import StageDetailsProject from "./views/projects/projectDetails/stagesPage/stageProjectDetails/StageDetailsProject";
+
 function App() {
   return (
     <>
       <BrowserRouter>
         <Sidebar items={menuItems}>
           <Routes>
-            {/* Главная */}
-            <Route path="/" element={<MainPage />}></Route>
             {/* Сотрудники */}
             <Route path="/employeesPage" element={<EmployeesPage />}></Route>
             <Route

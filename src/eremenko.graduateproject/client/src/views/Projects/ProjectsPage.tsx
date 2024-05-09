@@ -7,6 +7,8 @@ import "./style.css";
 import { Employee, EmployeeProject } from "./ProjectInterfaces";
 import AddProjectForm from "../../components/project/addProjectForm/AddProjectForm";
 
+const URL = process.env.REACT_APP_URL;
+
 const ProjectsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filterStatus, setFilterStatus] = useState<string>("");
@@ -26,7 +28,7 @@ const ProjectsPage: React.FC = () => {
   const fetchEmployeeProjects = async () => {
     try {
       const response = await axios.get<EmployeeProject[]>(
-        "http://localhost:3001/get/employeeProject"
+        `${URL}/get/employeeProject`
       );
       setEmployeeProjects(response.data);
     } catch (error) {
@@ -52,7 +54,7 @@ const ProjectsPage: React.FC = () => {
   const handleDelete = (id: string) => {
     if (window.confirm("Вы уверены, что хотите удалить этот проект?")) {
       axios
-        .delete(`http://localhost:3001/employeeProject/${id}`)
+        .delete(`${URL}/employeeProject/${id}`)
         .then(() => {
           setEmployeeProjects(
             employeeProjects.filter((project) => project._id !== id)

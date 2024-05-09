@@ -15,31 +15,31 @@
 .stage {
   flex: 1;
   padding: 10px;
-  border-radius: 8px;
   font-size: 14px;
+  background: var(--stage);
 }
 
 .title_status_stage {
   display: flex;
   width: 374px;
-  border-radius: 6px;
-  border: 1px solid var(--table-border);
-  background: #fff;
 }
 
 .title_status_stage p {
   padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--neutral-500);
   white-space: nowrap;
 }
 
 /* Задачи */
 .container_task {
-  padding-top: 20px;
   margin: 0 auto;
+  padding-top: 8px;
   width: 358px;
 }
 
-.container_task_content{
+.container_task_content {
   overflow-x: auto;
   max-height: 500px;
 }
@@ -51,10 +51,9 @@
 }
 
 .task_content {
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15),
-    0px 10px 13px 0px rgba(17, 38, 146, 0.05);
-  padding: 24px 20px 24px 20px;
+  padding: 16px 20px;
   height: 232px;
+  background: var(--white);
 }
 
 .task_content_item {
@@ -160,7 +159,6 @@
   cursor: pointer;
 }
 
-
 .select_task {
   width: 295px;
   height: 45px;
@@ -188,4 +186,3 @@
   background: var(--accent);
   color: var(--white);
 }
-

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Select from "react-select";
 import { Employee, TaskStatus } from "../../../../views/projects/projectDetails/stagesPage/stageProjectDetails/TaskInterface";
 import { style } from "../../../../components/ui/StyleSelect";
+
+const URL = process.env.REACT_APP_URL;
 
 function AddTaskPage({ isOpen, onClose }: any) {
   const { stageProjectId } = useParams<{
     stageProjectId: string;
   }>();
-  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -27,7 +28,7 @@ function AddTaskPage({ isOpen, onClose }: any) {
   const fetchEmployees = async () => {
     try {
       const response = await axios.get<Employee[]>(
-        "http://localhost:3001/get/employees"
+        `${URL}/get/employees`
       );
       setAllEmployees(response.data);
     } catch (error) {
@@ -38,7 +39,7 @@ function AddTaskPage({ isOpen, onClose }: any) {
   const fetchTaskStatuses = async () => {
     try {
       const response = await axios.get<TaskStatus[]>(
-        "http://localhost:3001/get/taskStatuses"
+        `${URL}/get/taskStatuses`
       );
       setTaskStatuses(response.data);
     } catch (error) {
@@ -49,7 +50,7 @@ function AddTaskPage({ isOpen, onClose }: any) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:3001/addExecutorTask`, {
+      await axios.post(`${URL}/addExecutorTask`, {
         title,
         description,
         startDate,
@@ -73,9 +74,6 @@ function AddTaskPage({ isOpen, onClose }: any) {
     }
   };
 
-  const handleCancel = () => {
-    navigate(-1);
-  };
 
   return (
     <>

@@ -5,6 +5,8 @@ import Select from "react-select";
 import { ProjectFormData, Employee, ProjectStatus } from "../../../views/projects/ProjectInterfaces";
 import {style} from '../../../components/ui/StyleSelect';
 
+const URL = process.env.REACT_APP_URL;
+
 function AddProjectWithEmployee({ isOpen, onClose }: any) {
   const [projectData, setProjectData] = useState<ProjectFormData>({
     title: "",
@@ -27,7 +29,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
   const fetchEmployees = async () => {
     try {
       const response = await axios.get<Employee[]>(
-        "http://localhost:3001/get/employees"
+        `${URL}/get/employees`
       );
       setEmployees(response.data);
     } catch (error) {
@@ -38,7 +40,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
   const fetchProjectStatuses = async () => {
     try {
       const response = await axios.get<ProjectStatus[]>(
-        "http://localhost:3001/get/projectStatuses"
+        `${URL}/get/projectStatuses`
       );
       setProjectStatuses(response.data);
     } catch (error) {
@@ -78,7 +80,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3001/addProjectWithEmployee",
+        `${URL}/addProjectWithEmployee`,
         projectData
       );
       window.location.reload();

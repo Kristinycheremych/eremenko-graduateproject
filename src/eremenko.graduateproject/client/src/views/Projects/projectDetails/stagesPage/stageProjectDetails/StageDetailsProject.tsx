@@ -13,6 +13,8 @@ import {
 } from "./TaskInterface";
 import AddTask from "../../../../../components/project/addStageProject/addTask/AddTask";
 
+const URL = process.env.REACT_APP_URL;
+
 const StageDetailsPage: React.FC = () => {
   const { stageProjectId } = useParams<{
     stageProjectId: string;
@@ -34,7 +36,7 @@ const StageDetailsPage: React.FC = () => {
   const fetchStageDetails = async (stageProjectId: string) => {
     try {
       const response = await axios.get<TaskStatusesStageProject[]>(
-        `http://localhost:3001/get/taskStatusProjectStage`
+        `${URL}/get/taskStatusProjectStage`
       );
       const filteredData = response.data.find(
         (project) => project.stageProjectId._id === stageProjectId
@@ -50,7 +52,7 @@ const StageDetailsPage: React.FC = () => {
   const fetchTasks = async () => {
     try {
       const response = await axios.get<ExecutorTask[]>(
-        `http://localhost:3001/get/executorTask`
+        `${URL}/get/executorTask`
       );
       // Фильтрация задач по stageProjectId
       const filteredTasks = response.data.filter(
@@ -67,7 +69,7 @@ const StageDetailsPage: React.FC = () => {
       try {
         if (selectedTask) {
           await axios.delete(
-            `http://localhost:3001/delete/executorTask/${selectedTask._id}`
+            `${URL}/delete/executorTask/${selectedTask._id}`
           );
           // После удаления задачи обновляем список задач
           fetchTasks();
@@ -82,7 +84,7 @@ const StageDetailsPage: React.FC = () => {
 
   const moveTask = async (taskId: string, newStatusId: string) => {
     try {
-      await axios.put(`http://localhost:3001/update/task/${taskId}`, {
+      await axios.put(`${URL}/update/task/${taskId}`, {
         taskStatusId: newStatusId,
       });
 

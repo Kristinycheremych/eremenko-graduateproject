@@ -1,8 +1,22 @@
+export interface EmployeeStatus {
+  _id: string;
+  title: string;
+}
+
+export interface Position {
+  _id: string;
+  title: string;
+}
+
 export interface Employee {
   _id: string;
   lastName: string;
   firstName: string;
   middleName: string;
+  gender: String;
+  serviceNumber: number;
+  position: Position;
+  employeeStatus: EmployeeStatus;
 }
 
 export interface ProjectStatus {
@@ -25,7 +39,7 @@ export interface EmployeeProject {
   employeeId: Employee[];
   projectId: Project;
 }
-// 
+//
 export interface ProjectFormData {
   title: string;
   description: string;

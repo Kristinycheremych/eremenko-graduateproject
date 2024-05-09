@@ -9,6 +9,8 @@ import {
   Stage,
 } from "../../../views/projects/projectDetails/stagesPage/StageProjectInterface";
 
+const URL = process.env.REACT_APP_URL;
+
 function AddProjectWithEmployee({ isOpen, onClose }: any) {
   const [projectData, setProjectData] = useState<ProjectFormData>({
     _id: "",
@@ -33,7 +35,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
   const fetchTaskStatuses = async () => {
     try {
       const response = await axios.get<TaskStatuses[]>(
-        "http://localhost:3001/get/taskStatuses"
+        `${URL}/get/taskStatuses`
       );
       setTaskStatuses(response.data);
     } catch (error) {
@@ -44,7 +46,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
   const fetchProject = async () => {
     try {
       const response = await axios.get<Project[]>(
-        "http://localhost:3001/get/projects"
+        `${URL}/get/projects`
       );
       setProject(response.data);
     } catch (error) {
@@ -55,7 +57,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
   const fetchStage = async () => {
     try {
       const response = await axios.get<Project[]>(
-        "http://localhost:3001/get/stage"
+        `${URL}/get/stage`
       );
       setStage(response.data);
     } catch (error) {
@@ -74,7 +76,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3001/addTaskStatusProjectStage",
+        `${URL}/addTaskStatusProjectStage`,
         projectData
       );
       console.log(response.data.message);

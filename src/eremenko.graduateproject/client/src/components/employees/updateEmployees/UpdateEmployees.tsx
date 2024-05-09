@@ -5,7 +5,7 @@ import { Employee } from "../../../views/employees/UserInterfaces";
 import {style} from '../../ui/StyleSelect';
 import Select from "react-select";
 
-const BASE_URL = "http://localhost:3001";
+const URL = process.env.REACT_APP_URL;
 
 function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
   const { id } = useParams<{ id: string }>();
@@ -34,7 +34,7 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
     const fetchData = async () => {
       try {
         const response = await axios.get<Employee>(
-          `${BASE_URL}/get/employees/${id}`
+          `${URL}/get/employees/${id}`
         );
         const {
           lastName,
@@ -61,21 +61,21 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
     fetchData();
 
     axios
-      .get(`${BASE_URL}/get/position`)
+      .get(`${URL}/get/position`)
       .then((res) => {
         setPositionList(res.data);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get(`${BASE_URL}/get/employeeStatus`)
+      .get(`${URL}/get/employeeStatus`)
       .then((res) => {
         setEmployeeStatusList(res.data);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get(`${BASE_URL}/get/divisions`)
+      .get(`${URL}/get/divisions`)
       .then((res) => {
         setDivisionsList(res.data);
       })
@@ -85,7 +85,7 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     axios
-      .put(`${BASE_URL}/update/employees/${id}`, {
+      .put(`${URL}/update/employees/${id}`, {
         lastName,
         firstName,
         middleName,

@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
-import {style} from '../../ui/StyleSelect';
+import { style } from "../../ui/StyleSelect";
+
+const URL = process.env.REACT_APP_URL;
 
 function CreateEmployees({ isOpen, onClose }: any) {
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [gender, setGender] = useState("");
-  const [serviceNumber, setServiceNumber] = useState("");
-  const [position, setPosition] = useState("");
-  const [divisions, setDivisions] = useState("");
+  const [lastName, setLastName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [middleName, setMiddleName] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [serviceNumber, setServiceNumber] = useState<string>("");
+  const [position, setPosition] = useState<string>("");
+  const [divisions, setDivisions] = useState<string>("");
   const [dataPosition, setDataPosition] = useState<any[]>([]);
   const [dataDivisions, setDataDivisions] = useState<any[]>([]);
-  const [employeeStatus, setEmployeeStatus] = useState("");
+  const [employeeStatus, setEmployeeStatus] = useState<string>("");
   const [dataEmployeeStatus, setDataEmployeeStatus] = useState<any[]>([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/get/position")
+      .get(`${URL}/get/position`)
       .then((res) => {
         setDataPosition(res.data);
       })
@@ -27,7 +29,7 @@ function CreateEmployees({ isOpen, onClose }: any) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/get/employeeStatus")
+      .get(`${URL}/get/employeeStatus`)
       .then((res) => {
         setDataEmployeeStatus(res.data);
       })
@@ -36,17 +38,17 @@ function CreateEmployees({ isOpen, onClose }: any) {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/get/divisions")
+      .get(`${URL}/get/divisions`)
       .then((res) => {
         setDataDivisions(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:3001/create/employees", {
+      await axios.post(`${URL}/create/employees`, {
         lastName,
         firstName,
         middleName,
@@ -57,7 +59,6 @@ function CreateEmployees({ isOpen, onClose }: any) {
         divisions,
       });
       window.location.reload();
-      onClose();
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +70,7 @@ function CreateEmployees({ isOpen, onClose }: any) {
     }
   };
 
-  const handlesetDivisionsChange = (selectedOption: any) => {
+  const handleDivisionsChange = (selectedOption: any) => {
     if (selectedOption) {
       setDivisions(selectedOption.value);
     }
@@ -184,7 +185,7 @@ function CreateEmployees({ isOpen, onClose }: any) {
                               value: divisions._id,
                               label: divisions.title,
                             }))}
-                            onChange={handlesetDivisionsChange}
+                            onChange={handleDivisionsChange}
                             // Возможность очистить выбранное значение
                             isClearable
                             // Возможность поиска куратора по имени
