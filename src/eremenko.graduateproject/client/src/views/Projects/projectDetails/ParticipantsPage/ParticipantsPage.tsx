@@ -58,7 +58,7 @@ function ParticipantsPage() {
   const filteredByPosition = selectedPosition
     ? filteredEmployees.filter(
         (employee) =>
-          employee.position.title.toLowerCase() ===
+          employee.positionId.title.toLowerCase() ===
           selectedPosition.toLowerCase()
       )
     : filteredEmployees;
@@ -119,10 +119,10 @@ function ParticipantsPage() {
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
                   <td>{user.serviceNumber}</td>
-                  <td>{user.position ? user.position.title : "Нет данных"}</td>
+                  <td>{user.positionId ? user.positionId.title : "Нет данных"}</td>
                   <td>
-                    {user.employeeStatus
-                      ? user.employeeStatus.title
+                    {user.employeeStatusId
+                      ? user.employeeStatusId.title
                       : "Нет данных"}
                   </td>
 

@@ -7,11 +7,11 @@ const TaskStatusProjectStageSchema = new mongoose.Schema({
   }],
   stageProjectId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "stageProject",
+    ref: "stage_projects",
   },
 });
 
-const TaskStatusProjectStageModel = mongoose.model("taskStatusProjectStage", TaskStatusProjectStageSchema);
+const TaskStatusProjectStageModel = mongoose.model("task_Status_Project_Stage", TaskStatusProjectStageSchema);
 module.exports = TaskStatusProjectStageModel;
 
 

@@ -88,9 +88,9 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
         middleName,
         gender,
         serviceNumber,
-        position: position?.value,
-        divisions: divisions?.value,
-        employeeStatus: employeeStatusId,
+        positionId: position?.value,
+        divisionsId: divisions?.value,
+        employeeStatusId: employeeStatusId,
       })
       .then((res) => {
         window.location.reload();

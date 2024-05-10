@@ -5,7 +5,7 @@ const TaskSchema = new mongoose.Schema({
   description: String,
   stageProjectId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "stageProject",
+    ref: "stage_projects",
   },
   taskStatusId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -13,10 +13,10 @@ const TaskSchema = new mongoose.Schema({
   },
   creatorId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users", 
+    ref: "employees", 
   }
 });
 
-const TaskModel = mongoose.model("Task", TaskSchema);
+const TaskModel = mongoose.model("tasks", TaskSchema);
 
 module.exports = TaskModel;

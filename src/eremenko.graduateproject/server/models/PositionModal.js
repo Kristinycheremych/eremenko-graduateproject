@@ -4,5 +4,5 @@ const PositionSchema = new mongoose.Schema({
   title: String,
 });
 
-const PositionModal = mongoose.model("position", PositionSchema);
+const PositionModal = mongoose.model("positions", PositionSchema);
 module.exports = PositionModal;

@@ -19,7 +19,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
   });
 
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [projectStatuses, setProjectStatuses] = useState<ProjectStatus[]>([]);
+  const [statusProjectId, setProjectStatuses] = useState<ProjectStatus[]>([]);
 
   useEffect(() => {
     fetchEmployees();
@@ -161,7 +161,7 @@ function AddProjectWithEmployee({ isOpen, onClose }: any) {
                   <div className="container_input">
                     <Select
                       // Опции для выбора, сформированные из отфильтрованного списка сотрудников
-                      options={projectStatuses.map((status) => ({
+                      options={statusProjectId.map((status) => ({
                         value: status._id,
                         label: `${status.title}`,
                       }))}

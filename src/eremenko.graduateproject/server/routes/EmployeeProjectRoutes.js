@@ -9,11 +9,11 @@ router.get("/get/employeeProject", async (req, res) => {
     const employeeProjects = await EmployeeProjectModel.find()
       .populate({
         path: "employeeId",
-        populate: { path: "position" },
+        populate: { path: "positionId" },
       })
       .populate({
         path: "employeeId",
-        populate: { path: "employeeStatus" },
+        populate: { path: "employeeStatusId" },
       })
       .populate({
         path: "projectId",
@@ -35,11 +35,11 @@ router.get("/employeeProject/:id", async (req, res) => {
     const employeeProject = await EmployeeProjectModel.findById(req.params.id)
       .populate({
         path: "employeeId",
-        populate: { path: "position" },
+        populate: { path: "positionId" },
       })
       .populate({
         path: "employeeId",
-        populate: { path: "employeeStatus" },
+        populate: { path: "employeeStatusId" },
       })
       .populate({
         path: "projectId",
@@ -72,6 +72,7 @@ router.post("/addProjectWithEmployee", async (req, res) => {
       endDate,
       statusProjectId,
       supervisorId,
+      positionId,
       employeeId,
     } = req.body;
 
@@ -82,6 +83,7 @@ router.post("/addProjectWithEmployee", async (req, res) => {
       startDate,
       endDate,
       statusProjectId,
+      positionId,
       supervisorId,
     });
 
@@ -116,6 +118,7 @@ router.put("/update/employeeProject/:id", async (req, res) => {
     endDate,
     statusProjectId,
     supervisorId,
+    positionId,
     employeeId,
   } = req.body;
 
@@ -133,6 +136,7 @@ router.put("/update/employeeProject/:id", async (req, res) => {
     existingProject.endDate = endDate;
     existingProject.statusProjectId = statusProjectId;
     existingProject.supervisorId = supervisorId;
+    existingProject.positionId = positionId;
 
     // Сохраняем обновленные данные проекта
     await existingProject.save();

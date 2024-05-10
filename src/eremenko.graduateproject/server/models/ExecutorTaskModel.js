@@ -4,16 +4,16 @@ const ExecutorTaskSchema = new mongoose.Schema({
   employeeId: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: "employees",
     },
   ],
   taskId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Task",
+    ref: "tasks",
   },
   startDate: Date,
   endDate: Date,
 });
 
-const ExecutorTaskModel = mongoose.model("executorTask", ExecutorTaskSchema);
+const ExecutorTaskModel = mongoose.model("executor_task", ExecutorTaskSchema);
 module.exports = ExecutorTaskModel;

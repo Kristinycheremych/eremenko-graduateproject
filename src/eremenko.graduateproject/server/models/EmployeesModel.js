@@ -8,7 +8,7 @@ const EmployeesSchema = new mongoose.Schema({
   serviceNumber: Number,
   positionId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "position",
+    ref: "positions",
   },
   employeeStatusId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -20,5 +20,5 @@ const EmployeesSchema = new mongoose.Schema({
   },
 });
 
-const EmployeesModel = mongoose.model("users", EmployeesSchema);
+const EmployeesModel = mongoose.model("employees", EmployeesSchema);
 module.exports = EmployeesModel;

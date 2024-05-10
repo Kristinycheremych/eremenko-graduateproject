@@ -12,10 +12,10 @@ const projectSchema = new mongoose.Schema({
   supervisorId: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users", 
+      ref: "employees", 
     },
   ],
 });
 
-const ProjectModel = mongoose.model("project", projectSchema);
+const ProjectModel = mongoose.model("projects", projectSchema);
 module.exports = ProjectModel;

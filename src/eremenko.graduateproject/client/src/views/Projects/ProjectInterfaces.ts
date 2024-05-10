@@ -15,8 +15,8 @@ export interface Employee {
   middleName: string;
   gender: String;
   serviceNumber: number;
-  position: Position;
-  employeeStatus: EmployeeStatus;
+  positionId: Position;
+  employeeStatusId: EmployeeStatus;
 }
 
 export interface ProjectStatus {

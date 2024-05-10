@@ -3,16 +3,16 @@ const mongoose = require("mongoose");
 const EmployeeProjectSchema = new mongoose.Schema({
   employeeId: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users",
+    ref: "employees",
   }],
   projectId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "project",
+    ref: "projects",
   },
 });
 
 const EmployeeProjectModel = mongoose.model(
-  "EmployeeProject",
+  "employee_project",
   EmployeeProjectSchema
 );
 module.exports = EmployeeProjectModel;
