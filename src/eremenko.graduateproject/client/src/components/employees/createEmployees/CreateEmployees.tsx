@@ -11,11 +11,11 @@ function CreateEmployees({ isOpen, onClose }: any) {
   const [middleName, setMiddleName] = useState<string>("");
   const [gender, setGender] = useState<string>("");
   const [serviceNumber, setServiceNumber] = useState<string>("");
-  const [position, setPosition] = useState<string>("");
-  const [divisions, setDivisions] = useState<string>("");
+  const [positionId, setPosition] = useState<string>("");
+  const [divisionsId, setDivisions] = useState<string>("");
   const [dataPosition, setDataPosition] = useState<any[]>([]);
   const [dataDivisions, setDataDivisions] = useState<any[]>([]);
-  const [employeeStatus, setEmployeeStatus] = useState<string>("");
+  const [employeeStatusId, setEmployeeStatus] = useState<string>("");
   const [dataEmployeeStatus, setDataEmployeeStatus] = useState<any[]>([]);
 
   useEffect(() => {
@@ -54,9 +54,9 @@ function CreateEmployees({ isOpen, onClose }: any) {
         middleName,
         serviceNumber,
         gender,
-        position,
-        employeeStatus,
-        divisions,
+        positionId,
+        employeeStatusId,
+        divisionsId,
       });
       window.location.reload();
     } catch (error) {
@@ -220,7 +220,7 @@ function CreateEmployees({ isOpen, onClose }: any) {
                                 type="radio"
                                 name="employeeStatus"
                                 value={status._id}
-                                checked={employeeStatus === status._id}
+                                checked={employeeStatusId === status._id}
                                 onChange={() => setEmployeeStatus(status._id)}
                               />
                               {status.title}

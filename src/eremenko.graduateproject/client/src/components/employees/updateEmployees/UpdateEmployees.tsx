@@ -39,18 +39,18 @@ function UpdateEmployees({ isOpen, onClose, employeeId }: any) {
           middleName,
           gender,
           serviceNumber,
-          position,
-          divisions,
-          employeeStatus,
+          positionId,
+          divisionsId,
+          employeeStatusId,
         } = response.data;
         setLastName(lastName);
         setFirstName(firstName);
         setMiddleName(middleName);
         setGender(gender);
         setServiceNumber(serviceNumber);
-        setPosition({ value: position._id, label: position.title });
-        setDivisions({ value: divisions._id, label: divisions.title });
-        setEmployeeStatusId(employeeStatus._id);
+        setPosition({ value: positionId._id, label: positionId.title });
+        setDivisions({ value: divisionsId._id, label: divisionsId.title });
+        setEmployeeStatusId(employeeStatusId._id);
       } catch (err) {
         console.log(err);
       }

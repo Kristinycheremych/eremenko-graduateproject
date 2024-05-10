@@ -5,15 +5,15 @@ export interface Employee {
   middleName: string;
   gender: string;
   serviceNumber: number;
-  position: {
+  positionId: {
     _id: string;
     title: string;
   };
-  employeeStatus: {
+  employeeStatusId: {
     _id: string;
     title: string;
   };
-  divisions: {
+  divisionsId: {
     _id: string;
     code: number;
     title: string;

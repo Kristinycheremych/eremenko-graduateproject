@@ -254,7 +254,7 @@ const StageDetailsPage: React.FC = () => {
           </div>
           <div className={"containet_btn_add"}>
             <button className={"btn_add"} onClick={handleAdd}>
-              + Добавить задачу
+              Добавить задачу
             </button>
           </div>
         </div>

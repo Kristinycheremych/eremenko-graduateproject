@@ -6,15 +6,15 @@ const EmployeesSchema = new mongoose.Schema({
   middleName: String,
   gender: String,
   serviceNumber: Number,
-  position: {
+  positionId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "position",
   },
-  employeeStatus: {
+  employeeStatusId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "employee_status",
   },
-  divisions: {
+  divisionsId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "divisions",
   },

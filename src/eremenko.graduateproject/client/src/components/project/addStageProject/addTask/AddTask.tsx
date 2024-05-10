@@ -74,7 +74,6 @@ function AddTaskPage({ isOpen, onClose }: any) {
     }
   };
 
-
   return (
     <>
       {isOpen && (

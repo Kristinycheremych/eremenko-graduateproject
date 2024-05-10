@@ -33,7 +33,7 @@ function EmployeesPage() {
       let filteredData = data;
       if (filter !== "") {
         filteredData = filteredData.filter(
-          (user) => user.position && user.position.title === filter
+          (user) => user.positionId && user.positionId.title === filter
         );
       }
       if (searchQuery !== "") {
@@ -153,13 +153,13 @@ function EmployeesPage() {
                   <td>{user.firstName}</td>
                   <td>{user.middleName}</td>
                   <td>{user.serviceNumber}</td>
-                  <td>{user.position ? user.position.title : "Нет данных"}</td>
+                  <td>{user.positionId ? user.positionId.title : "Нет данных"}</td>
                   <td>
-                    {user.divisions ? user.divisions.title : "Нет данных"}
+                    {user.divisionsId ? user.divisionsId.title : "Нет данных"}
                   </td>
                   <td>
-                    {user.employeeStatus
-                      ? user.employeeStatus.title
+                    {user.employeeStatusId
+                      ? user.employeeStatusId.title
                       : "Нет данных"}
                   </td>
                   <td>
