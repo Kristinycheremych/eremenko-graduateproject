@@ -85,3 +85,19 @@ main {
 .icon {
   font-size: 20px;
 }
+.container-exit {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: var(--accent);
+  height: 48px;
+}
+
+.container-exit p {
+  color: var(--white);
+  padding: 13px 0 0 13px;
+}
+
+.icon-exit{
+  display: flex;
+}

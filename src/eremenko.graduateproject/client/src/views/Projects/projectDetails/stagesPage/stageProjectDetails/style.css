@@ -4,13 +4,13 @@
   padding: 16px;
   margin: 0 auto;
   overflow-y: auto;
-  max-width: 1890px;
+  max-width: 1630px;
 }
 
-/* .stages::-webkit-scrollbar {
+.stages::-webkit-scrollbar {
   width: 0;
   height: 0; 
-} */
+}
 
 .stage {
   flex: 1;
@@ -46,8 +46,8 @@
 
 /* Стили для скрытия полосы прокрутки */
 .container_task_content::-webkit-scrollbar {
-  width: 0; /* Ширина полосы прокрутки */
-  height: 0; /* Высота полосы прокрутки */
+  width: 0; 
+  height: 0; 
 }
 
 .task_content {

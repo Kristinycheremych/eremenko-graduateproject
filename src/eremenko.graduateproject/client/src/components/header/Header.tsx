@@ -41,17 +41,6 @@ function Header() {
   return (
       <div className="menu">
         <ul>
-          <li
-            className={
-              activeMenu === `/projectsPage/projectDetails/${projectId}`
-                ? "active"
-                : ""
-            }
-          >
-            <Link to={`/projectsPage/projectDetails/${projectId}`}>
-              О проекте
-            </Link>
-          </li>
           <li className={activeMenu === "/" ? "active" : ""}>
             <Link to={""}>Документы</Link>
           </li>

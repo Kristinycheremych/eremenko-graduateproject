@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const authRoutes = require("./routes/AuthRoutes");
 const employeesRoutes = require("./routes/EmployeesRoutes");
 const taskStatusesRoutes = require("./routes/TaskStatusesRoutes");
 const projectStatusesRoutes = require("./routes/ProjectStatusesRoutes");
@@ -32,6 +33,7 @@ mongoose
   .catch((error) => console.log(error));
 
 // Подключаем роуты
+app.use('/auth', authRoutes);
 app.use("/", divisionsRoutes);
 app.use("/", employeeProjectRoutes);
 app.use("/", employeesRoutes);

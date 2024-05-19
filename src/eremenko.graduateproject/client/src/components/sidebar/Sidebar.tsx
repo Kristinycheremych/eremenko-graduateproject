@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { menuItems } from "./DataSidebar";
 import { Link, NavLink } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
+import { RxExit } from "react-icons/rx";
 import "./sidebar_style.css";
 
 function Sidebar({ children }: any) {
-  const [isOpen, setIsOpen] = useState(false);
-  
+  const [isOpen, setIsOpen] = useState(true);
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -30,7 +31,7 @@ function Sidebar({ children }: any) {
             </Link>
             <div className="profile">
               <p style={{ display: isOpen ? "block" : "none" }}>
-                Еременко Кристина
+              
               </p>
             </div>
             <div
@@ -40,7 +41,7 @@ function Sidebar({ children }: any) {
               <FiMenu onClick={toggle} />
             </div>
           </div>
-          <div className="sub_link"> 
+          <div className="sub_link">
             {menuItems.map((item, index) => (
               <NavLink
                 to={item.path}
@@ -58,6 +59,17 @@ function Sidebar({ children }: any) {
                 </div>
               </NavLink>
             ))}
+          </div>
+          <div className="container-exit">
+            <Link to={"/"}>
+              <div className="icon-exit">
+                <p>
+                  {" "}
+                  <RxExit />
+                </p>
+                <p style={{ display: isOpen ? "block" : "none" }}>Выйти</p>
+              </div>
+            </Link>
           </div>
         </div>
         <main>{children}</main>

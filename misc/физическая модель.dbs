@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MongoDb" id="MongoDb-2c9" database="MongoDb" >
+	<schema name="Project_Management" >
+		<table name="divisions" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="title" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="code" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="employee_projects" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="employeeId" type="array[objectid]" length="800" decimal="0" jt="2003" mandatory="y" />
+			<column name="projectId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Relationship" to_schema="Project_Management" to_table="employees" >
+				<fk_column name="employeeId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="projects" >
+				<fk_column name="projectId" pk="_id" />
+			</fk>
+		</table>
+		<table name="employee_statuses" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="title" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="employees" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="lastName" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="firstName" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="middleName" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="gender" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="serviceNumber" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="positionId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="employeeStatusId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="divisionsId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Relationship" to_schema="Project_Management" to_table="divisions" >
+				<fk_column name="divisionsId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="employee_statuses" >
+				<fk_column name="employeeStatusId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="positions" >
+				<fk_column name="positionId" pk="_id" />
+			</fk>
+		</table>
+		<table name="executor_tasks" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="employeeId" type="array[objectid]" length="800" decimal="0" jt="2003" mandatory="y" />
+			<column name="taskId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="startDate" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<column name="endDate" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Relationship" to_schema="Project_Management" to_table="employees" >
+				<fk_column name="employeeId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="tasks" >
+				<fk_column name="taskId" pk="_id" />
+			</fk>
+		</table>
+		<table name="positions" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="title" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="project_statuses" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="title" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="projects" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="title" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="description" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="startDate" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<column name="endDate" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<column name="statusProjectId" type="object" length="800" decimal="0" jt="4999544" mandatory="y" />
+			<column name="supervisorId" type="array[objectid]" length="800" decimal="0" jt="2003" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Relationship" to_schema="Project_Management" to_table="employees" >
+				<fk_column name="supervisorId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="project_statuses" >
+				<fk_column name="statusProjectId" pk="_id" />
+			</fk>
+		</table>
+		<table name="stage_projects" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="stageId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="projectId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="startDate" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<column name="endDate" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<column name="periodExecution" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Relationship" to_schema="Project_Management" to_table="projects" >
+				<fk_column name="projectId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="stages" >
+				<fk_column name="stageId" pk="_id" />
+			</fk>
+		</table>
+		<table name="stages" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="title" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="task_status_project_stages" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="taskStatusesId" type="array[objectid]" length="800" decimal="0" jt="2003" mandatory="y" />
+			<column name="stageProjectId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Relationship" to_schema="Project_Management" to_table="stage_projects" >
+				<fk_column name="stageProjectId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="task_statuses" >
+				<fk_column name="taskStatusesId" pk="_id" />
+			</fk>
+		</table>
+		<table name="task_statuses" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="title" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+		<table name="tasks" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="title" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="description" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="stageProjectId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="taskStatusId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="creatorId" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Relationship" to_schema="Project_Management" to_table="employees" >
+				<fk_column name="creatorId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="stage_projects" >
+				<fk_column name="stageProjectId" pk="_id" />
+			</fk>
+			<fk name="Relationship" to_schema="Project_Management" to_table="task_statuses" >
+				<fk_column name="taskStatusId" pk="_id" />
+			</fk>
+		</table>
+		<table name="users" virtual="y" >
+			<column name="_id" type="objectId" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="username" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="password" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="role" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="firstName" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="lastName" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="middleName" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="__v" type="int" length="800" decimal="0" jt="4" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<index name="username_1" unique="UNIQUE_KEY" >
+				<column name="username" />
+			</index>
+		</table>
+	</schema>
+	<layout name="Main Layout" id="Layout-1b06" show_relation="name" >
+		<entity schema="Project_Management" name="divisions" color="BED3F4" x="48" y="272" />
+		<entity schema="Project_Management" name="employee_projects" color="BED3F4" x="336" y="160" />
+		<entity schema="Project_Management" name="employee_statuses" color="BED3F4" x="160" y="48" />
+		<entity schema="Project_Management" name="employees" color="BED3F4" x="160" y="160" />
+		<entity schema="Project_Management" name="executor_tasks" color="BED3F4" x="192" y="400" />
+		<entity schema="Project_Management" name="positions" color="BED3F4" x="64" y="176" />
+		<entity schema="Project_Management" name="project_statuses" color="BED3F4" x="656" y="128" />
+		<entity schema="Project_Management" name="projects" color="BED3F4" x="496" y="144" />
+		<entity schema="Project_Management" name="stage_projects" color="BED3F4" x="496" y="352" />
+		<entity schema="Project_Management" name="stages" color="BED3F4" x="672" y="336" />
+		<entity schema="Project_Management" name="task_status_project_stages" color="BED3F4" x="496" y="560" />
+		<entity schema="Project_Management" name="task_statuses" color="BED3F4" x="368" y="592" />
+		<entity schema="Project_Management" name="tasks" color="BED3F4" x="336" y="400" />
+		<entity schema="Project_Management" name="users" color="3986C1" x="48" y="928" />
+	</layout>
+	<layout name="~Layout with Sample Tools" id="Layout-1b83" show_column_type="y" show_relation="name" >
+		<entity schema="Project_Management" name="divisions" color="BED3F4" x="704" y="96" />
+		<entity schema="Project_Management" name="employee_projects" color="BED3F4" x="64" y="688" />
+		<entity schema="Project_Management" name="employee_statuses" color="D1BEF4" x="1008" y="992" />
+		<entity schema="Project_Management" name="employees" color="F4DDBE" x="384" y="336" />
+		<entity schema="Project_Management" name="executor_tasks" color="C7F4BE" x="64" y="400" />
+		<entity schema="Project_Management" name="positions" color="C7F4BE" x="992" y="336" />
+		<entity schema="Project_Management" name="project_statuses" color="F4DDBE" x="992" y="112" />
+		<entity schema="Project_Management" name="projects" color="C7F4BE" x="384" y="688" />
+		<entity schema="Project_Management" name="stage_projects" color="D1BEF4" x="704" y="336" />
+		<entity schema="Project_Management" name="stages" color="BEBEF4" x="1008" y="688" />
+		<entity schema="Project_Management" name="task_status_project_stages" color="F4DDBE" x="48" y="80" />
+		<entity schema="Project_Management" name="task_statuses" color="BEBEF4" x="384" y="112" />
+		<entity schema="Project_Management" name="tasks" color="BED3F4" x="704" y="688" />
+		<entity schema="Project_Management" name="users" color="3986C1" x="704" y="992" />
+		<group name="divisions" color="ECF0F7" >
+			<entity schema="Project_Management" name="divisions" />
+		</group>
+		<group name="positions" color="EEF7EC" >
+			<entity schema="Project_Management" name="positions" />
+		</group>
+		<group name="project_statuses" color="F7F2EC" >
+			<entity schema="Project_Management" name="project_statuses" />
+		</group>
+		<group name="stages" color="ECECF7" >
+			<entity schema="Project_Management" name="stages" />
+		</group>
+		<group name="employee_statuses" color="F0ECF7" >
+			<entity schema="Project_Management" name="employee_statuses" />
+		</group>
+		<group name="employee_projects" color="ECF0F7" >
+			<entity schema="Project_Management" name="employee_projects" />
+		</group>
+		<group name="executor_tasks" color="EEF7EC" >
+			<entity schema="Project_Management" name="executor_tasks" />
+		</group>
+		<group name="task_status_project_stages" color="F7F2EC" >
+			<entity schema="Project_Management" name="task_status_project_stages" />
+		</group>
+		<group name="task_statuses" color="ECECF7" >
+			<entity schema="Project_Management" name="task_statuses" />
+		</group>
+		<group name="stage_projects" color="F0ECF7" >
+			<entity schema="Project_Management" name="stage_projects" />
+		</group>
+		<group name="tasks" color="ECF0F7" >
+			<entity schema="Project_Management" name="tasks" />
+		</group>
+		<group name="projects" color="EEF7EC" >
+			<entity schema="Project_Management" name="projects" />
+		</group>
+		<group name="employees" color="F7F2EC" >
+			<entity schema="Project_Management" name="employees" />
+		</group>
+		<script name="Query Editor" id="Editor-e7a" language="SQL" >
+			<string><![CDATA[Project_Management.employees.find()
+
+//OR
+
+USE Project_Management;
+db.employees.find()
+
+//OR
+
+USE Project_Management;
+db.getCollection('employees').find()]]></string>
+		</script>
+		<browser id="Browse-1888" name="Relational Data Explorer" confirm_updates="y" >
+			<browse_table schema="Project_Management" entity="employees" x="20" y="20" width="270" height="-60" record_view="y" >
+				<browse_table schema="Project_Management" entity="employee_projects" fk="Relationship" x="310" y="20" width="500" height="350" record_view="y" >
+					<browse_table schema="Project_Management" entity="projects" fk="Relationship" x="830" y="20" width="500" height="350" record_view="y" />
+				</browse_table>
+			</browse_table>
+		</browser>
+		<query id="Query-789" name="Query Builder" >
+			<query_table schema="Project_Management" name="employees" alias="employees" x="48" y="48" >
+				<column name="_id" />
+				<column name="lastName" />
+				<column name="firstName" />
+				<column name="middleName" />
+				<column name="gender" />
+				<column name="serviceNumber" />
+				<column name="positionId" />
+				<column name="employeeStatusId" />
+				<column name="divisionsId" />
+				<query_table schema="Project_Management" name="employee_projects" alias="employee_projects" x="288" y="48" fk="Relationship" type="Inner Join" >
+					<column name="_id" />
+					<column name="employeeId" />
+					<column name="projectId" />
+					<query_table schema="Project_Management" name="projects" alias="projects" x="624" y="48" fk="Relationship" type="Inner Join" >
+						<column name="_id" />
+						<column name="title" />
+						<column name="description" />
+						<column name="startDate" />
+						<column name="endDate" />
+						<column name="statusProjectId" />
+						<column name="supervisorId" />
+					</query_table>
+				</query_table>
+			</query_table>
+		</query>
+		<form name="Report" id="Report-c7a" template="Page" css="container-fluid" view="frame" >
+			<var name="samplePageNumber" type="4" value="0" mandatory="n" />
+			<var name="sampleRecordsPerPage" type="4" value="100" mandatory="n" />
+			<body name="Body" template="Grid" max_records="100" pos="0,0,0,0,f,f" layout="{{-2,-2,-2,-2,-1},{-2,-2,-2,-2}}" generate_path="y" scroll="n" html="n" header_rows="0" footer_rows="0" >
+				<cell type="label" name="Employees Data" template="H3" pos="0,0,1,0,l,c" />
+				<cell type="chart" name="Pie" template="Pie" pos="0,1,4,1,l,c" max_records="20" generate_path="y" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="_id" type="-8" />
+						<var name="lastName" />
+						<var name="firstName" />
+						<var name="middleName" />
+						<var name="gender" />
+						<var name="serviceNumber" type="4" />
+						<var name="positionId" type="-8" />
+						<var name="employeeStatusId" type="-8" />
+						<var name="divisionsId" type="-8" />
+						<var name="__v" type="4" />
+						<script ><![CDATA[Project_Management.employees.find()]]></script>
+					</form_script>
+					<param name="item" value="gender" />
+					<param name="width" value="100%" />
+					<param name="title" value="Sample Chart" />
+					<param name="value" value="__v" />
+					<param name="height" value="400px" />
+				</cell>
+				<tableview name="sample" template="Table" max_records="100" css="sortable table table-striped table-sm table-hover" pos="0,2,4,2,f,f" layout="{{-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2},{-2,-2}}" generate_path="y" scroll="n" html="n" header_rows="1" footer_rows="0" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="_id" type="-8" />
+						<var name="lastName" />
+						<var name="firstName" />
+						<var name="middleName" />
+						<var name="gender" />
+						<var name="serviceNumber" type="4" />
+						<var name="positionId" type="-8" />
+						<var name="employeeStatusId" type="-8" />
+						<var name="divisionsId" type="-8" />
+						<var name="__v" type="4" />
+						<script ><![CDATA[Project_Management.employees.find()]]></script>
+					</form_script>
+					<cell type="label" name="_id" pos="0,0,0,0,c,c" />
+					<cell type="label" name="lastName" pos="1,0,1,0,c,c" />
+					<cell type="label" name="firstName" pos="2,0,2,0,c,c" />
+					<cell type="label" name="middleName" pos="3,0,3,0,c,c" />
+					<cell type="label" name="gender" pos="4,0,4,0,c,c" />
+					<cell type="label" name="serviceNumber" pos="5,0,5,0,c,c" />
+					<cell type="label" name="positionId" pos="6,0,6,0,c,c" />
+					<cell type="label" name="employeeStatusId" pos="7,0,7,0,c,c" />
+					<cell type="label" name="divisionsId" pos="8,0,8,0,c,c" />
+					<cell type="label" name="__v" pos="9,0,9,0,c,c" />
+					<cell type="label" name="${_id}" template="Plain" pos="0,1,0,1,l,c" />
+					<cell type="label" name="${lastName}" template="Plain" pos="1,1,1,1,l,c" />
+					<cell type="label" name="${firstName}" template="Plain" pos="2,1,2,1,l,c" />
+					<cell type="label" name="${middleName}" template="Plain" pos="3,1,3,1,l,c" />
+					<cell type="label" name="${gender}" template="Plain" pos="4,1,4,1,l,c" />
+					<cell type="label" name="${serviceNumber}" template="Plain" pos="5,1,5,1,l,c" />
+					<cell type="label" name="${positionId}" template="Plain" pos="6,1,6,1,l,c" />
+					<cell type="label" name="${employeeStatusId}" template="Plain" pos="7,1,7,1,l,c" />
+					<cell type="label" name="${divisionsId}" template="Plain" pos="8,1,8,1,l,c" />
+					<cell type="label" name="${__v}" template="Plain" pos="9,1,9,1,l,c" />
+					<cell type="button" name="More" template="Plain" css="btn btn-sm btn-secondary" pos="10,1,10,1,c,c" ref_id="Report-c7a" />
+				</tableview>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="0,3,0,3,l,c" glyph="bi-chevron_double_left" ref_id="Report-c7a" >
+					<var name="samplePageNumber" value="0" />
+				</cell>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="1,3,1,3,l,c" glyph="bi-chevron_left" ref_id="Report-c7a" >
+					<var name="samplePageNumber" value="${Math.max(0,samplePageNumber-1)}" />
+				</cell>
+				<cell type="label" name="Page ${samplePageNumber+1}" pos="2,3,2,3,l,c" />
+				<cell type="href" name="" disabled="${!sampleHasNextPage}" pos="3,3,3,3,l,c" glyph="bi-chevron_right" ref_id="Report-c7a" >
+					<var name="samplePageNumber" value="${( samplePageNumber+1 )}" />
+				</cell>
+			</body>
+		</form>
+	</layout>
+</project>

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Sidebar from "../../components/sidebar/Sidebar";
+import { menuItems } from "../../components/sidebar/DataSidebar";
 import axios from "axios";
 import { MdArrowBackIos } from "react-icons/md";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
@@ -93,116 +95,123 @@ function EmployeesPage() {
   };
   return (
     <>
-      <div className="header">
-        <div className="divArrowBackIos">
-          <MdArrowBackIos className="MdArrowBackIos" />
+      <Sidebar items={menuItems}>
+        <div className="header">
+          <div className="divArrowBackIos">
+            <MdArrowBackIos className="MdArrowBackIos" />
+          </div>
+          <p>Сотрудники</p>
         </div>
-        <p>Сотрудники</p>
-      </div>
-      <div className={"container"}>
-        <div className={"container_search_filter"}>
-          <div className={"div_input_search"}>
-            <input
-              type="text"
-              className={"input_search"}
-              placeholder="Поиск"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
+        <div className={"container"}>
+          <div className={"container_search_filter"}>
+            <div className={"div_input_search"}>
+              <input
+                type="text"
+                className={"input_search"}
+                placeholder="Поиск"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
 
-          <div className={"div_filter"}>
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className={"filter"}
-            >
-              <option value="">Все</option>
-              <option value="Программист">Программист</option>
-              <option value="Дизайнер">Дизайнер</option>
-            </select>
-          </div>
+            <div className={"div_filter"}>
+              <select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                className={"filter"}
+              >
+                <option value="">Все</option>
+                <option value="Программист">Программист</option>
+                <option value="Дизайнер">Дизайнер</option>
+              </select>
+            </div>
 
-          <div className={"containet_btn_add"}>
-            {/* Добавляем обработчик нажатия на кнопку "Добавить" */}
-            <button className={"btn_add"} onClick={handleAddEmployee}>
-              Добавить
-            </button>
+            <div className={"containet_btn_add"}>
+              {/* Добавляем обработчик нажатия на кнопку "Добавить" */}
+              <button className={"btn_add"} onClick={handleAddEmployee}>
+                Добавить
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="table_user">
-          <table>
-            <thead>
-              <tr>
-                <th>№</th>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Отчество</th>
-                <th>Табельный номер</th>
-                <th>Должность</th>
-                <th>Подразделения</th>
-                <th>Статус</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredEmployees.map((user, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{user.lastName}</td>
-                  <td>{user.firstName}</td>
-                  <td>{user.middleName}</td>
-                  <td>{user.serviceNumber}</td>
-                  <td>{user.positionId ? user.positionId.title : "Нет данных"}</td>
-                  <td>
-                    {user.divisionsId ? user.divisionsId.title : "Нет данных"}
-                  </td>
-                  <td>
-                    {user.employeeStatusId
-                      ? user.employeeStatusId.title
-                      : "Нет данных"}
-                  </td>
-                  <td>
-                    <HiEllipsisHorizontal
-                      className="HiEllipsisHorizontal"
-                      onClick={() => togglePopover(user._id)}
-                    />
-                    {openPopoverId === user._id && (
-                      <div className="popover-content">
-                        <div className="div-popover-content">
-                          <div
-                            onClick={() => handleDelete(user._id)}
-                            className="div_delete"
-                          >
-                            <p>Удалить</p>
-                          </div>
-
-                          <div>
+          <div className="table_user">
+            <table>
+              <thead>
+                <tr>
+                  <th>№</th>
+                  <th>Фамилия</th>
+                  <th>Имя</th>
+                  <th>Отчество</th>
+                  <th>Табельный номер</th>
+                  <th>Должность</th>
+                  <th>Подразделения</th>
+                  <th>Статус</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredEmployees.map((user, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.middleName}</td>
+                    <td>{user.serviceNumber}</td>
+                    <td>
+                      {user.positionId ? user.positionId.title : "Нет данных"}
+                    </td>
+                    <td>
+                      {user.divisionsId ? user.divisionsId.title : "Нет данных"}
+                    </td>
+                    <td>
+                      {user.employeeStatusId
+                        ? user.employeeStatusId.title
+                        : "Нет данных"}
+                    </td>
+                    <td>
+                      <HiEllipsisHorizontal
+                        className="HiEllipsisHorizontal"
+                        onClick={() => togglePopover(user._id)}
+                      />
+                      {openPopoverId === user._id && (
+                        <div className="popover-content">
+                          <div className="div-popover-content">
                             <div
-                              onClick={() => handleEdit(user._id)}
-                              className="div_edit"
+                              onClick={() => handleDelete(user._id)}
+                              className="div_delete"
                             >
-                              <p>Редактировать</p>
+                              <p>Удалить</p>
+                            </div>
+
+                            <div>
+                              <div
+                                onClick={() => handleEdit(user._id)}
+                                className="div_edit"
+                              >
+                                <p>Редактировать</p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-      {/* Модальное окно для добавления сотрудника */}
-      <CreateEmployees isOpen={isAddModalOpen} onClose={handleCloseAddModal} />
-      {/* Модальное окно для редактирования сотрудника */}
-      <UpdateEmployees
-        isOpen={isEditModalOpen}
-        onClose={handleCloseEditModal}
-        employeeId={selectedEmployeeId} 
-      />
+        {/* Модальное окно для добавления сотрудника */}
+        <CreateEmployees
+          isOpen={isAddModalOpen}
+          onClose={handleCloseAddModal}
+        />
+        {/* Модальное окно для редактирования сотрудника */}
+        <UpdateEmployees
+          isOpen={isEditModalOpen}
+          onClose={handleCloseEditModal}
+          employeeId={selectedEmployeeId}
+        />
+      </Sidebar>
     </>
   );
 }
