@@ -1,0 +1,68 @@
+[{
+  "_id": {
+    "$oid": "6649ea51600c9016b81a506f"
+  },
+  "title": "Отрисовать страницу \"Сотрудники\"",
+  "description": "Информация о сотрудниках",
+  "stageProjectId": {
+    "$oid": "6649ea20600c9016b81a5023"
+  },
+  "taskStatusId": {
+    "$oid": "6649e937db64d0a4cae6e6a9"
+  },
+  "creatorId": {
+    "$oid": "6649e71a600c9016b81a4df8"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6649ea7a600c9016b81a50ab"
+  },
+  "title": "Отрисовать страницу \"Проекты\"",
+  "description": "Информация о проектах",
+  "stageProjectId": {
+    "$oid": "6649ea20600c9016b81a5023"
+  },
+  "taskStatusId": {
+    "$oid": "6649e937db64d0a4cae6e6a9"
+  },
+  "creatorId": {
+    "$oid": "6649e71a600c9016b81a4df8"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6649eacb600c9016b81a50f9"
+  },
+  "title": "Отрисовать окно добавления сотрудника",
+  "description": "Форма добавления сотрудника",
+  "stageProjectId": {
+    "$oid": "6649ea20600c9016b81a5023"
+  },
+  "taskStatusId": {
+    "$oid": "6649e937db64d0a4cae6e6a9"
+  },
+  "creatorId": {
+    "$oid": "6649e71a600c9016b81a4df8"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6649eb0f600c9016b81a5135"
+  },
+  "title": "Отрисовать страницу \"Этап проекта\"",
+  "description": "Отрисовать страницу канбан доски конкретного этапа",
+  "stageProjectId": {
+    "$oid": "6649ea20600c9016b81a5023"
+  },
+  "taskStatusId": {
+    "$oid": "6649e924db64d0a4cae6e6a8"
+  },
+  "creatorId": {
+    "$oid": "6649e71a600c9016b81a4df8"
+  },
+  "__v": 0
+}]

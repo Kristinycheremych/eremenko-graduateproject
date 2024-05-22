@@ -290,7 +290,7 @@ const StageDetailsPage: React.FC = () => {
                               />
                             </div>
                           </div>
-                          <div className="task_content_description">
+                          <div className="task_content_description description">
                             <p>{executorTask.taskId.description}</p>
                           </div>
                           <div className="task_content_date">

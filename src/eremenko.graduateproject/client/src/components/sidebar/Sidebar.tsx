@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import { menuItems } from "./DataSidebar";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { RxExit } from "react-icons/rx";
 import "./sidebar_style.css";
 
 function Sidebar({ children }: any) {
   const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate();
 
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleExitClick = (e: any) => {
+    e.preventDefault();
+    const userConfirmed = window.confirm("Вы действительно хотите выйти?");
+    if (userConfirmed) {
+      navigate("/");
+    }
+  };
+
   const activeStyle = {
     background: "#196FAD",
     color: "white",
@@ -30,9 +40,7 @@ function Sidebar({ children }: any) {
               </p>
             </Link>
             <div className="profile">
-              <p style={{ display: isOpen ? "block" : "none" }}>
-              
-              </p>
+              <p style={{ display: isOpen ? "block" : "none" }}></p>
             </div>
             <div
               style={{ marginLeft: isOpen ? "150px" : "0px" }}
@@ -61,15 +69,14 @@ function Sidebar({ children }: any) {
             ))}
           </div>
           <div className="container-exit">
-            <Link to={"/"}>
+            <a href="/" onClick={handleExitClick}>
               <div className="icon-exit">
                 <p>
-                  {" "}
                   <RxExit />
                 </p>
                 <p style={{ display: isOpen ? "block" : "none" }}>Выйти</p>
               </div>
-            </Link>
+            </a>
           </div>
         </div>
         <main>{children}</main>
@@ -77,4 +84,5 @@ function Sidebar({ children }: any) {
     </>
   );
 }
+
 export default Sidebar;

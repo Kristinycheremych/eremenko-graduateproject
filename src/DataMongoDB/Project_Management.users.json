@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "6649ed04600c9016b81a52c4"
+  },
+  "username": "Kerem",
+  "password": "Kerem-2003",
+  "role": "developer",
+  "firstName": "Кристина",
+  "lastName": "Еременко",
+  "middleName": "Юрьевна",
+  "__v": 0
+}]
