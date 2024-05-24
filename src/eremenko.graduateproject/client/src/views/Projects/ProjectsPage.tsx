@@ -169,15 +169,13 @@ const ProjectsPage: React.FC = () => {
                       </td>
                       <td>{project.projectId.statusProjectId.title}</td>
                       <td>
-                        {project.projectId.supervisorId
-                          .map((employee) => {
-                            return `${
-                              employee.lastName
-                            } ${employee.firstName.charAt(
-                              0
-                            )}. ${employee.middleName.charAt(0)}.`;
-                          })
-                          .join(", ")}
+                        {project.projectId.supervisorId.map((employee) => {
+                          return `${
+                            employee.lastName
+                          } ${employee.firstName.charAt(
+                            0
+                          )}. ${employee.middleName.charAt(0)}.`;
+                        })}
                       </td>
                       <td>
                         <div className="avatar-container">

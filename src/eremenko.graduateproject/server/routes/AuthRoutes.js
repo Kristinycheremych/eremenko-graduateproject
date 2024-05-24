@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/UserModel");
+const bcrypt = require("bcryptjs");
 
 router.post("/register", async (req, res) => {
   const { username, password, firstName, lastName, middleName } = req.body;
@@ -9,13 +10,15 @@ router.post("/register", async (req, res) => {
     // Проверка, не существует ли уже пользователь с таким именем
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ message: "Пользователь уже существует" });
+      console.error("Пользователь уже существует");
     }
 
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
     // Создание нового пользователя с ролью разработчика
     const newUser = new User({
       username,
-      password,
+      password: hash,
       role: "developer",
       firstName,
       lastName,
@@ -28,7 +31,6 @@ router.post("/register", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Ошибка сервера" });
   }
 });
 
@@ -41,22 +43,27 @@ router.post("/login", async (req, res) => {
       return res.json({ username: "admin", role: "admin" });
     }
 
-    // Проверяем, существует ли пользователь с переданным логином и паролем
-    const user = await User.findOne({ username, password });
+    // Проверяем, существует ли пользователь с переданным логином
+    const user = await User.findOne({ username });
     if (!user) {
-      return res.status(401).json({ message: "Invalid username or password" });
+      console.error("Неверное имя пользователя или пароль");
     }
 
+    // Проверяем, соответствует ли введенный пароль хэшированному паролю в базе данных
+    const hash = bcrypt.compareSync(password, user.password);
+    if (!hash) {
+      console.error("Неверное имя пользователя или пароль");
+    }
+    
     // Проверяем, является ли найденный пользователь разработчиком
     if (user.role !== "developer") {
-      return res.status(403).json({ message: "Access forbidden" });
+      console.error("Доступ запрещен");
     }
 
     // Если пользователь аутентифицирован успешно, отправляем информацию о пользователе
     res.json({ username: user.username, role: user.role });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Ошибка сервера");
   }
 });
 

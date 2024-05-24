@@ -6,8 +6,8 @@ import ProjectsPage from "./views/projects/ProjectsPage";
 import ParticipantsPage from "./views/projects/projectDetails/participantsPage/ParticipantsPage";
 import StagesPage from "./views/projects/projectDetails/stagesPage/StagesPage";
 import StageDetailsProject from "./views/projects/projectDetails/stagesPage/stageProjectDetails/StageDetailsProject";
-import Login from "./views/auth/Login";
-import Register from "./views/auth/Register";
+import Login from "./views/auth/login/Login";
+import Register from "./views/auth/register/Register";
 
 function App() {
   return (

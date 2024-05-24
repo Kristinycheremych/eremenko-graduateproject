@@ -7,10 +7,10 @@
   max-width: 1630px;
 }
 
-.stages::-webkit-scrollbar {
+/* .stages::-webkit-scrollbar {
   width: 0;
   height: 0; 
-}
+} */
 
 .stage {
   flex: 1;

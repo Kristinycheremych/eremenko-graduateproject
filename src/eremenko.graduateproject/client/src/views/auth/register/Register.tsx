@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { ErrorState } from "./AuthInterface";
+import { ErrorState } from "../AuthInterface";
 
 const URL = process.env.REACT_APP_URL;
 
@@ -40,7 +40,7 @@ const Register: React.FC = () => {
       });
 
       console.log(response.data);
-      navigate("/projectsPage");
+      navigate("/");
     } catch (error) {
       if (error) {
         setUserExistsError(true); // Устанавливаем переменную состояния, чтобы показать сообщение о существующем пользователе
