@@ -3,11 +3,10 @@ const mongoose = require("mongoose");
 const StageProjectSchema = new mongoose.Schema({
   stageId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "stages", // ссылка на модель статусов проектов
+    ref: "stages",
   },
   projectId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "projects",
+   
   },
   startDate: Date,
   endDate: Date,

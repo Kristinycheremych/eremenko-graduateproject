@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 
 router.post("/register", async (req, res) => {
   const { username, password, firstName, lastName, middleName } = req.body;
-
   try {
     // Проверка, не существует ли уже пользователь с таким именем
     const existingUser = await User.findOne({ username });

@@ -26,7 +26,6 @@ app.use(cors());
 // Парсинг JSON-тела запроса
 app.use(express.json());
 
-// Подключаемся к базе данных MongoDB
 mongoose
   .connect("mongodb://localhost:27017/Project_Management")
   .then((db) => console.log("База данных подключена"))
@@ -48,7 +47,6 @@ app.use("/", taskStatusesRoutes);
 app.use("/", taskStatusProjectStageRoutes);
 
 
-// Слушаем порт 3001
 app.listen(`${PORT}`, () => {
   console.log("Сервер запущен");
 });

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import "./LoginStyles.css";
+import "../AuthStyles.css";
 
 const URL = process.env.REACT_APP_URL;
 
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
             onChange={(e) => {
               setUsername(e.target.value);
               setErrors((prevErrors) => ({
-                ...prevErrors,
+                ...prevErrors, //включает все существующие ошибки из предыдущего состояния prevErrors
                 username: e.target.value ? "" : "Введите логин",
               }));
             }}

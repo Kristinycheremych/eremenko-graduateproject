@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./styleHeader.css";
-import {EmployeeProject} from '../../views/projects/ProjectInterfaces';
+import { EmployeeProject } from "../../views/projects/ProjectInterfaces";
 
 const URL = process.env.REACT_APP_URL;
 
@@ -17,9 +17,7 @@ function Header() {
   useEffect(() => {
     if (projectId) {
       axios
-        .get<EmployeeProject>(
-          `${URL}/employeeProject/${projectId}`
-        )
+        .get<EmployeeProject>(`${URL}/employeeProject/${projectId}`)
         .then((response) => {
           setProject(response.data);
         })
@@ -39,39 +37,39 @@ function Header() {
   }
 
   return (
-      <div className="menu">
-        <ul>
-          <li className={activeMenu === "/" ? "active" : ""}>
-            <Link to={""}>Документы</Link>
-          </li>
-          <li
-            className={
-              activeMenu ===
-              `/projectsPage/projectDetails/${projectId}/participants`
-                ? "active"
-                : ""
-            }
+    <div className="menu">
+      <ul>
+        <li
+          className={
+            activeMenu ===
+            `/projectsPage/stageDetails/${projectId}/${project.projectId._id}/stages`
+              ? "active"
+              : ""
+          }
+        >
+          <Link
+            to={`/projectsPage/stageDetails/${projectId}/${project.projectId._id}/stages`}
           >
-            <Link to={`/projectsPage/projectDetails/${projectId}/participants`}>
-              Участники
-            </Link>
-          </li>
-          <li
-            className={
-              activeMenu ===
-              `/projectsPage/stageDetails/${projectId}/${project.projectId._id}/stages`
-                ? "active"
-                : ""
-            }
-          >
-            <Link
-              to={`/projectsPage/stageDetails/${projectId}/${project.projectId._id}/stages`}
-            >
-              Этапы
-            </Link>
-          </li>
-        </ul>
-      </div>
+            Этапы
+          </Link>
+        </li>
+        <li
+          className={
+            activeMenu ===
+            `/projectsPage/projectDetails/${projectId}/participants`
+              ? "active"
+              : ""
+          }
+        >
+          <Link to={`/projectsPage/projectDetails/${projectId}/participants`}>
+            Участники
+          </Link>
+        </li>
+        <li className={activeMenu === "/" ? "active" : ""}>
+          <Link to={""}>Документы</Link>
+        </li>
+      </ul>
+    </div>
   );
 }
 

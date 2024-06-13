@@ -215,7 +215,7 @@ const ProjectsPage: React.FC = () => {
                             <div className="div-popover-content">
                               <div className="div_edit">
                                 <Link
-                                  to={`/projectsPage/projectDetails/${project._id}/participants`}
+                                  to={`/projectsPage/stageDetails/${project._id}/${project.projectId._id}/stages`}
                                 >
                                   <p>Подробнее</p>
                                 </Link>

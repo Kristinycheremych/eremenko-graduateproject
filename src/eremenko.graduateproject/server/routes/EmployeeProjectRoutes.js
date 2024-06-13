@@ -24,9 +24,8 @@ router.get("/get/employeeProject", async (req, res) => {
         populate: { path: "supervisorId" },
       });
     res.json(employeeProjects);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера" });
+  } catch (error) {
+    console.error(error, "Ошибка сервера");
   }
 });
 
@@ -50,16 +49,11 @@ router.get("/employeeProject/:id", async (req, res) => {
         populate: { path: "supervisorId" },
       });
     if (!employeeProject) {
-      return res
-        .status(404)
-        .json({ message: "Связь сотрудника и проекта не найдена" });
+      console.res("Связь сотрудника и проекта не найдена");
     }
     res.json(employeeProject);
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .json({ message: "Ошибка при получении связи сотрудника и проекта" });
+  } catch (error) {
+    console.error(error, "Ошибка при получении связи сотрудника и проекта");
   }
 });
 
@@ -98,15 +92,10 @@ router.post("/addProjectWithEmployee", async (req, res) => {
 
     // Сохраняем запись в промежуточной таблице
     await employeeProject.save();
-
-    res.status(201).json({
-      message:
-        "Проект успешно добавлен, и сотрудник успешно добавлен к проекту",
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера" });
+  } catch (error) {
+    console.error(error, "Ошибка сервера");
   }
+  
 });
 // Редактирование связи сотрудника и проекта по уникальному идентификатору
 router.put("/update/employeeProject/:id", async (req, res) => {
@@ -126,7 +115,7 @@ router.put("/update/employeeProject/:id", async (req, res) => {
     // Проверяем существование проекта по ID
     const existingProject = await ProjectModel.findById(projectId);
     if (!existingProject) {
-      return res.status(404).json({ message: "Проект не найден" });
+      return res.json({ message: "Проект не найден" });
     }
 
     // Обновляем данные проекта
@@ -149,8 +138,7 @@ router.put("/update/employeeProject/:id", async (req, res) => {
 
     res.json({ message: "Проект успешно обновлен" });
   } catch (error) {
-    console.error("Ошибка:", error);
-    res.status(500).json({ message: "Ошибка сервера" });
+    console.error("Ошибка сервера:", error);
   }
 });
 
@@ -161,16 +149,12 @@ router.delete("/employeeProject/:id", async (req, res) => {
       req.params.id
     );
     if (!deletedEmployeeProject) {
-      return res
-        .status(404)
-        .json({ message: "Связь сотрудника и проекта не найдена" });
+      return res.json({ message: "Связь сотрудника и проекта не найдена" });
     }
     res.json({ message: "Связь сотрудника и проекта успешно удалена" });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ message: "Ошибка при удалении связи сотрудника и проекта" });
+    res.json({ message: "Ошибка при удалении связи сотрудника и проекта" });
   }
 });
 

@@ -17,9 +17,8 @@ router.get("/get/taskStatusProjectStage", async (req, res) => {
         populate: { path: "projectId" },
       });
     res.json(taskStatusProjectStage);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера" });
+  } catch (error) {
+    console.error(error, "Ошибка сервера");
   }
 });
 
@@ -27,7 +26,9 @@ router.get("/get/taskStatusProjectStage", async (req, res) => {
 router.get("/get/taskStatusProjectStage/:projectId", async (req, res) => {
   try {
     const projectId = req.params.projectId;
-    const taskStatusProjectStage = await TaskStatusProjectStageModel.find({ "stageProjectId.projectId._id": projectId })
+    const taskStatusProjectStage = await TaskStatusProjectStageModel.find({
+      "stageProjectId.projectId._id": projectId,
+    })
       .populate("taskStatusesId")
       .populate({
         path: "stageProjectId",
@@ -38,12 +39,10 @@ router.get("/get/taskStatusProjectStage/:projectId", async (req, res) => {
         populate: { path: "projectId" },
       });
     res.json(taskStatusProjectStage);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера" });
+  } catch (error) {
+    console.error(error, "Ошибка сервера");
   }
 });
-
 
 // Добавление новой связи сотрудника и проекта
 router.post("/addTaskStatusProjectStage", async (req, res) => {
@@ -74,26 +73,28 @@ router.post("/addTaskStatusProjectStage", async (req, res) => {
 
     await taskStatusProjectStage.save();
 
-    res.status(201).json({
+    res.json({
       message: "Связь сотрудника и проекта успешно добавлена",
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера при добавлении связи сотрудника и проекта" });
+  } catch (error) {
+    console.error(
+      error,
+      "Ошибка сервера при добавлении связи сотрудника и проекта"
+    );
   }
 });
 
 // Удаление связи сотрудника и проекта по уникальному идентификатору
 router.delete("/taskStatusProjectStage/:id", async (req, res) => {
   try {
-    const deletedTaskStatusProjectStage = await TaskStatusProjectStageModel.findByIdAndDelete(req.params.id);
+    const deletedTaskStatusProjectStage =
+      await TaskStatusProjectStageModel.findByIdAndDelete(req.params.id);
     if (!deletedTaskStatusProjectStage) {
-      return res.status(404).json({ message: "Связь сотрудника и проекта не найдена" });
+      return res.json({ message: "Связь сотрудника и проекта не найдена" });
     }
     res.json({ message: "Связь сотрудника и проекта успешно удалена" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера при удалении связи сотрудника и проекта" });
+  } catch (error) {
+    console.error(error, "Ошибка сервера при удалении связи сотрудника и проекта");
   }
 });
 

@@ -6,14 +6,13 @@ const TaskModel = require("../models/TaskModel");
 // Получение задач для конкретного этапа проекта
 router.get("/get/tasksz/:stageProjectId", async (req, res) => {
   try {
-    const tasks = await TaskModel.find({ stageProjectId: new mongoose.Types.ObjectId(req.params.stageProjectId) });
+    const tasks = await TaskModel.find({
+      stageProjectId: new mongoose.Types.ObjectId(req.params.stageProjectId),
+    });
     res.json(tasks);
   } catch (error) {
-    console.error("Ошибка:", error);
-    res.status(500).json({ message: "Ошибка сервера" });
+    console.error("Ошибка сервера:", error);
   }
 });
-
-
 
 module.exports = router;

@@ -17,9 +17,8 @@ router.get("/get/executorTask", async (req, res) => {
         ],
       });
     res.json(ExecutorTask);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера" });
+  } catch (error) {
+    console.error(error, "Ошибка сервера");
   }
 });
 
@@ -36,19 +35,14 @@ router.get("/executorTask/:id", async (req, res) => {
         ],
       });
     if (!ExecutorTask) {
-      return res
-        .status(404)
-        .json({ message: "Связь сотрудника и проекта не найдена" });
+      return res.json({ message: "Связь сотрудника и проекта не найдена" });
     }
     res.json(ExecutorTask);
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ message: "Ошибка при получении связи сотрудника и проекта" });
+    res.json({ message: "Ошибка при получении связи сотрудника и проекта" });
   }
 });
-
 
 router.post("/addExecutorTask", async (req, res) => {
   try {
@@ -90,16 +84,14 @@ router.post("/addExecutorTask", async (req, res) => {
     // Сохраняем запись задачи
     await newTask.save();
 
-    res.status(201).json({
+    res.json({
       message:
         "Проект успешно добавлен, и сотрудник успешно добавлен к проекту",
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ошибка сервера" });
+  } catch (error) {
+    console.error(error, "Ошибка сервера");
   }
 });
-
 
 router.put("/update/executorTask/:id", async (req, res) => {
   const projectId = req.params.id;
@@ -135,8 +127,7 @@ router.put("/update/executorTask/:id", async (req, res) => {
 
     res.json({ message: "Проект успешно обновлен" });
   } catch (error) {
-    console.error("Ошибка:", error);
-    res.status(500).json({ message: "Ошибка сервера" });
+    console.error("Ошибка сервера:", error);
   }
 });
 
@@ -145,8 +136,10 @@ router.delete("/delete/executorTask/:id", async (req, res) => {
 
   try {
     // Попытка найти и удалить задачу в промежуточной таблице ExecutorTaskModel
-    const deletedExecutorTask = await ExecutorTaskModel.findByIdAndDelete(executorTaskId);
-    
+    const deletedExecutorTask = await ExecutorTaskModel.findByIdAndDelete(
+      executorTaskId
+    );
+
     if (!deletedExecutorTask) {
       return res.status(404).json({ message: "Задача не найдена" });
     }
@@ -154,10 +147,9 @@ router.delete("/delete/executorTask/:id", async (req, res) => {
     // Теперь нужно удалить связанную с этой задачей запись в модели TaskModel
     await TaskModel.findByIdAndDelete(deletedExecutorTask.taskId);
 
-    res.status(200).json({ message: "Задача успешно удалена" });
+    res.json({ message: "Задача успешно удалена" });
   } catch (error) {
-    console.error("Ошибка:", error);
-    res.status(500).json({ message: "Ошибка сервера при удалении задачи" });
+    console.error("Ошибка сервера при удалении задачи:", error);
   }
 });
 
@@ -172,18 +164,25 @@ router.put("/update/task/:id", async (req, res) => {
 
   try {
     // Проверяем существование задачи по ID
-    const existingTask = await ExecutorTaskModel.findById(taskId).populate('taskId');
+    const existingTask = await ExecutorTaskModel.findById(taskId).populate(
+      "taskId"
+    );
     if (!existingTask) {
       return res.status(404).json({ message: "Задача не найдена" });
     }
 
     // Проверяем, можно ли изменить статус задачи на новый статус
-    const isAllowed = isStatusTransitionAllowed(existingTask.taskId.taskStatusId, taskStatusId);
+    const isAllowed = isStatusTransitionAllowed(
+      existingTask.taskId.taskStatusId,
+      taskStatusId
+    );
 
     if (!isAllowed) {
-      return res.status(400).json({ message: "Невозможно переместить задачу в данный статус" });
+      return res
+        .status(400)
+        .json({ message: "Невозможно переместить задачу в данный статус" });
     }
-    
+
     // Обновляем статус задачи
     existingTask.taskId.taskStatusId = taskStatusId;
 
@@ -192,8 +191,7 @@ router.put("/update/task/:id", async (req, res) => {
 
     res.json({ message: "Статус задачи успешно обновлен" });
   } catch (error) {
-    console.error("Ошибка:", error);
-    res.status(500).json({ message: "Ошибка сервера" });
+    console.error("Ошибка сервера:", error);
   }
 });
 
